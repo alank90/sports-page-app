@@ -1,7 +1,7 @@
 {
-  "name": "rapo-browserify-budo",
+  "name": "sports-page-app",
   "version": "1.0.0",
-  "description": "A barebones Browserify project to get started with Rapid (ra) Prototyping (po) our Web projects",
+  "description": "A Node app using Vue for fetching sport's scores",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -39,5 +39,8 @@
     "rimraf": "^2.6.2",
     "uglifycss": "0.0.27",
     "uglifyify": "^4.0.4"
+  },
+  "dependencies": {
+    "vue": "^2.5.17"
   }
 }
