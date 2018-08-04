@@ -4,8 +4,8 @@ const Vue = require('vue');
 const app = new Vue({
     el: '#app',
     data: {
-      message: 'Get the Latest Sports Scores and Standings'
+      message: 'MLB Data Goes Here via Vue'
     }
   });
-
+  
   module.exports = app;

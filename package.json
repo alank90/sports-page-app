@@ -42,5 +42,8 @@
   },
   "dependencies": {
     "vue": "^2.5.17"
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
   }
 }

@@ -3,38 +3,32 @@ html {
 }
 
 body {
-    background-color: rgba(176, 227, 243, 0.555);
+    background-color: rgba(65, 179, 12, 0.685);
     cursor: default;
     font-size: 62.5%;
 }
 
-h1, h2{
-    text-align: center;
-}
-
-.container {
-    text-align: center;
-    font-size: 24px;
-}
-
 img {
-    width: 100%;
     height: auto;
-    max-width: 300px;
+    width: 100%;
 }   
 
-p {
-    font-size: 22px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    text-align: left; 
+.jumbotron {
+    background-image:
+    linear-gradient(
+      to right, 
+      rgb(232, 241, 228), 
+      #ade28e, 
+      rgb(61, 158, 69), 
+      rgb(23, 109, 23)
+    );
+    font-family: 'Libre Baskerville', serif;
+    margin-top: 10px;
 }
 
-.more-link {
-    display: inline-block;
-    margin-left: 10px;
-}
+a.nav-link {
 
-.less-link {
-    display: inline-block;
-    margin-left: 10px;
+    background-color: rgb(72, 211, 102);
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.5rem;
 }
