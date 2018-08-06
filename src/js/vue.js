@@ -1,4 +1,4 @@
-//src/js/main.js
+//src/js/vue.js
 const Vue = require('vue');
 
 const app = new Vue({
