@@ -21,7 +21,8 @@ new Vue({
   el: "#app",
   data() {
     return {
-      info: null
+      awayTeam: null,
+      homeTeam: null
     };
   },
   mounted() {
@@ -32,7 +33,16 @@ new Vue({
         config
       )
       .then(response => {
-        this.info = response;
+        const scorePrefix = response.data.scoreboard.gameScore[0].game;
+        const awayScore = response.data.scoreboard.gameScore[0].awayScore;
+        const homeScore = response.data.scoreboard.gameScore[0].homeScore;
+
+        this.awayTeam = `${scorePrefix.awayTeam.City} ${
+          scorePrefix.awayTeam.Name
+        } ${awayScore}`;
+        this.homeTeam = `${scorePrefix.homeTeam.City} ${
+          scorePrefix.homeTeam.Name
+        } ${homeScore}`;
       });
   }
 });
