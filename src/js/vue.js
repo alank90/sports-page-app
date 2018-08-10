@@ -1,6 +1,9 @@
 //src/js/vue.js
 const Vue = require("vue");
 const axios = require("axios");
+const todayDate = require("./todayDate");
+
+console.log(todayDate);
 
 // Axios config object. Sent with get request
 const config = {
