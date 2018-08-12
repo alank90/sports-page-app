@@ -1,5 +1,16 @@
-let dateUnformatted = new Date();
-let currentDate = dateUnformatted.toISOString();
-currentDate = currentDate.substring(0, 10).replace(/-/g, "");
+let today = new Date();
+let yesterday = new Date(today);
 
-module.exports = currentDate;
+yesterday.setDate(today.getDate() - 1);
+
+// format yesterday to yyyymmdd format
+yesterday = yesterday.toISOString();
+yesterday = yesterday.substring(0, 10).replace(/-/g, "");
+
+// today's date if we need it
+today = today.toISOString();
+today = today.substring(0, 10).replace(/-/g, "");
+
+
+module.exports.yesterday = yesterday;
+// module.exports.today = today;

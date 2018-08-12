@@ -13,19 +13,6 @@ img {
     width: 100%;
 }   
 
-.jumbotron {
-    background-image:
-    linear-gradient(
-      to right, 
-      rgb(232, 241, 228), 
-      #ade28e, 
-      rgb(61, 158, 69), 
-      rgb(23, 109, 23)
-    );
-    font-family: 'Libre Baskerville', serif;
-    margin-top: 10px;
-}
-
 a.nav-link {
 
     background-color: rgb(72, 211, 102);
@@ -37,4 +24,8 @@ a.nav-link {
     margin-bottom: 0;
     font-size: .8rem;
     font-weight: 700;
+}
+
+.is-completed {
+    color: rgb(245, 45, 45);
 }
