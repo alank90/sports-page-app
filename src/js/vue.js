@@ -13,7 +13,7 @@ const config = {
   // `params` are the URL parameters to be sent with the request
   // Must be a plain object or a URLSearchParams object
   params: {
-    team: "nyy",
+    team: "nyy,bos",
     force: true
   }
 };
@@ -22,6 +22,7 @@ new Vue({
   el: "#app",
   data() {
     return {
+      gameData: '',
       awayTeam: null,
       homeTeam: null,
       isCompleted: false,
@@ -36,6 +37,7 @@ new Vue({
         config
       )
       .then(response => {
+        const gameData = response.data.scoreboard.gameScore[0];
         const scorePrefix = response.data.scoreboard.gameScore[0];
         const awayScore = response.data.scoreboard.gameScore[0].awayScore;
         const homeScore = response.data.scoreboard.gameScore[0].homeScore;
@@ -48,8 +50,10 @@ new Vue({
         this.homeTeam = `${scorePrefix.game.homeTeam.City} ${
           scorePrefix.game.homeTeam.Name
         } ${homeScore}`;
+
+        this.gameData = gameData;
+        console.log(gameData);
                 
-        console.log(isCompleted);
       }); // End ==== get.then ====== //
   } // end mounted()
 });
