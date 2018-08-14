@@ -3,6 +3,7 @@ const Vue = require("vue");
 const axios = require("axios");
 const date = require("./todayDate");
 
+console.log(date.yesterday);
 // Axios config object. Sent with get request
 const config = {
   // `headers` are custom headers to be sent

@@ -38,17 +38,19 @@
             <h2 class="text-center">MLB Scores</h2>
             <h3 class="text-center">For {{ gameDate }}</h3>
 
-            <div v-for="(value, key, index) in gameData">
-                <p class="box-score-item is-completed" v-if="value.isCompleted">Final</p>
-                <p class="box-score-item"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}
+            <div class="flex-container">
+                <div v-for="(value, key, index) in gameData">
+                    <p class="box-score-item is-completed" v-if="value.isCompleted">Final</p>
+                    <p class="box-score-item"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}
+                        <span class="box-score">{{ value.awayScore }}</span>
+                    </p>
 
-                </p>
-                <span class="box-score-item">{{ value.awayScore }}</span>
-                <p class="box-score-item"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}
+                    <p class="box-score-item"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}
+                        <span class="box-score">{{ value.homeScore }}</span>
+                    </p>
 
-                </p>
-                <span class="box-score-item">{{ value.homeScore }}</span>
-                <br>
+                    <br>
+                </div>
             </div>
         </div>
 
