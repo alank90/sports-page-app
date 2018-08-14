@@ -40,15 +40,17 @@
 
             <div class="flex-container">
                 <div v-for="(value, key, index) in gameData">
-                    <p class="box-score-item is-completed" v-if="value.isCompleted">Final</p>
-                    <p class="box-score-item"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}
-                        <span class="box-score">{{ value.awayScore }}</span>
-                    </p>
+                    <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
 
-                    <p class="box-score-item"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}
-                        <span class="box-score">{{ value.homeScore }}</span>
-                    </p>
-
+                    <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
+                        <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                            {{inning_score.awayScore }}</span>
+                        <span class="box-score-final" v-bind:class="{ awayWon: isActive }">{{ value.awayScore }}</span>
+                
+                    <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
+                        <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                            {{inning_score.homeScore }}</span>
+                        <span class="box-score-final" v-bind:class="{ homeWon: isActive }">{{ value.homeScore }}</span>
                     <br>
                 </div>
             </div>

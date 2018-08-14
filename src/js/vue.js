@@ -3,7 +3,7 @@ const Vue = require("vue");
 const axios = require("axios");
 const date = require("./todayDate");
 
-console.log(date.yesterday);
+// console.log(date.yesterday);
 // Axios config object. Sent with get request
 const config = {
   // `headers` are custom headers to be sent
@@ -24,8 +24,6 @@ new Vue({
   data() {
     return {
       gameData: {},
-      awayTeam: null,
-      homeTeam: null,
       isCompleted: false,
       gameDate: date.yesterday.substring(date.yesterday.length - 4)
     };
@@ -40,8 +38,7 @@ new Vue({
       .then(response => {
         const gameData = response.data.scoreboard.gameScore;
         this.gameData = gameData;
-        console.log(gameData[2].isCompleted);
-                
+        console.log(gameData[2].inningSummary.inning[4].awayScore);
       }); // End ==== get.then ====== //
   } // end mounted()
 });
