@@ -23,7 +23,7 @@ new Vue({
   el: "#app",
   data() {
     return {
-      gameData: {},
+      gameData: [],
       isCompleted: false,
       gameDate: date.yesterday.substring(date.yesterday.length - 4)
     };
