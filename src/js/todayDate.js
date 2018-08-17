@@ -1,7 +1,7 @@
 let today = new Date();
 let yesterday = new Date(today);
 
-yesterday.setDate(today.getDate() - 1);
+yesterday.setDate(today.getDate() - 2);
 
 // format yesterday to yyyymmdd format
 yesterday = yesterday.toISOString();
