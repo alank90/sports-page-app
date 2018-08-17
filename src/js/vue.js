@@ -38,7 +38,7 @@ new Vue({
       .then(response => {
         const gameData = response.data.scoreboard.gameScore;
         this.gameData = gameData;
-        console.log(gameData[2].inningSummary.inning[4].awayScore);
+        // console.log(gameData[2].inningSummary.inning[4].awayScore);
       }); // End ==== get.then ====== //
   } // end mounted()
 });
