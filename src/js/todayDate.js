@@ -23,7 +23,6 @@ let yesterday = new Date(today);
 // Set the day and hour for yesterday
 yesterday.setDate(today.getDate() - 1);
 yesterday.setHours(today.getHours() - offset);
-console.log(yesterday);
 
 // format yesterday to yyyymmdd format
 yesterday = yesterday.toISOString();
@@ -34,4 +33,4 @@ today = today.toISOString();
 today = today.substring(0, 10).replace(/-/g, "");
 
 module.exports.yesterday = yesterday;
-// module.exports.today = today;
+module.exports.today = today;

@@ -78,3 +78,7 @@ then install postcss plugins locally
 
 Can also do postcss --h to see more options
 
+### Note on Date() object
+For good writeup on converting date to local time 
+see https://www.techrepublic.com/article/convert-the-local-time-to-another-time-zone-with-this-javascript/
+

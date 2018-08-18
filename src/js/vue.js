@@ -3,7 +3,6 @@ const Vue = require("vue");
 const axios = require("axios");
 const date = require("./todayDate");
 
-// console.log(date.yesterday);
 // Axios config object. Sent with get request
 const config = {
   // `headers` are custom headers to be sent
@@ -14,7 +13,7 @@ const config = {
   // `params` are the URL parameters to be sent with the request
   // Must be a plain object or a URLSearchParams object
   params: {
-    team: "nyy,nym,bos,hou,lad",
+    team: "nyy,nym,bos,hou,lad,atl",
     force: true
   }
 };
@@ -25,7 +24,7 @@ new Vue({
     return {
       gameData: [],
       isCompleted: false,
-      gameDate: date.yesterday.substring(date.yesterday.length - 4)
+      gameDate: date.yesterday.substr(4,2) + '.' + date.yesterday.substr(6,2)
     };
   },
   mounted() {

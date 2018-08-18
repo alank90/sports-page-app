@@ -14,14 +14,14 @@ img {
 }
 
 a.nav-link {
-  background-color: rgb(72, 211, 102);
+  background-color: rgba(87, 212, 243, 0.7);
   font-family: "Libre Baskerville", serif;
   font-size: 1.5rem;
 }
 
 .flex-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
 }
 
