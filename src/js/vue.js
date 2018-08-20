@@ -18,20 +18,34 @@ const config = {
   }
 };
 
+Vue.component("tab-mlb", {
+  template: "<div>MLB component</div>"
+});
+Vue.component("tab-nfl", {
+  template: "<div>NFL component</div>"
+});
+Vue.component("tab-nba", {
+  template: "<div>NBA component</div>"
+});
+
 new Vue({
   el: "#app",
   data() {
     return {
       gameData: [],
+      currentTab: "MLB",
+      tabs: ["MLB", "NFL", "NBA"],
       isCompleted: false,
-      gameDate: date.yesterday.substr(4,2) + '.' + date.yesterday.substr(6,2)
+      gameDate: date.yesterday.substr(4, 2) + "." + date.yesterday.substr(6, 2)
     };
   },
   mounted() {
     // Use Axios Get to retrieve the baseball info
     axios
       .get(
-        `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=${date.yesterday}`,
+        `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=${
+          date.yesterday
+        }`,
         config
       )
       .then(response => {
@@ -39,5 +53,10 @@ new Vue({
         this.gameData = gameData;
         // console.log(gameData[2].inningSummary.inning[4].awayScore);
       }); // End ==== get.then ====== //
-  } // end mounted()
+  }, // end mounted()
+  computed: {
+    currentTabComponent: function() {
+      return "tab-" + this.currentTab.toLowerCase();
+    }
+  }
 });

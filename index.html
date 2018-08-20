@@ -18,7 +18,7 @@
     <div class="container-fluid">
         <h1 class="display-4 text-center">Alan's Sports Highlight Site</h1>
         <hr class="my-4">
-        <ul class="nav nav-tabs nav-justified">
+        <!--  <ul class="nav nav-tabs nav-justified">
             <li class="nav-item">
                 <a class="nav-link active" href="#">MLB</a>
             </li>
@@ -31,26 +31,34 @@
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">NHL</a>
             </li>
-        </ul>
-
+        </ul> -->
 
         <div id="app">
             <h2 class="text-center">MLB Scores</h2>
             <h3 class="text-center">For {{ gameDate }}</h3>
+
+
+            <button v-for="tab in tabs" v-bind:key="tab" v-bind:class="['tab-button', {active: currentTab === tab }]" v-on:click="currentTab = tab">{{
+                tab }}
+            </button>
+
+            <component v-bind:is="currentTabComponent" class="tab"></component>
 
             <div class="flex-container">
                 <div v-for="value in gameData">
                     <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
 
                     <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
-                        <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                            {{inning_score.awayScore }}</span>
-                        <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore }}</span>
-                
+                    <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                        {{inning_score.awayScore }}</span>
+                    <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore
+                        }}</span>
+
                     <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
-                        <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                            {{inning_score.homeScore }}</span>
-                        <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore }}</span>
+                    <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                        {{inning_score.homeScore }}</span>
+                    <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
+                        }}</span>
                     <br>
                 </div>
             </div>
