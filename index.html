@@ -38,8 +38,10 @@
             <h3 class="text-center">For {{ gameDate }}</h3>
 
 
-            <button v-for="tab in tabs" v-bind:key="tab" v-bind:class="['tab-button', {active: currentTab === tab }]" v-on:click="currentTab = tab">{{
-                tab }}
+            <button v-for="tab in tabs" 
+                v-bind:key="tab"
+                v-bind:class="['tab-button', {active: currentTab === tab }]" 
+                v-on:click="currentTab = tab">{{ tab }}
             </button>
 
             <component v-bind:is="currentTabComponent" class="tab"></component>
