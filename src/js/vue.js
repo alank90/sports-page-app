@@ -19,7 +19,8 @@ const config = {
 };
 
 Vue.component("tab-mlb", {
-  template: "<div>MLB component</div>"
+  props: ['gameData'],
+  template: '#mlb-template'
 });
 Vue.component("tab-nfl", {
   template: "<div>NFL component</div>"
@@ -61,24 +62,3 @@ new Vue({
   }
 });
 
-
-// Test code =============================== //
-var vm = new Vue({
-	el: '#appTest',
-	data: {
-		message: 'Hello World!',
-		x: 1,
-		y: 2
-	},
-	methods: {
-		showMessage: function() {
-			alert(this.message);
-		}
-	},
-	computed: {
-		z: function() {
-			return this.x + this.y;
-		}
-	}
-});
-console.log(vm);
