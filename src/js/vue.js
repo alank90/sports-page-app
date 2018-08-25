@@ -19,8 +19,8 @@ const config = {
 };
 
 Vue.component("tab-mlb", {
-  props: ['gameData'],
-  template: '#mlb-template'
+  props: ['test'],
+  template: '<h4>{{ test }}</h4>'
 });
 Vue.component("tab-nfl", {
   template: "<div>NFL component</div>"
@@ -33,6 +33,7 @@ new Vue({
   el: "#app",
   data() {
     return {
+      test: "This is a  good test",
       gameData: [],
       currentTab: "MLB",
       tabs: ["MLB", "NFL", "NBA"],
