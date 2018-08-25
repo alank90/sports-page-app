@@ -18,21 +18,7 @@
     <div class="container-fluid">
         <h1 class="display-4 text-center">Alan's Sports Highlight Site</h1>
         <hr class="my-4">
-        <!--  <ul class="nav nav-tabs nav-justified">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">MLB</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">NFL</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">NBA</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">NHL</a>
-            </li>
-        </ul> -->
-
+        
         <div id="app">
             <h2 class="text-center">MLB Scores</h2>
             <h3 class="text-center">For {{ gameDate }}</h3>
@@ -44,9 +30,13 @@
                 v-on:click="currentTab = tab">{{ tab }}
             </button>
 
-            <component v-bind:is="currentTabComponent" class="tab"></component>
-
-            <template id="mlb-template">
+            <component v-bind:is="currentTabComponent" v-bind:test="test" class="tab"></component>
+            
+           
+           
+           
+           
+            <!-- <template id="mlb-template">
                 <div class="flex-container">
                     <div v-for="value in gameData">
                         <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
@@ -67,7 +57,7 @@
                         <br>
                     </div>
                 </div>
-            </template>
+            </template> -->
         </div>
     </div>
 
