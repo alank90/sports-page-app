@@ -19,8 +19,30 @@ const config = {
 };
 
 Vue.component("tab-mlb", {
-  props: ['test'],
-  template: '<h4>{{ test }}</h4>'
+  props: ['gameData'],
+  template: 
+    `
+      <div class="flex-container">
+      <div v-for="value in gameData">
+          <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
+
+          <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
+          <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+              {{inning_score.awayScore }}</span>
+          <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore
+              }}
+          </span>
+
+          <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
+          <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+              {{inning_score.homeScore }}</span>
+          <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
+              }}
+          </span>
+          <br>
+      </div>
+    </div>
+  `
 });
 Vue.component("tab-nfl", {
   template: "<div>NFL component</div>"
@@ -33,7 +55,6 @@ new Vue({
   el: "#app",
   data() {
     return {
-      test: "This is a  good test",
       gameData: [],
       currentTab: "MLB",
       tabs: ["MLB", "NFL", "NBA"],
@@ -53,7 +74,6 @@ new Vue({
       .then(response => {
         const gameData = response.data.scoreboard.gameScore;
         this.gameData = gameData;
-        // console.log(gameData[2].inningSummary.inning[4].awayScore);
       }); // End ==== get.then ====== //
   }, // end mounted()
   computed: {
