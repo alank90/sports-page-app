@@ -19,11 +19,11 @@ const config = {
 };
 
 Vue.component("tab-mlb", {
-  props: ['gameData'],
+  props: ['baseballData'],
   template: 
     `
       <div class="flex-container">
-      <div v-for="value in gameData">
+      <div v-for="value in baseballData">
           <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
 
           <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
@@ -55,7 +55,7 @@ new Vue({
   el: "#app",
   data() {
     return {
-      gameData: [],
+      mlbData: [],
       currentTab: "MLB",
       tabs: ["MLB", "NFL", "NBA"],
       isCompleted: false,
@@ -72,8 +72,8 @@ new Vue({
         config
       )
       .then(response => {
-        const gameData = response.data.scoreboard.gameScore;
-        this.gameData = gameData;
+        const mlbData = response.data.scoreboard.gameScore;
+        this.mlbData = mlbData;
       }); // End ==== get.then ====== //
   }, // end mounted()
   computed: {
@@ -82,4 +82,22 @@ new Vue({
     }
   }
 });
+
+
+// Need on:click now to retrieve data for other buttons when clicked
+/* methods: {
+  getSportData: function (tab) {
+    currentTab = tab;
+    console.log(`This is currentTab: ${currentTab}`);
+    console.log(`This is tab: ${tab}`);
+    currentTabComponent();
+    // return "tab-" + this.currentTab.toLowerCase();
+     // `this` inside methods points to the Vue instance
+    
+    // `event` is the native DOM event
+    /* if (event) {
+      console.log(`This is event ${event.target.tagName}`);
+    } 
+  }
+} */
 
