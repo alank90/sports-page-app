@@ -29,8 +29,12 @@
                 v-bind:class="['tab-button', {active: currentTab === tab }]" 
                 v-on:click="currentTab = tab">{{ tab }}
             </button>
-
-            <component v-bind:is="currentTabComponent" v-bind:game-data="gameData" class="tab"></component>
+            <!--  ==== v-bind:is tells us what component to use i.e. mlb-tab  
+                        Important. Must use kebab case for v-bind baseballData attribute
+                        because html is case insensitive and we used camelCase for
+                        variable names in component.
+            -->  
+            <component v-bind:is="currentTabComponent" v-bind:baseball-data="mlbData" class="tab"></component>
                             
         </div>
     </div>
