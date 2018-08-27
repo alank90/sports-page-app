@@ -19,9 +19,8 @@ const config = {
 };
 
 Vue.component("tab-mlb", {
-  props: ['baseballData'],
-  template: 
-    `
+  props: ["baseballData"],
+  template: `
       <div class="flex-container">
       <div v-for="value in baseballData">
           <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
@@ -80,9 +79,38 @@ new Vue({
     currentTabComponent: function() {
       return "tab-" + this.currentTab.toLowerCase();
     }
+  },
+  methods: {
+    getSportsData: function(tab) {
+      this.currentTab = tab; // Set the currentTab
+
+      // Let's check currentTab and make appropriate
+      // API call
+      if (this.currentTab === "NFL") {
+        // reset axios config parameters
+        config.params = {
+          team: "nyg, nyj",
+          force: true
+        };
+
+        axios
+          .get(
+            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2017-regular/scoreboard.json?fordate=20171203`,
+            config
+          )
+          .then(response => {
+            const nflData = response.data.scoreboard.gameScore;
+            this.nflData = nflData;
+            console.log(Object.values(this.nflData));
+          }); // End ==== get.then ====== //
+
+        console.log("Call NFL API" + config.params);
+      } else if (this.currentTab === "NBA") {
+        console.log("Call NBA API");
+      }
+    } // end getSportsData
   }
 });
-
 
 // Need on:click now to retrieve data for other buttons when clicked
 /* methods: {
@@ -100,4 +128,3 @@ new Vue({
     } 
   }
 } */
-
