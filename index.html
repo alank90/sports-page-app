@@ -23,11 +23,10 @@
             <h2 class="text-center">MLB Scores</h2>
             <h3 class="text-center">For {{ gameDate }}</h3>
 
-
             <button v-for="tab in tabs" 
                 v-bind:key="tab" 
                 v-bind:class="['tab-button', {active: currentTab === tab }]" 
-                v-on:click="currentTab = tab">{{ tab }}
+                v-on:click="getSportsData( tab )">{{ tab }}
             </button>
             <!--  ==== v-bind:is tells us what component to use i.e. mlb-tab  
                         Important. Must use kebab case for v-bind baseballData attribute
