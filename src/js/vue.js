@@ -19,10 +19,35 @@ const config = {
 };
 
 Vue.component("tab-mlb", {
-  props: ["baseballData"],
+  props: ["baseball_data"],
   template: `
       <div class="flex-container">
-      <div v-for="value in baseballData">
+        <div v-for="value in baseball_data">
+            <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
+
+            <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
+            <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                {{inning_score.awayScore }}</span>
+            <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore
+                }}
+            </span>
+
+            <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
+            <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                {{inning_score.homeScore }}</span>
+            <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
+                }}
+            </span>
+            <br>
+        </div>
+    </div>
+  `
+});
+Vue.component("tab-nfl", {
+  props: ['nfl_data'],
+  template: `
+    <div class="flex-container">NFL Component
+      <div v-for="value in nfl_data">
           <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
 
           <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
@@ -31,21 +56,11 @@ Vue.component("tab-mlb", {
           <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore
               }}
           </span>
-
-          <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
-          <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-              {{inning_score.homeScore }}</span>
-          <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
-              }}
-          </span>
-          <br>
       </div>
     </div>
-  `
+    `
 });
-Vue.component("tab-nfl", {
-  template: "<div>NFL component</div>"
-});
+
 Vue.component("tab-nba", {
   template: "<div>NBA component</div>"
 });
@@ -78,6 +93,13 @@ new Vue({
   computed: {
     currentTabComponent: function() {
       return "tab-" + this.currentTab.toLowerCase();
+    },
+    current_sports_props: function() {
+      if(this.currentTab.toLowerCase() === "mlb") {
+        return "baseball_data";
+      } else {
+        return this.currentTab.toLowerCase() + '_data';
+      }
     }
   },
   methods: {
@@ -111,20 +133,3 @@ new Vue({
     } // end getSportsData
   }
 });
-
-// Need on:click now to retrieve data for other buttons when clicked
-/* methods: {
-  getSportData: function (tab) {
-    currentTab = tab;
-    console.log(`This is currentTab: ${currentTab}`);
-    console.log(`This is tab: ${tab}`);
-    currentTabComponent();
-    // return "tab-" + this.currentTab.toLowerCase();
-     // `this` inside methods points to the Vue instance
-    
-    // `event` is the native DOM event
-    /* if (event) {
-      console.log(`This is event ${event.target.tagName}`);
-    } 
-  }
-} */
