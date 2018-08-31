@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Debug Vue app",
-            "type": "firefox",
+            "type": "chrome",
             "request": "launch",
             "url": "http://localhost:9966",
             "webRoot": "${workspaceFolder}\\index.js"
