@@ -46,7 +46,7 @@ Vue.component("tab-mlb", {
 Vue.component("tab-nfl", {
   props: ["props_league_data"],
   template: `
-    <div class="flex-container">NFL Component
+    <div class="flex-container">
       <div v-for="value in props_league_data">
           <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
 
@@ -73,20 +73,7 @@ new Vue({
       gameDate: date.yesterday.substr(4, 2) + "." + date.yesterday.substr(6, 2)
     };
   },
-  /* mounted() {
-    // Use Axios Get to retrieve the baseball info
-    axios
-      .get(
-        `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=${
-          date.yesterday
-        }`,
-        config
-      )
-      .then(response => {
-        const vm_instance_data = response.data.scoreboard.gameScore;
-        this.vm_instance_data = vm_instance_data;
-      }); // End ==== get.then ====== //
-  }, // end mounted() */
+  
   computed: {
     currentTabComponent: function() {
       return "tab-" + this.currentTab.toLowerCase();
@@ -95,12 +82,10 @@ new Vue({
   methods: {
     getSportsData: function(tab) {
       this.currentTab = tab; // Set the currentTab
-      let vm_instance_data = {}; // Initialize variable
-      debugger;
+        
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
       if (this.currentTab === "MLB") {
-        console.log(`i'm in MLB if to use axios`);
         axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=${
@@ -109,10 +94,10 @@ new Vue({
             config
           )
           .then(response => {
-            vm_instance_data = response.data.scoreboard.gameScore;
-            this.vm_instance_data = vm_instance_data;
+            this.vm_instance_data = response.data.scoreboard.gameScore;
+            console.log(`MLB Response object ${Object.values(response.data.scoreboard.gameScore[0])}`);
           }); // End ==== get.then ====== //
-        console.log(this.vm_instance_data);
+        
 
         // ============================================================================= //
         // ================== else check if the NFL ==================================== //
@@ -130,11 +115,10 @@ new Vue({
             config
           )
           .then(response => {
-            vm_instance_data = response.data.scoreboard.gameScore;
-            this.vm_instance_data = vm_instance_data;
+            this.vm_instance_data = response.data.scoreboard.gameScore;
+            console.log(`NFL Response object ${Object.values(response.data.scoreboard.gameScore)}`);
           }); // End ==== get.then ====== //
-
-        console.log(`NFL Data ${Object.values(this.vm_instance_data)}`);
+               
         // ============================================================================= //
        // ================== else check if the NBA ==================================== //
        // ============================================================================= //
@@ -145,3 +129,20 @@ new Vue({
     } // end getSportsData
   }
 });
+
+
+
+/* mounted() {
+    // Use Axios Get to retrieve the baseball info
+    axios
+      .get(
+        `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=${
+          date.yesterday
+        }`,
+        config
+      )
+      .then(response => {
+        const vm_instance_data = response.data.scoreboard.gameScore;
+        this.vm_instance_data = vm_instance_data;
+      }); // End ==== get.then ====== //
+  }, // end mounted() */
