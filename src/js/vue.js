@@ -11,11 +11,9 @@ const config = {
       "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA=="
   },
   // `params` are the URL parameters to be sent with the request
-  // Must be a plain object or a URLSearchParams object
-  params: {
-    team: "nyy,nym,bos,hou,lad,atl",
-    force: true
-  }
+  // Must be a plain object or a URLSearchParams object. Set for each API call
+  // below.
+  params: {}
 };
 
 Vue.component("tab-mlb", {
@@ -51,8 +49,19 @@ Vue.component("tab-nfl", {
           <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
 
           <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
+          <span class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
+                {{quarter_score.awayScore }}</span>
           <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore }}
           </span>
+
+          <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
+          <span class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
+                {{quarter_score.homeScore }}</span>
+          <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
+              }}
+          </span>
+          <p class="box-score-team">Location:  {{ value.game.location }} </p>
+          <br>
       </div>
     </div>
     `
@@ -67,13 +76,13 @@ new Vue({
   data() {
     return {
       vm_instance_data: [],
-      currentTab: "MLB",
+      currentTab: "",
       tabs: ["MLB", "NFL", "NBA"],
       isCompleted: false,
       gameDate: date.yesterday.substr(4, 2) + "." + date.yesterday.substr(6, 2)
     };
   },
-  
+
   computed: {
     currentTabComponent: function() {
       return "tab-" + this.currentTab.toLowerCase();
@@ -82,10 +91,15 @@ new Vue({
   methods: {
     getSportsData: function(tab) {
       this.currentTab = tab; // Set the currentTab
-        
+
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
       if (this.currentTab === "MLB") {
+        config.params = {
+          team: "nyy,nym,bos,hou,lad,atl",
+          force: true
+        };
+
         axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=${
@@ -95,9 +109,7 @@ new Vue({
           )
           .then(response => {
             this.vm_instance_data = response.data.scoreboard.gameScore;
-            console.log(`MLB Response object ${Object.values(response.data.scoreboard.gameScore[0])}`);
           }); // End ==== get.then ====== //
-        
 
         // ============================================================================= //
         // ================== else check if the NFL ==================================== //
@@ -105,44 +117,25 @@ new Vue({
       } else if (this.currentTab === "NFL") {
         // reset axios config parameters
         config.params = {
-          team: "nyg, nyj",
+          team: "nyg,nyj,pit,ne,gb,oak,sea,phi,cle",
           force: true
         };
 
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2017-regular/scoreboard.json?fordate=20171203`,
+            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2017-regular/scoreboard.json?fordate=20171022`,
             config
           )
           .then(response => {
             this.vm_instance_data = response.data.scoreboard.gameScore;
-            console.log(`NFL Response object ${Object.values(response.data.scoreboard.gameScore)}`);
           }); // End ==== get.then ====== //
-               
+
         // ============================================================================= //
-       // ================== else check if the NBA ==================================== //
-       // ============================================================================= //
-        
+        // ================== else check if the NBA ==================================== //
+        // ============================================================================= //
       } else if (this.currentTab === "NBA") {
         console.log("Call NBA API");
       }
     } // end getSportsData
   }
 });
-
-
-
-/* mounted() {
-    // Use Axios Get to retrieve the baseball info
-    axios
-      .get(
-        `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=${
-          date.yesterday
-        }`,
-        config
-      )
-      .then(response => {
-        const vm_instance_data = response.data.scoreboard.gameScore;
-        this.vm_instance_data = vm_instance_data;
-      }); // End ==== get.then ====== //
-  }, // end mounted() */
