@@ -79,7 +79,9 @@ new Vue({
       currentTab: "",
       tabs: ["MLB", "NFL", "NBA"],
       isCompleted: false,
-      gameDate: date.yesterday.substr(4, 2) + "." + date.yesterday.substr(6, 2)
+      gameDate: date.yesterday.substr(4, 2) + "." + date.yesterday.substr(6, 2),
+      loading: false,
+      errored: false
     };
   },
 
@@ -95,6 +97,7 @@ new Vue({
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
       if (this.currentTab === "MLB") {
+        this.loading = true;
         config.params = {
           team: "nyy,nym,bos,hou,lad,atl",
           force: true
@@ -109,12 +112,19 @@ new Vue({
           )
           .then(response => {
             this.vm_instance_data = response.data.scoreboard.gameScore;
-          }); // End ==== get.then ====== //
+          })
+          .catch(error => {
+            console.log(error);
+            this.errored = true;
+          })
+          .finally(() => this.loading = false); 
+          // End ==== get.then ====== //
 
         // ============================================================================= //
         // ================== else check if the NFL ==================================== //
         // ============================================================================= //
       } else if (this.currentTab === "NFL") {
+        this.loading = true;
         // reset axios config parameters
         config.params = {
           team: "nyg,nyj,pit,ne,gb,oak,sea,phi,cle",
@@ -128,7 +138,13 @@ new Vue({
           )
           .then(response => {
             this.vm_instance_data = response.data.scoreboard.gameScore;
-          }); // End ==== get.then ====== //
+          })
+          .catch(error => {
+            console.log(error);
+            this.errored = true;
+          })
+          .finally(() => this.loading = false); 
+          // End ==== get.then ====== //
 
         // ============================================================================= //
         // ================== else check if the NBA ==================================== //
