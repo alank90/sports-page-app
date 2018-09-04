@@ -155,3 +155,4 @@ new Vue({
     } // end getSportsData
   }
 });
+// https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json
