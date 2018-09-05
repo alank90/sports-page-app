@@ -2,6 +2,7 @@
 const Vue = require("vue");
 const axios = require("axios");
 const date = require("./todayDate");
+const standings = require("./getStandings");
 
 // Axios config object. Sent with get request
 const config = {
@@ -76,6 +77,7 @@ new Vue({
   data() {
     return {
       vm_instance_data: [],
+      standings_data:[],
       currentTab: "",
       tabs: ["MLB", "NFL", "NBA"],
       isCompleted: false,
@@ -155,4 +157,4 @@ new Vue({
     } // end getSportsData
   }
 });
-// https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json
+// https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,Win %,GB
