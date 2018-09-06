@@ -1,5 +1,5 @@
 const axios = require("axios");
-let standings_data = {};
+let data = {};
 
 // Axios config object. Sent with get request
 const config = {
@@ -16,17 +16,20 @@ const config = {
   }
 };
 
-axios
-  .get(
-    `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,Win %,GB`,
-    config
-  )
-  .then(response => {
-    standings_data = response;
-  })
-  .catch(error => {
-    console.log(error);
-    this.errored = true;
-  })
-  .finally(() => standings_data);
-// End ==== get.then ====== //
+module.exports = {
+  feedsData: function(url) {
+    url = encodeURI(url); // Format the URI
+
+    axios
+      .get(url, config)
+      .then(function(response) {
+        
+        feedData = response.data.divisionteamstandings.division;
+        console.log('data return' + feedData);
+        return feedData;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+};
