@@ -2,7 +2,7 @@
 const Vue = require("vue");
 const axios = require("axios");
 const date = require("./todayDate");
-const standings = require("./getStandings");
+const mySportsFeeds = require("./mySportsFeeds");
 
 // Axios config object. Sent with get request
 const config = {
@@ -77,7 +77,7 @@ new Vue({
   data() {
     return {
       vm_instance_data: [],
-      standings_data:[],
+      standings: {},
       currentTab: "",
       tabs: ["MLB", "NFL", "NBA"],
       isCompleted: false,
@@ -94,7 +94,15 @@ new Vue({
   },
   methods: {
     getSportsData: function(tab) {
+      let url = '';
       this.currentTab = tab; // Set the currentTab
+      let test;
+
+       //====== Get Standings From MySportsFeeds Site ======================================== //
+       url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,GB,Win %`;
+       test = mySportsFeeds.feedsData(url);
+       console.log(`Test is : ${test}`);
+       // ======= end Standings ================================================ //
 
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
