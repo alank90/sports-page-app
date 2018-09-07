@@ -97,7 +97,9 @@ new Vue({
       let url = "";
       this.currentTab = tab; // Set the currentTab
 
+       // ====================================================================== //
       //====== Get Standings From MySportsFeeds Site =========================== //
+      // ======================================================================= //
       url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,GB,Win %`;
 
       /* jshint ignore:start */
@@ -109,7 +111,9 @@ new Vue({
       /* jshint ignore:end */
 
       getStandings();
-      // ======= end Standings ================================================ //
+      // ====================================================================== //
+      // ======= end Get Standings ================================================ //
+      // ====================================================================== //
 
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
