@@ -1,5 +1,4 @@
 const axios = require("axios");
-let data = {};
 
 // Axios config object. Sent with get request
 const config = {
