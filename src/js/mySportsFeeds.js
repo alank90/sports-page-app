@@ -17,19 +17,11 @@ const config = {
 };
 
 module.exports = {
-  feedsData: function(url) {
+  /* jshint ignore:start */
+  feedsData: async function(url) {
     url = encodeURI(url); // Format the URI
-
-    axios
-      .get(url, config)
-      .then(function(response) {
-        
-        feedData = response.data.divisionteamstandings.division;
-        console.log('data return' + feedData);
-        return feedData;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    
+    return (await axios.get(url, config)).data.divisionteamstandings.division;
   }
+  /* jshint ignore:end */
 };

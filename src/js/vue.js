@@ -77,7 +77,7 @@ new Vue({
   data() {
     return {
       vm_instance_data: [],
-      standings: {},
+      standings: [],
       currentTab: "",
       tabs: ["MLB", "NFL", "NBA"],
       isCompleted: false,
@@ -94,15 +94,22 @@ new Vue({
   },
   methods: {
     getSportsData: function(tab) {
-      let url = '';
+      let url = "";
       this.currentTab = tab; // Set the currentTab
-      let test;
 
-       //====== Get Standings From MySportsFeeds Site ======================================== //
-       url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,GB,Win %`;
-       test = mySportsFeeds.feedsData(url);
-       console.log(`Test is : ${test}`);
-       // ======= end Standings ================================================ //
+      //====== Get Standings From MySportsFeeds Site =========================== //
+      url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,GB,Win %`;
+
+      /* jshint ignore:start */
+      // Note: We use the arrow function here because "this" is defined by where
+      // getStandings() is called (the vue instance) not by where it is used.
+      let getStandings = async () => {
+        this.standings = await mySportsFeeds.feedsData(url);
+      };
+      /* jshint ignore:end */
+
+      getStandings();
+      // ======= end Standings ================================================ //
 
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
@@ -127,8 +134,8 @@ new Vue({
             console.log(error);
             this.errored = true;
           })
-          .finally(() => this.loading = false); 
-          // End ==== get.then ====== //
+          .finally(() => (this.loading = false));
+        // End ==== get.then ====== //
 
         // ============================================================================= //
         // ================== else check if the NFL ==================================== //
@@ -153,8 +160,8 @@ new Vue({
             console.log(error);
             this.errored = true;
           })
-          .finally(() => this.loading = false); 
-          // End ==== get.then ====== //
+          .finally(() => (this.loading = false));
+        // End ==== get.then ====== //
 
         // ============================================================================= //
         // ================== else check if the NBA ==================================== //
@@ -165,4 +172,3 @@ new Vue({
     } // end getSportsData
   }
 });
-// https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,Win %,GB
