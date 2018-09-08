@@ -18,7 +18,7 @@ const config = {
 };
 
 Vue.component("tab-mlb", {
-  props: ["props_league_data"],
+  props: ["props_league_data", "props_league_standings"],
   template: `
       <div class="flex-container">
         <div v-for="value in props_league_data">
@@ -39,7 +39,16 @@ Vue.component("tab-mlb", {
             </span>
             <br>
         </div>
-    </div>
+
+        
+        <div class="flex-container">
+          <div v-for="value in props_league_standings">
+          <p class="box-score-team"> {{ value.teamentry }} </p>
+           
+          </div>
+        </div>        
+     </div> 
+      
   `
 });
 Vue.component("tab-nfl", {
@@ -97,7 +106,7 @@ new Vue({
       let url = "";
       this.currentTab = tab; // Set the currentTab
 
-       // ====================================================================== //
+      // ====================================================================== //
       //====== Get Standings From MySportsFeeds Site =========================== //
       // ======================================================================= //
       url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,GB,Win %`;
