@@ -20,34 +20,45 @@ const config = {
 Vue.component("tab-mlb", {
   props: ["props_league_data", "props_league_standings"],
   template: `
-      <div class="flex-container">
-        <div v-for="value in props_league_data">
-            <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
+      <div class="mlb-template">
+        <div class="flex-container-scores">
+          <div v-for="value in props_league_data">
+              <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
 
-            <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
-            <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                {{inning_score.awayScore }}</span>
-            <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore
-                }}
-            </span>
+              <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
+              <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                  {{inning_score.awayScore }}</span>
+              <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore
+                  }}
+              </span>
 
-            <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
-            <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                {{inning_score.homeScore }}</span>
-            <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
-                }}
-            </span>
-            <br>
-        </div>
+              <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
+              <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                  {{inning_score.homeScore }}</span>
+              <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
+                  }}
+              </span>
+              <br>
+          </div>
+      </div>
+            
+      
+        <div class="flex-container-standings">
+          <div  class="box-score-team division-name" v-for="value in props_league_standings">
+           {{ value['@name'] }} 
 
-        
-        <div class="flex-container">
-          <div v-for="value in props_league_standings">
-          <p class="box-score-team"> {{ value.teamentry }} </p>
-           
+              <div class="box-score-team" v-for="item in value.teamentry"> 
+
+                <span class=box-score-team>{{ item.team.Abbreviation }}</span>
+                <span class=box-score-team>{{ item.stats.Wins['#text'] }}</span>
+                <span class=box-score-team>{{ item.stats.Losses['#text'] }}</span>
+                <span class=box-score-team>{{ item.stats.GamesBack['#text'] }}</span>
+                <span class=box-score-team>{{ item.stats.WinPct['#text'] }}</span>
+              </div>
+            
           </div>
         </div>        
-     </div> 
+    </div> 
       
   `
 });

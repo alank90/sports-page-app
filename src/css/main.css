@@ -41,11 +41,21 @@ a.nav-link {
   font-size: 1.5rem;
 }
 
-.flex-container {
+.flex-container-scores {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
+  .flex-container-standings {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+.division-name {
+  font-size: 28px;
+}
+
 
 .box-score-status {
   margin-bottom: 0;
