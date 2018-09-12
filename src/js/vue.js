@@ -41,23 +41,30 @@ Vue.component("tab-mlb", {
               <br>
           </div>
       </div>
-            
-      
-        <div class="flex-container-standings">
-          <div  class="box-score-team division-name" v-for="value in props_league_standings">
+               
+      <div  class="box-score-team division-name" v-for="value in props_league_standings">
            {{ value['@name'] }} 
-
-              <div class="box-score-team" v-for="item in value.teamentry"> 
-
-                <span class=box-score-team>{{ item.team.Abbreviation }}</span>
-                <span class=box-score-team>{{ item.stats.Wins['#text'] }}</span>
-                <span class=box-score-team>{{ item.stats.Losses['#text'] }}</span>
-                <span class=box-score-team>{{ item.stats.GamesBack['#text'] }}</span>
-                <span class=box-score-team>{{ item.stats.WinPct['#text'] }}</span>
-              </div>
-            
+          <div class="box-score-team" v-for="item in value.teamentry"> 
+            <table class="table table-striped table-sm">
+              <thead>
+                <th scope="col"></th>
+                <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
+                <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>
+                <th scope="col">{{ item.stats.GamesBack['@abbreviation'] }}</th>
+                <th scope="col">{{ item.stats.WinPct['@abbreviation'] }}</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class=box-score-team>{{ item.team.Abbreviation }}</td>
+                  <td class=box-score-team>{{ item.stats.Wins['#text'] }}</td>
+                  <td class=box-score-team>{{ item.stats.Losses['#text'] }}</td>
+                  <td class=box-score-team>{{ item.stats.GamesBack['#text'] }}</td>
+                  <td class=box-score-team>{{ item.stats.WinPct['#text'] }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>        
+      </div>    
     </div> 
       
   `
