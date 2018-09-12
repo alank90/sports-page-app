@@ -20,7 +20,7 @@ const config = {
 Vue.component("tab-mlb", {
   props: ["props_league_data", "props_league_standings"],
   template: `
-      <div class="mlb-template">
+      <div class="container mlb-template">
         <div class="flex-container-scores">
           <div v-for="value in props_league_data">
               <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
