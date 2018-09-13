@@ -20,52 +20,76 @@ const config = {
 Vue.component("tab-mlb", {
   props: ["props_league_data", "props_league_standings"],
   template: `
-      <div class="container mlb-template">
-        <div class="flex-container-scores">
-          <div v-for="value in props_league_data">
-              <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
+  <div class="vue-root-element">
+    <div class="container mlb-scores">
+      <div class="row">
+            <div class="col-xs-12 col-md-4 col-lg-3" v-for="value in props_league_data">
+                <table class="table table-striped table-sm">
+                      <thead>
+                          <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
+                      </thead>
 
-              <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
-              <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                  {{inning_score.awayScore }}</span>
-              <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore
-                  }}
-              </span>
+                      <img scope="row" v-if="value.game.awayTeam.Abbreviation === 'NYY'" src="./src/img/nyy.png">
+                      <img scope="row" v-if="value.game.homeTeam.Abbreviation === 'NYY'" src="./src/img/nyy.png">
+                      <img scope="row" v-if="value.game.awayTeam.Abbreviation === 'NYM'" src="./src/img/nym.png">
+                      <img scope="row" v-if="value.game.homeTeam.Abbreviation === 'NYM'" src="./src/img/nym.png">
 
-              <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
-              <span class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                  {{inning_score.homeScore }}</span>
-              <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
-                  }}
-              </span>
-              <br>
-          </div>
-      </div>
-               
-      <div  class="box-score-team division-name" v-for="value in props_league_standings">
-           {{ value['@name'] }} 
-          <div class="box-score-team" v-for="item in value.teamentry"> 
-            <table class="table table-striped table-sm">
-              <thead>
-                <th scope="col"></th>
-                <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
-                <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>
-                <th scope="col">{{ item.stats.GamesBack['@abbreviation'] }}</th>
-                <th scope="col">{{ item.stats.WinPct['@abbreviation'] }}</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class=box-score-team>{{ item.team.Abbreviation }}</td>
-                  <td class=box-score-team>{{ item.stats.Wins['#text'] }}</td>
-                  <td class=box-score-team>{{ item.stats.Losses['#text'] }}</td>
-                  <td class=box-score-team>{{ item.stats.GamesBack['#text'] }}</td>
-                  <td class=box-score-team>{{ item.stats.WinPct['#text'] }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-      </div>    
-    </div> 
+                      <tbody>
+                          <tr>
+                              <td class="box-score-team"> {{ value.game.awayTeam.Abbreviation }} </td>
+                              <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                                  {{inning_score.awayScore }}</td>
+                              <td class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{
+                                  value.awayScore
+                                  }}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="box-score-team"> {{ value.game.homeTeam.Abbreviation }} </td>
+                              <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                                  {{inning_score.homeScore }}
+                              </td>
+                              <td class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{
+                                  value.homeScore }}
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+            </div> <!-- End v-for -->
+          
+      </div> <!-- End of row -->
+    </div> <!-- End container -->
+
+
+      <hr>
+      <div class="container mlb-standings">
+          <div class="row">
+              <div class="col-12 col-md-4 division-name" v-for="value in props_league_standings">
+                  {{ value['@name'] }}
+                  <div class="box-score-team" v-for="item in value.teamentry">
+                      <table class="table table-striped table-sm">
+                          <thead>
+                              <th scope="col"></th>
+                              <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
+                              <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>
+                              <th scope="col">{{ item.stats.GamesBack['@abbreviation'] }}</th>
+                              <th scope="col">{{ item.stats.WinPct['@abbreviation'] }}</th>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td class="box-score-team">{{ item.team.Abbreviation }}</td>
+                                  <td class="box-score-team">{{ item.stats.Wins['#text'] }}</td>
+                                  <td class="box-score-team">{{ item.stats.Losses['#text'] }}</td>
+                                  <td class="box-score-team">{{ item.stats.GamesBack['#text'] }}</td>
+                                  <td class="box-score-team">{{ item.stats.WinPct['#text'].slice(1) }}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div> <!-- End v-for -->
+          </div> <!-- End of row -->
+      </div>  <!-- End container -->  
+  </div> <!-- End Vue root -->
       
   `
 });
@@ -147,7 +171,7 @@ new Vue({
       if (this.currentTab === "MLB") {
         this.loading = true;
         config.params = {
-          team: "nyy,nym,bos,hou,lad,atl",
+          team: "nyy,nym,bos,hou,lad,atl,chc,cle,atl,col,mil,oak",
           force: true
         };
 
