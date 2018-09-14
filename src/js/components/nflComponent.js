@@ -16,7 +16,7 @@ const nflTemplate = function() {
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</td>
+                                <td class="box-score-team"> {{ value.game.awayTeam.Abbreviation }} </td>
                                 <td class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
                                     {{quarter_score.awayScore }}</span>
                                 <td class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore }}
@@ -24,7 +24,7 @@ const nflTemplate = function() {
                             </tr>
 
                             <tr>
-                                <td class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</td>
+                                <td class="box-score-team"> {{ value.game.homeTeam.Abbreviation }} </td>
                                 <td class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
                                     {{quarter_score.homeScore }}
                                 </td>
