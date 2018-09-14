@@ -1,10 +1,14 @@
-//src/js/vue.js
+// /src/js/vue.js
+
 const Vue = require("vue");
 const axios = require("axios");
-const date = require("./todayDate");
-const mySportsFeeds = require("./mySportsFeeds");
+const date = require("./modules/todayDate");
+const mySportsFeeds = require("./modules/mySportsFeeds");
+const mlbTemplate = require("./components/mlbComponent");
+const nflTemplate = require("./components/nflComponent");
+const nbaTemplate = require("./components/nbaComponent");
 
-// Axios config object. Sent with get request
+// Axios config object. Sent with Get request
 const config = {
   // `headers` are custom headers to be sent
   headers: {
@@ -16,118 +20,27 @@ const config = {
   // below.
   params: {}
 };
+// ================================================ //
+// ========== Template Components Here ============ //
+// ================================================ //
+mlbTemplate();
 
-Vue.component("tab-mlb", {
-  props: ["props_league_data", "props_league_standings"],
-  template: `
-  <div class="vue-root-element">
-    <div class="container mlb-scores">
-      <div class="row">
-            <div class="col-xs-12 col-md-4 col-lg-3" v-for="value in props_league_data">
-                <table class="table table-striped table-sm">
-                      <thead>
-                          <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
-                      </thead>
+nflTemplate();
 
-                      <img scope="row" v-if="value.game.awayTeam.Abbreviation === 'NYY'" src="./src/img/nyy.png">
-                      <img scope="row" v-if="value.game.homeTeam.Abbreviation === 'NYY'" src="./src/img/nyy.png">
-                      <img scope="row" v-if="value.game.awayTeam.Abbreviation === 'NYM'" src="./src/img/nym.png">
-                      <img scope="row" v-if="value.game.homeTeam.Abbreviation === 'NYM'" src="./src/img/nym.png">
-
-                      <tbody>
-                          <tr>
-                              <td class="box-score-team"> {{ value.game.awayTeam.Abbreviation }} </td>
-                              <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                                  {{inning_score.awayScore }}</td>
-                              <td class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{
-                                  value.awayScore
-                                  }}
-                              </td>
-                          </tr>
-                          <tr>
-                              <td class="box-score-team"> {{ value.game.homeTeam.Abbreviation }} </td>
-                              <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                                  {{inning_score.homeScore }}
-                              </td>
-                              <td class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{
-                                  value.homeScore }}
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-            </div> <!-- End v-for -->
-          
-      </div> <!-- End of row -->
-    </div> <!-- End container -->
+nbaTemplate();
+// ================================================ //
+// ========== End Template Components ============= //
+// ================================================ //
 
 
-      <hr>
-      <div class="container mlb-standings">
-          <div class="row">
-              <div class="col-12 col-md-4 division-name" v-for="value in props_league_standings">
-                  {{ value['@name'] }}
-                  <div class="box-score-team" v-for="item in value.teamentry">
-                      <table class="table table-striped table-sm">
-                          <thead>
-                              <th scope="col"></th>
-                              <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
-                              <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>
-                              <th scope="col">{{ item.stats.GamesBack['@abbreviation'] }}</th>
-                              <th scope="col">{{ item.stats.WinPct['@abbreviation'] }}</th>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td class="box-score-team">{{ item.team.Abbreviation }}</td>
-                                  <td class="box-score-team">{{ item.stats.Wins['#text'] }}</td>
-                                  <td class="box-score-team">{{ item.stats.Losses['#text'] }}</td>
-                                  <td class="box-score-team">{{ item.stats.GamesBack['#text'] }}</td>
-                                  <td class="box-score-team">{{ item.stats.WinPct['#text'].slice(1) }}</td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div> <!-- End v-for -->
-          </div> <!-- End of row -->
-      </div>  <!-- End container -->  
-  </div> <!-- End Vue root -->
-      
-  `
-});
-Vue.component("tab-nfl", {
-  props: ["props_league_data"],
-  template: `
-    <div class="flex-container">
-      <div v-for="value in props_league_data">
-          <p class="box-score-status is-completed" v-if="value.isCompleted">Final</p>
-
-          <p class="box-score-team"> {{ value.game.awayTeam.City }} {{ value.game.awayTeam.Name }}</p>
-          <span class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
-                {{quarter_score.awayScore }}</span>
-          <span class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore }}
-          </span>
-
-          <p class="box-score-team"> {{ value.game.homeTeam.City }} {{ value.game.homeTeam.Name }}</p>
-          <span class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
-                {{quarter_score.homeScore }}</span>
-          <span class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
-              }}
-          </span>
-          <p class="box-score-team">Location:  {{ value.game.location }} </p>
-          <br>
-      </div>
-    </div>
-    `
-});
-
-Vue.component("tab-nba", {
-  template: "<div>NBA component</div>"
-});
-
+// ============================================================ //
+// ========== Vue Instance Here =============================== //
+// ============================================================ //
 new Vue({
   el: "#app",
   data() {
     return {
-      vm_instance_data: [],
+      my_sports_feeds_data: [],
       standings: [],
       currentTab: "",
       tabs: ["MLB", "NFL", "NBA"],
@@ -149,9 +62,8 @@ new Vue({
       this.currentTab = tab; // Set the currentTab
 
       // ====================================================================== //
-      //====== Get Standings From MySportsFeeds Site =========================== //
-      // ======================================================================= //
-      url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,GB,Win %`;
+      //====== Get Standings From MySportsFeeds Site ========================== //
+      // ===================================================================== //
 
       /* jshint ignore:start */
       // Note: We use the arrow function here because "this" is defined by where
@@ -161,10 +73,9 @@ new Vue({
       };
       /* jshint ignore:end */
 
-      getStandings();
-      // ====================================================================== //
-      // ======= end Get Standings ================================================ //
-      // ====================================================================== //
+      // ===================================================================== //
+      // ======= end getStandings  Method ==================================== //
+      // ===================================================================== //
 
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
@@ -175,6 +86,7 @@ new Vue({
           force: true
         };
 
+        // ============ First Get the Sports Scores =========================== //
         axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=${
@@ -183,7 +95,7 @@ new Vue({
             config
           )
           .then(response => {
-            this.vm_instance_data = response.data.scoreboard.gameScore;
+            this.my_sports_feeds_data = response.data.scoreboard.gameScore;
           })
           .catch(error => {
             console.log(error);
@@ -191,6 +103,12 @@ new Vue({
           })
           .finally(() => (this.loading = false));
         // End ==== get.then ====== //
+        // End Get MLB Scores ========= //
+
+        // =============== Get MLB Standings ================ //
+        url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,GB,Win %`;
+        getStandings();
+        // =========== end Get MLB Standings ================ //
 
         // ============================================================================= //
         // ================== else check if the NFL ==================================== //
@@ -199,24 +117,30 @@ new Vue({
         this.loading = true;
         // reset axios config parameters
         config.params = {
-          team: "nyg,nyj,pit,ne,gb,oak,sea,phi,cle",
           force: true
         };
 
+        // ===================== Get NFL Scores ======================= //
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2017-regular/scoreboard.json?fordate=20171022`,
+            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=20180909`,
             config
           )
           .then(response => {
-            this.vm_instance_data = response.data.scoreboard.gameScore;
+            this.my_sports_feeds_data = response.data.scoreboard.gameScore;
           })
           .catch(error => {
             console.log(error);
             this.errored = true;
           })
           .finally(() => (this.loading = false));
-        // End ==== get.then ====== //
+        // ==== End get.then ====== //
+        // ====================== End Get NFL Scores ==================== //
+
+        // =================== Get NFL Standings ======================== //
+        url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/division_team_standings.json`;
+        getStandings();
+        // ================= End Get NFL Standings ===================== //
 
         // ============================================================================= //
         // ================== else check if the NBA ==================================== //
@@ -224,6 +148,9 @@ new Vue({
       } else if (this.currentTab === "NBA") {
         console.log("Call NBA API");
       }
-    } // end getSportsData
+    } // === end getSportsData ===== //
   }
 });
+// ========================================================= //
+// ========== End Vue Instance ============================= //
+// ========================================================= //

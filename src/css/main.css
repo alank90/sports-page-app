@@ -13,11 +13,10 @@ img {
   width: 100%;
 }
   img[src="./src/img/nyy.png"] {
-    width: 40px;
-    display: inline-block;
+    width: 15px;
   }
   img[src="./src/img/nym.png"] {
-    width: 40px;
+    width: 15px;
   }
  
 
