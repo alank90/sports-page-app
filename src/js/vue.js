@@ -3,10 +3,11 @@
 const Vue = require("vue");
 const axios = require("axios");
 const date = require("./modules/todayDate");
+const nflDate =  require("./modules/nflDate");
 const mySportsFeeds = require("./modules/mySportsFeeds");
-const mlbTemplate = require("./components/mlbComponent");
-const nflTemplate = require("./components/nflComponent");
-const nbaTemplate = require("./components/nbaComponent");
+const mlbComponent = require("./components/mlbComponent");
+const nflComponent = require("./components/nflComponent");
+const nbaComponent = require("./components/nbaComponent");
 
 // Axios config object. Sent with Get request
 const config = {
@@ -20,16 +21,24 @@ const config = {
   // below.
   params: {}
 };
-// ================================================ //
-// ========== Template Components Here ============ //
-// ================================================ //
-mlbTemplate();
 
-nflTemplate();
 
-nbaTemplate();
+
 // ================================================ //
-// ========== End Template Components ============= //
+// ========== Components Here ===================== //
+// ================================================ //
+ /* jshint ignore:start */
+ console.log(nflDate.nflThursdayDate);
+ console.log(nflDate.nflSundayDate);
+  
+mlbComponent.mlb;
+
+nflComponent.nfl;
+
+nbaComponent.nba;
+ /* jshint ignore:end */
+// ================================================ //
+// ========== End Components ====================== //
 // ================================================ //
 
 
@@ -123,7 +132,7 @@ new Vue({
         // ===================== Get NFL Scores ======================= //
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=20180909`,
+            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${nflDate.nflSundayDate}`,
             config
           )
           .then(response => {
