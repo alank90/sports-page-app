@@ -43,7 +43,7 @@
                         because html is case insensitive and we used camelCase for
                         variable names in component.
             -->  
-            <component v-bind:is="currentTabComponent" v-bind:props_league_data="my_sports_feeds_data" v-bind:props_league_data_thurs="thurs_my_sports_feeds_data" v-bind:props_league_data_mon="mon_my_sports_feeds_data" v-bind:props_league_standings="standings" class="tab"></component>
+            <component v-bind:is="currentTabComponent" v-bind:props_league_data="baseball_feeds_data" v-bind:props_league_data_nfl="nfl_feeds" v-bind:props_league_data_sun="nfl_feeds.sunday_data" v-bind:props_league_data_mon="nfl_feeds.mon_data" v-bind:props_league_data_thurs="nfl_feeds.thurs_data" v-bind:props_league_standings="standings" class="tab"></component>
                             
         </div>
     </div>
