@@ -49,9 +49,13 @@ new Vue({
   el: "#app",
   data() {
     return {
-      my_sports_feeds_data: [],
-      thurs_my_sports_feeds_data: [],
-      mon_my_sports_feeds_data: [],
+      baseball_feeds_data: [],
+      nfl_feeds: {
+        sunday_data: [],
+        thurs_data: [],
+        mon_data: []
+      },
+      nba_feeds_data: [],
       standings: [],
       currentTab: "",
       tabs: ["MLB", "NFL", "NBA"],
@@ -106,7 +110,7 @@ new Vue({
             config
           )
           .then(response => {
-            this.my_sports_feeds_data = response.data.scoreboard.gameScore;
+            this.baseball_feeds_data = response.data.scoreboard.gameScore;
           })
           .catch(error => {
             console.log(error);
@@ -138,7 +142,7 @@ new Vue({
             config
           )
           .then(response => {
-            this.my_sports_feeds_data = response.data.scoreboard.gameScore;
+            this.nfl_feeds.sunday_data = response.data.scoreboard.gameScore;
           })
           .catch(error => {
             console.log(error);
@@ -154,7 +158,7 @@ new Vue({
             config
           )
           .then(response => {
-            this.thurs_my_sports_feeds_data = response.data.scoreboard.gameScore;
+            this.nfl_feeds.thurs_data = response.data.scoreboard.gameScore;
           })
           .catch(error => {
             console.log(error);
@@ -170,7 +174,7 @@ new Vue({
            config
          )
          .then(response => {
-           this.mon_my_sports_feeds_data = response.data.scoreboard.gameScore;
+           this.nfl_feeds.mon_data = response.data.scoreboard.gameScore;
          })
          .catch(error => {
            console.log(error);

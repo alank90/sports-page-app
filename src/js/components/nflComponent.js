@@ -5,7 +5,8 @@ const Vue = require("vue");
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
     props: [
-      "props_league_data",
+      "props_league_data_nfl",
+      "props_league_data_sun",
       "props_league_data_thurs",
       "props_league_data_mon",
       "props_league_standings"
@@ -15,32 +16,35 @@ const nfl = {
                 <div class="container nfl-scores">
                     <div class="row">
                         <h2 class="w-100"> Sunday Football </h2>
-                        <div class="col-xs-12 col-md-4 col-lg-3" v-for="value in props_league_data">
-                        <table class="table table-striped table-sm">   
-                            <thead>
-                                <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="box-score-team"> {{ value.game.awayTeam.Abbreviation }} </td>
-                                    <td class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
-                                        {{quarter_score.awayScore }}</span>
-                                    <td class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore }}
-                                    </td>
-                                </tr>
+                        <div class="col-xs-12 col-md-4 col-lg-3" v-for="value in props_league_data_nfl">
+                            <p> {{ value }} </p>
+                        </div>
+                        <div class="col-xs-12 col-md-4 col-lg-3" v-for="value in props_league_data_sun">
+                            <table class="table table-striped table-sm">   
+                                <thead>
+                                    <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="box-score-team"> {{ value.game.awayTeam.Abbreviation }} </td>
+                                        <td class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
+                                            {{quarter_score.awayScore }}</span>
+                                        <td class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{ value.awayScore }}
+                                        </td>
+                                    </tr>
 
-                                <tr>
-                                    <td class="box-score-team"> {{ value.game.homeTeam.Abbreviation }} </td>
-                                    <td class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
-                                        {{quarter_score.homeScore }}
-                                    </td>
-                                    <td class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
-                                        }}
-                                    </td>
-                                </tr>
-                                <tr><td class="box-score-team w-150">Location:  {{ value.game.location }} </td></tr>
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <td class="box-score-team"> {{ value.game.homeTeam.Abbreviation }} </td>
+                                        <td class="box-score-inning" v-for="quarter_score in value.quarterSummary.quarter">
+                                            {{quarter_score.homeScore }}
+                                        </td>
+                                        <td class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{ value.homeScore
+                                            }}
+                                        </td>
+                                    </tr>
+                                    <tr><td class="box-score-team w-150">Location:  {{ value.game.location }} </td></tr>
+                                </tbody>
+                            </table>
                         </div> <!-- End v-for -->
                     </div>  <!-- End row -->   
                 </div>  <!-- End container -->
