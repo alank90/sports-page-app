@@ -3,10 +3,10 @@
 
 const Vue = require("vue");
 
-const nbaTemplate = function() {
-  Vue.component("tab-nba", {
+const nba = {
+  nbaComponent: Vue.component("tab-nba", {
     template: "<div>NBA component</div>"
-  });
+  })
 };
 
-module.exports = nbaTemplate;
+module.exports = nba;
