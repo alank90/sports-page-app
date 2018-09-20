@@ -4,45 +4,51 @@ const Vue = require("vue");
 
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
+    data: function() {
+      return {
+        index: 0
+      };
+    },
     props: [
       "props_league_data_nfl",
+      "props_nfl_days",
       "props_league_standings"
     ],
     template: `
             <div class="vue-root-element">
                 <div class="container nfl-scores">
                     <div v-for="dayDataArray in props_league_data_nfl">
-                        <div class="row">
-                            <h2 class="w-100"> Sunday Football </h2>
-                            <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in dayDataArray"> 
-                                <table class="table table-striped table-sm">   
-                                <thead>
-                                    <th scope="col" class="box-score-status is-completed" v-if="arrayItem.isCompleted">Final</th>
-                                </thead>
+                            <div class="row">
+                            <h2 class="w-100"> {{ props_nfl_days[index] }} </h2>
+                                <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in dayDataArray"> 
+                                    <table class="table table-striped table-sm">   
+                                    <thead>
+                                        <th scope="col" class="box-score-status is-completed" v-if="arrayItem.isCompleted">Final</th>
+                                    </thead>
 
-                                <tbody>
-                                    <tr>
-                                        <td class="box-score-team"> {{ arrayItem.game.awayTeam.Abbreviation }} </td>
-                                        <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
-                                            {{quarter_score.awayScore }}</span>
-                                        <td class="box-score-final" v-bind:class="{ won: arrayItem.awayScore > arrayItem.homeScore }">{{ arrayItem.awayScore }}
-                                        </td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td class="box-score-team"> {{ arrayItem.game.awayTeam.Abbreviation }} </td>
+                                            <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
+                                                {{quarter_score.awayScore }}</span>
+                                            <td class="box-score-final" v-bind:class="{ won: arrayItem.awayScore > arrayItem.homeScore }">{{ arrayItem.awayScore }}
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <td class="box-score-team"> {{ arrayItem.game.homeTeam.Abbreviation }} </td>
-                                        <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
-                                            {{quarter_score.homeScore }}
-                                        </td>
-                                        <td class="box-score-final" v-bind:class="{ won: arrayItem.homeScore > arrayItem.awayScore }">{{ arrayItem.homeScore
-                                            }}
-                                        </td>
-                                    </tr>
-                                    <tr><td class="box-score-team w-150">Location:  {{ arrayItem.game.location }} </td></tr>
-                                </tbody>
-                                </table>     
-                            </div> <!-- End v-for dayDataArray -->
-                        </div>  <!-- End row -->
+                                        <tr>
+                                            <td class="box-score-team"> {{ arrayItem.game.homeTeam.Abbreviation }} </td>
+                                            <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
+                                                {{quarter_score.homeScore }}
+                                            </td>
+                                            <td class="box-score-final" v-bind:class="{ won: arrayItem.homeScore > arrayItem.awayScore }">{{ arrayItem.homeScore
+                                                }}
+                                            </td>
+                                        </tr>
+                                        <tr><td class="box-score-team w-150">Location:  {{ arrayItem.game.location }} </td></tr>
+                                    </tbody>
+                                    </table>     
+                                </div> <!-- End v-for dayDataArray -->
+                            </div>  <!-- End row -->
                     </div> <!-- End v-for props_league_data_nfl -->
                 </div> <!-- End container -->
 
