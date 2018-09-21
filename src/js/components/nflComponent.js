@@ -4,11 +4,6 @@ const Vue = require("vue");
 
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
-    data: function() {
-      return {
-        index: 0
-      };
-    },
     props: [
       "props_league_data_nfl",
       "props_nfl_days",
@@ -17,14 +12,16 @@ const nfl = {
     template: `
             <div class="vue-root-element">
                 <div class="container nfl-scores">
-                    <div v-for="dayDataArray in props_league_data_nfl">
-                            <div class="row">
-                            <h2 class="w-100"> {{ props_nfl_days[index] }} </h2>
-                                <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in dayDataArray"> 
-                                    <table class="table table-striped table-sm">   
-                                    <thead>
-                                        <th scope="col" class="box-score-status is-completed" v-if="arrayItem.isCompleted">Final</th>
-                                    </thead>
+                    <div v-for="(dayDataArray, key, index) in props_league_data_nfl">
+                    <h2> {{ props_nfl_days[index] }} </h2>
+                        
+                        <div class="row"> 
+                            <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in dayDataArray"> 
+                            
+                                <table class="table table-striped table-sm">   
+                                <thead>
+                                    <th scope="col" class="box-score-status is-completed" v-if="arrayItem.isCompleted">Final</th>
+                                </thead>
 
                                     <tbody>
                                         <tr>
@@ -46,10 +43,12 @@ const nfl = {
                                         </tr>
                                         <tr><td class="box-score-team w-150">Location:  {{ arrayItem.game.location }} </td></tr>
                                     </tbody>
-                                    </table>     
-                                </div> <!-- End v-for dayDataArray -->
-                            </div>  <!-- End row -->
+                                </table>  
+                            
+                            </div> <!-- End v-for dayDataArray -->
+                        </div>  <!-- End row -->
                     </div> <!-- End v-for props_league_data_nfl -->
+                    
                 </div> <!-- End container -->
 
                         
