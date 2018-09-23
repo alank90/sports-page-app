@@ -55,7 +55,6 @@ new Vue({
         thurs_data: [],
         mon_data: []
       },
-      nfl_days: ["Sunday", "Thursday Night", "Monday Night"],
       nba_feeds_data: [],
       standings: [],
       currentTab: "",

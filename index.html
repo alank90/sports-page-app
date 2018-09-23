@@ -22,7 +22,7 @@
         
         <div id="app">
             <h2 class="text-center">{{ currentTab }} Scores</h2>
-            <h3 class="text-center">For {{ gameDate }}</h3>
+            <h3 class="text-center">For {{ gameDate }} </h3>
 
             <!-- Error Handling Markup for API Calls -->
             <section v-if="errored">
@@ -43,7 +43,7 @@
                         because html is case insensitive and we used camelCase for
                         variable names in component.
             -->  
-            <component v-bind:is="currentTabComponent" v-bind:props_league_data="baseball_feeds_data" v-bind:props_league_data_nfl="nfl_feeds" v-bind:props_nfl_days="nfl_days" v-bind:props_league_standings="standings" class="tab"></component>
+            <component v-bind:is="currentTabComponent" v-bind:props_league_data="baseball_feeds_data" v-bind:props_league_data_nfl="nfl_feeds" v-bind:props_league_standings="standings" class="tab"></component>
                             
         </div>
     </div>
