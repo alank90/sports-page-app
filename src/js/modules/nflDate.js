@@ -83,7 +83,7 @@ if (dayOfWeek === 1) {
   mondayDate = mondayDate.substring(0, 10).replace(/-/g, "");
 } else if (dayOfWeek === 0) {
   // Set mondayDate to appropriate prior Sun
-  mondayDate.setDate(mondayDate.getDate() - (dayOfWeek - 6));
+  mondayDate.setDate(mondayDate.getDate() - 6);
   // format mondayDate to yyyymmdd format
   mondayDate = mondayDate.toISOString();
   mondayDate = mondayDate.substring(0, 10).replace(/-/g, "");

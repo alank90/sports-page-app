@@ -6,14 +6,18 @@ const nfl = {
   nflComponent: Vue.component("tab-nfl", {
     props: [
       "props_league_data_nfl",
-      "props_nfl_days",
       "props_league_standings"
     ],
+    data: function()  {
+        return {
+           nfl_days: ["Sunday", "Thursday Night", "Monday Night"]
+        };
+    },
     template: `
             <div class="vue-root-element">
                 <div class="container nfl-scores">
                     <div v-for="(dayDataArray, key, index) in props_league_data_nfl">
-                    <h2> {{ props_nfl_days[index] }} </h2>
+                    <h2> {{ nfl_days[index] }} <span class="week">(Week {{ dayDataArray[0].game.week }})</span></h2>
                         
                         <div class="row"> 
                             <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in dayDataArray"> 
@@ -30,6 +34,8 @@ const nfl = {
                                                 {{quarter_score.awayScore }}</span>
                                             <td class="box-score-final" v-bind:class="{ won: arrayItem.awayScore > arrayItem.homeScore }">{{ arrayItem.awayScore }}
                                             </td>
+                                            <td><img class="team-logo" scope="row" v-if="arrayItem.game.awayTeam.Abbreviation === 'NYJ'" src="./src/img/nyj.png"></td>
+                                            <td><img class="team-logo" scope="row" v-if="arrayItem.game.awayTeam.Abbreviation === 'NYG'" src="./src/img/nyg.png"></td>
                                         </tr>
 
                                         <tr>
@@ -40,6 +46,8 @@ const nfl = {
                                             <td class="box-score-final" v-bind:class="{ won: arrayItem.homeScore > arrayItem.awayScore }">{{ arrayItem.homeScore
                                                 }}
                                             </td>
+                                            <td><img class="team-logo" scope="row" v-if="arrayItem.game.homeTeam.Abbreviation === 'NYJ'" src="./src/img/nyj.png"></td>
+                                            <td><img class="team-logo" scope="row" v-if="arrayItem.game.homeTeam.Abbreviation === 'NYG'" src="./src/img/nyg.png"></td>
                                         </tr>
                                         <tr><td class="box-score-team w-150">Location:  {{ arrayItem.game.location }} </td></tr>
                                     </tbody>

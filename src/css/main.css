@@ -8,6 +8,10 @@ body {
   font-size: 62.5%;
 }
 
+h2, h3 {
+  font-weight: 800;
+}
+
 img {
   height: auto;
   width: 100%;
@@ -17,6 +21,12 @@ img {
   }
   img[src="./src/img/nym.png"] {
     width: 15px;
+  }
+  img[src="./src/img/nyj.png"] {
+    width: 25px;
+  }
+  img[src="./src/img/nyg.png"] {
+    width: 25px;
   }
  
 
