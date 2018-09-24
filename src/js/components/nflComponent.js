@@ -32,7 +32,7 @@ const nfl = {
                                             <td class="box-score-team"> {{ arrayItem.game.awayTeam.Abbreviation }} </td>
                                             <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
                                                 {{quarter_score.awayScore }}</span>
-                                            <td class="box-score-final" v-bind:class="{ won: arrayItem.awayScore > arrayItem.homeScore }">{{ arrayItem.awayScore }}
+                                            <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.awayScore) > Number(arrayItem.homeScore)}">{{ arrayItem.awayScore }}
                                             </td>
                                             <td><img class="team-logo" scope="row" v-if="arrayItem.game.awayTeam.Abbreviation === 'NYJ'" src="./src/img/nyj.png"></td>
                                             <td><img class="team-logo" scope="row" v-if="arrayItem.game.awayTeam.Abbreviation === 'NYG'" src="./src/img/nyg.png"></td>
@@ -43,7 +43,7 @@ const nfl = {
                                             <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
                                                 {{quarter_score.homeScore }}
                                             </td>
-                                            <td class="box-score-final" v-bind:class="{ won: arrayItem.homeScore > arrayItem.awayScore }">{{ arrayItem.homeScore
+                                            <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.homeScore) > Number(arrayItem.awayScore) }">{{ arrayItem.homeScore
                                                 }}
                                             </td>
                                             <td><img class="team-logo" scope="row" v-if="arrayItem.game.homeTeam.Abbreviation === 'NYJ'" src="./src/img/nyj.png"></td>
@@ -74,6 +74,7 @@ const nfl = {
                                             <th scope="col"></th>
                                             <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
                                             <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>
+                                            <th scope="col">{{ item.stats.Ties['@abbreviation'] }}</th>
                                             <th scope="col">{{ item.stats.WinPct['@abbreviation'] }} </th>
                                         </thead> 
                                         <tbody>
@@ -81,6 +82,7 @@ const nfl = {
                                             <td class="box-score-team">{{ item.team.Abbreviation }}</td>
                                             <td class="box-score-team">{{ item.stats.Wins['#text'] }}</td>
                                             <td class="box-score-team">{{ item.stats.Losses['#text'] }}</td>
+                                            <td class="box-score-team">{{ item.stats.Ties['#text'] }}</td>
                                             <td v-if="item.stats.Losses['#text'] != '0'" class="box-score-team">{{ item.stats.WinPct['#text'].slice(1) }}</td>
                                             <td v-else class="box-score-team">100%</td>
                                         </tr>
