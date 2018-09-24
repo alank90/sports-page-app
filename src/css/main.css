@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background-color: rgba(236, 236, 236, 0.685);
+  background-color: rgba(255, 255,255, 0.685);
   cursor: default;
   font-size: 62.5%;
 }
@@ -27,6 +27,21 @@ img {
   }
   img[src="./src/img/nyg.png"] {
     width: 25px;
+  }
+  img[src="./src/img/NFL.png"] {
+    width: 25vw;
+    margin: 0 auto;
+    display: block;
+  }
+  img[src="./src/img/MLB.png"] {
+    width: 25vw;
+    margin: 0 auto;
+    display: block;
+  }
+  img[src="./src/img/NBA.png"] {
+    width: 25vw;
+    margin: 0 auto;
+    display: block;
   }
  
 

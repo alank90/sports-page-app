@@ -21,7 +21,7 @@ const mlb = {
                                             <td class="box-score-team"> {{ value.game.awayTeam.Abbreviation }} </td>
                                             <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
                                                 {{inning_score.awayScore }}</td>
-                                            <td class="box-score-final" v-bind:class="{ won: value.awayScore > value.homeScore }">{{
+                                            <td class="box-score-final" v-bind:class="{ won: Number(value.awayScore) > Number(value.homeScore) }">{{
                                                 value.awayScore
                                                 }}
                                             </td>
@@ -33,7 +33,7 @@ const mlb = {
                                             <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
                                                 {{inning_score.homeScore }}
                                             </td>
-                                            <td class="box-score-final" v-bind:class="{ won: value.homeScore > value.awayScore }">{{
+                                            <td class="box-score-final" v-bind:class="{ won: Number(value.homeScore) > Number(value.awayScore) }">{{
                                                 value.homeScore }}
                                             </td>
                                             <td><img scope="row" v-if="value.game.homeTeam.Abbreviation === 'NYM'" src="./src/img/nym.png"></td>

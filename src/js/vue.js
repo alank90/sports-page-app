@@ -58,7 +58,9 @@ new Vue({
       nba_feeds_data: [],
       standings: [],
       currentTab: "",
+      sport_logo_image: "",
       tabs: ["MLB", "NFL", "NBA"],
+      won: false,
       isCompleted: false,
       gameDate: date.yesterday.substr(4, 2) + "." + date.yesterday.substr(6, 2),
       loading: false,
@@ -96,6 +98,7 @@ new Vue({
       // ======== Use Axios Get to retrieve the baseball info ======================== //
       if (this.currentTab === "MLB") {
         this.loading = true;
+        this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         config.params = {
           team: "nyy,nym,bos,hou,lad,atl,chc,cle,atl,col,mil,oak",
           force: true
@@ -130,6 +133,7 @@ new Vue({
         // ============================================================================= //
       } else if (this.currentTab === "NFL") {
         this.loading = true;
+        this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         // reset axios config parameters
         config.params = {
           force: true
