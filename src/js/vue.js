@@ -3,8 +3,8 @@
 const Vue = require("vue");
 const axios = require("axios");
 const date = require("./modules/todayDate");
-const nflDate =  require("./modules/nflDate");
-const mySportsFeeds = require("./modules/mySportsFeeds");
+const nflDate = require("./modules/nflDate");
+const getStandings = require("./modules/getStandings");
 const mlbComponent = require("./components/mlbComponent");
 const nflComponent = require("./components/nflComponent");
 const nbaComponent = require("./components/nbaComponent");
@@ -22,25 +22,23 @@ const config = {
   params: {}
 };
 
-
 // ================================================ //
 // ========== Components Here ===================== //
 // ================================================ //
- /* jshint ignore:start */
- console.log(nflDate.thursdayDate);
- console.log(nflDate.sundayDate);
- console.log(nflDate.mondayDate);
-  
+/* jshint ignore:start */
+console.log(nflDate.thursdayDate);
+console.log(nflDate.sundayDate);
+console.log(nflDate.mondayDate);
+
 mlbComponent.mlb;
 
 nflComponent.nfl;
 
 nbaComponent.nba;
- /* jshint ignore:end */
+/* jshint ignore:end */
 // ================================================ //
 // ========== End Components ====================== //
 // ================================================ //
-
 
 // ============================================================ //
 // ========== Vue Instance Here =============================== //
@@ -76,23 +74,11 @@ new Vue({
   methods: {
     getSportsData: function(tab) {
       let url = "";
+      let leagueStandings = [];
+      let seasonName = "";
+      let teamStats = "";
+      let typeOfStandings = "";
       this.currentTab = tab; // Set the currentTab
-
-      // ====================================================================== //
-      //====== Get Standings From MySportsFeeds Site ========================== //
-      // ===================================================================== //
-
-      /* jshint ignore:start */
-      // Note: We use the arrow function here because "this" is defined by where
-      // getStandings() is called (the vue instance) not by where it is used.
-      let getStandings = async () => {
-        this.standings = await mySportsFeeds.feedsData(url);
-      };
-      /* jshint ignore:end */
-
-      // ===================================================================== //
-      // ======= end getStandings  Method ==================================== //
-      // ===================================================================== //
 
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
@@ -104,10 +90,21 @@ new Vue({
           force: true
         };
 
+        // ========================================================================= //
         // ============ First Get the  MLB Sports Scores =========================== //
+        // Check if it's the Regular or Post Season
+        if (date.yesterday < "20181002") {
+          seasonName = "2018-regular";
+        } else if (date.yesterday > "20181001" && date.yesterday < "20181101") {
+          seasonName = "2018-playoff";
+          config.params = "";
+        } else {
+          console.log("End of Baseball Season. See you next year!");
+        }
+
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/scoreboard.json?fordate=${
+            `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${
               date.yesterday
             }`,
             config
@@ -121,16 +118,43 @@ new Vue({
           })
           .finally(() => (this.loading = false));
         // End ==== get.then ====== //
-        // End Get MLB Scores ========= //
+        // ================================================================================= //
+        // ============================ End Get MLB Scores ================================= //
 
-        // =============== Get MLB Standings ================ //
-        url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/division_team_standings.json?teamstats=W,L,GB,Win %`;
-        getStandings();
-        // =========== end Get MLB Standings ================ //
+        // ================================================================================== //
+        // =========================== Get MLB Standings ==================================== //
+        // ================================================================================== //
+        // Check if it's the Regular or Post Season
+        if (date.yesterday < "20181002") {
+          seasonName = "2018-regular";
+          teamStats = `W,L,GB,Win %`;
+          typeOfStandings = "division_team_standings";
+        } else if (date.yesterday > "20181001" && date.yesterday < "20181101") {
+          seasonName = "2018-playoff";
+          teamStats = "W,L";
+          typeOfStandings = "ovarall_team_standings";
+          config.params = "";
+        } else {
+          console.log("End of Baseball Season. See you next year!");
+        }
+        url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/${typeOfStandings}.json?teamstats=${teamStats}`;
+        /* jshint ignore:start */
+        // Note: We use the arrow function here because "this" is defined by where
+        // getStandings() is called (the vue instance) not by where it is used.
+        leagueStandings = async () => {
+          this.standings = await getStandings(url);
+        };
+        /* jshint ignore:end */
+        leagueStandings();
+        // ================================================================================== //
+        // =========================== End MLB Standings ==================================== //
+        // ================================================================================== //
 
-        // ============================================================================= //
-        // ================== else check if the NFL ==================================== //
-        // ============================================================================= //
+        // -------------------------------------------------------------------------------------------------------- //
+
+        // ================================================================================= //
+        // ================== else check if the NFL ======================================== //
+        // ================================================================================= //
       } else if (this.currentTab === "NFL") {
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
@@ -142,7 +166,9 @@ new Vue({
         // ===================== Get Sunday NFL Scores ======================= //
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${nflDate.sundayDate}`,
+            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${
+              nflDate.sundayDate
+            }`,
             config
           )
           .then(response => {
@@ -155,10 +181,12 @@ new Vue({
           .finally(() => (this.loading = false));
         // ==== End get.then ====== //
 
-          // Get Thursday NFL Scores
+        // ================= Get Thursday NFL Scores ========================= //
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${nflDate.thursdayDate}`,
+            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${
+              nflDate.thursdayDate
+            }`,
             config
           )
           .then(response => {
@@ -171,27 +199,38 @@ new Vue({
           .finally(() => (this.loading = false));
         // ==== End get.then ====== //
 
-         // Get Monday Night NFL Scores
-         axios
-         .get(
-           `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${nflDate.mondayDate}`,
-           config
-         )
-         .then(response => {
-           this.nfl_feeds.mon_data = response.data.scoreboard.gameScore;
-         })
-         .catch(error => {
-           console.log(error);
-           this.errored = true;
-         })
-         .finally(() => (this.loading = false));
-       // ==== End get.then ====== //
-       // ====================== End Get NFL Scores ==================== //
+        // ================== Get Monday Night NFL Scores ============================= //
+        axios
+          .get(
+            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${
+              nflDate.mondayDate
+            }`,
+            config
+          )
+          .then(response => {
+            this.nfl_feeds.mon_data = response.data.scoreboard.gameScore;
+          })
+          .catch(error => {
+            console.log(error);
+            this.errored = true;
+          })
+          .finally(() => (this.loading = false));
+        // ==== End get.then ====== //
+        // ============================================================== //
+        // ====================== End Get NFL Scores ==================== //
+        // ============================================================== //
 
+        // ============================================================== //
         // =================== Get NFL Standings ======================== //
         url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/division_team_standings.json`;
-        getStandings();
+        /* jshint ignore:start */
+        leagueStandings = async () => {
+          this.standings = await getStandings(url);
+        };
+        /* jshint ignore:end */
+        leagueStandings();
         // ================= End Get NFL Standings ===================== //
+        // ============================================================= //
 
         // ============================================================================= //
         // ================== else check if the NBA ==================================== //
