@@ -3,50 +3,48 @@
 const Vue = require("vue");
 
 const mlb = {
-    mlbComponent: Vue.component("tab-mlb", {
-        props: ["props_league_data", "props_league_standings"],
-        template:
-            `
+  mlbComponent: Vue.component("tab-mlb", {
+    props: ["props_league_data", "props_league_standings"],
+    template: `
                 <div class="vue-root-element">
-                <div class="container mlb-scores">
-                    <div class="row">
-                        <div class="col-xs-12 col-md-4 col-lg-3" v-for="value in props_league_data">
-                            <table class="table table-striped table-sm">
-                                    <thead>
-                                        <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
-                                    </thead>
+                    <div class="container mlb-scores">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-4 col-lg-3" v-for="value in props_league_data">
+                                <table class="table table-striped table-sm">
+                                        <thead>
+                                            <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
+                                        </thead>
+                    
+                                        <tbody>
+                                            <tr>
+                                                <td class="box-score-team"> {{ value.game.awayTeam.Abbreviation }} </td>
+                                                <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                                                    {{inning_score.awayScore }}</td>
+                                                <td class="box-score-final" v-bind:class="{ won: Number(value.awayScore) > Number(value.homeScore) }">{{
+                                                    value.awayScore
+                                                    }}
+                                                </td>
+                                                <td><img scope="row" v-if="value.game.awayTeam.Abbreviation === 'NYM'" src="./src/img/nym.png"></td>
+                                                <td><img scope="row" v-if="value.game.awayTeam.Abbreviation === 'NYY'" src="./src/img/nyy.png"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="box-score-team"> {{ value.game.homeTeam.Abbreviation }} </td>
+                                                <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                                                    {{inning_score.homeScore }}
+                                                </td>
+                                                <td class="box-score-final" v-bind:class="{ won: Number(value.homeScore) > Number(value.awayScore) }">{{
+                                                    value.homeScore }}
+                                                </td>
+                                                <td><img scope="row" v-if="value.game.homeTeam.Abbreviation === 'NYM'" src="./src/img/nym.png"></td>
+                                                <td><img scope="row" v-if="value.game.homeTeam.Abbreviation === 'NYY'" src="./src/img/nyy.png"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div> <!-- End v-for -->
+                            
+                        </div> <!-- End of row -->
+                    </div> <!-- End container -->
                 
-                                    <tbody>
-                                        <tr>
-                                            <td class="box-score-team"> {{ value.game.awayTeam.Abbreviation }} </td>
-                                            <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                                                {{inning_score.awayScore }}</td>
-                                            <td class="box-score-final" v-bind:class="{ won: Number(value.awayScore) > Number(value.homeScore) }">{{
-                                                value.awayScore
-                                                }}
-                                            </td>
-                                            <td><img scope="row" v-if="value.game.awayTeam.Abbreviation === 'NYM'" src="./src/img/nym.png"></td>
-                                            <td><img scope="row" v-if="value.game.awayTeam.Abbreviation === 'NYY'" src="./src/img/nyy.png"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="box-score-team"> {{ value.game.homeTeam.Abbreviation }} </td>
-                                            <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                                                {{inning_score.homeScore }}
-                                            </td>
-                                            <td class="box-score-final" v-bind:class="{ won: Number(value.homeScore) > Number(value.awayScore) }">{{
-                                                value.homeScore }}
-                                            </td>
-                                            <td><img scope="row" v-if="value.game.homeTeam.Abbreviation === 'NYM'" src="./src/img/nym.png"></td>
-                                            <td><img scope="row" v-if="value.game.homeTeam.Abbreviation === 'NYY'" src="./src/img/nyy.png"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                        </div> <!-- End v-for -->
-                        
-                    </div> <!-- End of row -->
-                </div> <!-- End container -->
-            
-            
                     <hr>
                     <div class="container mlb-standings">
                         <div class="row">
@@ -77,7 +75,7 @@ const mlb = {
                     </div>  <!-- End container -->  
                 </div> <!-- End Vue root -->
             `
-    })
+  })
 };
 
 module.exports = {
