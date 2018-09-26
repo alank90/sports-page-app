@@ -18,8 +18,11 @@ const mlb = {
                                         <tbody>
                                             <tr>
                                                 <td class="box-score-team"> {{ value.game.awayTeam.Abbreviation }} </td>
-                                                <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                                                    {{inning_score.awayScore }}</td>
+                                                
+                                                <td v-if="value.isCompleted === 'false'">Not Completed/Postponed: {{value.game.delayedOrPostponedReason}}</td>
+                                                <td v-else class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                                                {{inning_score.awayScore }}</td>
+                                                
                                                 <td class="box-score-final" v-bind:class="{ won: Number(value.awayScore) > Number(value.homeScore) }">{{
                                                     value.awayScore
                                                     }}
@@ -29,9 +32,11 @@ const mlb = {
                                             </tr>
                                             <tr>
                                                 <td class="box-score-team"> {{ value.game.homeTeam.Abbreviation }} </td>
-                                                <td class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
-                                                    {{inning_score.homeScore }}
-                                                </td>
+                                                
+                                                <td v-if="value.isCompleted === 'false'"></td>
+                                                <td v-else class="box-score-inning" v-for="inning_score in value.inningSummary.inning">
+                                                {{inning_score.homeScore }}</td>
+                                                
                                                 <td class="box-score-final" v-bind:class="{ won: Number(value.homeScore) > Number(value.awayScore) }">{{
                                                     value.homeScore }}
                                                 </td>
