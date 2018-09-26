@@ -30,22 +30,31 @@ const nfl = {
                                     <tbody>
                                         <tr>
                                             <td class="box-score-team"> {{ arrayItem.game.awayTeam.Abbreviation }} </td>
-                                            <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
-                                                {{quarter_score.awayScore }}</span>
-                                            <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.awayScore) > Number(arrayItem.homeScore)}">{{ arrayItem.awayScore }}
-                                            </td>
+                                            
+                                            <td v-if="arrayItem.isCompleted === 'false'">Not Completed/Postponed: {{arrayItem.game.delayedOrPostponedReason}}</td>
+                                            <template v-else>
+                                                <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
+                                                    {{quarter_score.awayScore }}
+                                                </td>
+                                                <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.awayScore) > Number(arrayItem.homeScore)}">{{ arrayItem.awayScore }}
+                                                </td>
+                                            </template>
+
                                             <td><img class="team-logo" scope="row" v-if="arrayItem.game.awayTeam.Abbreviation === 'NYJ'" src="./src/img/nyj.png"></td>
                                             <td><img class="team-logo" scope="row" v-if="arrayItem.game.awayTeam.Abbreviation === 'NYG'" src="./src/img/nyg.png"></td>
                                         </tr>
 
                                         <tr>
                                             <td class="box-score-team"> {{ arrayItem.game.homeTeam.Abbreviation }} </td>
-                                            <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
-                                                {{quarter_score.homeScore }}
-                                            </td>
-                                            <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.homeScore) > Number(arrayItem.awayScore) }">{{ arrayItem.homeScore
-                                                }}
-                                            </td>
+
+                                            <td v-if="arrayItem.isCompleted === 'false'"></td>
+                                            <template v-else>
+                                                <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
+                                                    {{quarter_score.homeScore }}</td>
+                                                <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.homeScore) > Number(arrayItem.awayScore)}">{{ arrayItem.homeScore }}
+                                                </td>
+                                            </template>
+
                                             <td><img class="team-logo" scope="row" v-if="arrayItem.game.homeTeam.Abbreviation === 'NYJ'" src="./src/img/nyj.png"></td>
                                             <td><img class="team-logo" scope="row" v-if="arrayItem.game.homeTeam.Abbreviation === 'NYG'" src="./src/img/nyg.png"></td>
                                         </tr>
