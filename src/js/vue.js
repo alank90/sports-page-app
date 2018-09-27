@@ -5,6 +5,7 @@ const axios = require("axios");
 const date = require("./modules/todayDate");
 const nflDate = require("./modules/nflDate");
 const getStandings = require("./modules/getStandings");
+const getScores = require("./modules/getScores");
 const mlbComponent = require("./components/mlbComponent");
 const nflComponent = require("./components/nflComponent");
 const nbaComponent = require("./components/nbaComponent");
@@ -164,58 +165,38 @@ new Vue({
         };
 
         // ===================== Get Sunday NFL Scores ======================= //
-        axios
-          .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${
-              nflDate.sundayDate
-            }`,
+        /* jshint ignore:start */
+        const sundayNFLScores = async () => {
+          this.nfl_feeds.sunday_data = await getScores(
+            nflDate.sundayDate,
             config
-          )
-          .then(response => {
-            this.nfl_feeds.sunday_data = response.data.scoreboard.gameScore;
-          })
-          .catch(error => {
-            console.log(error);
-            this.errored = true;
-          })
-          .finally(() => (this.loading = false));
-        // ==== End get.then ====== //
+          );
+          this.loading = false;
+        };
+        /* jshint ignore:end */
+
+        sundayNFLScores();
 
         // ================= Get Thursday NFL Scores ========================= //
-        axios
-          .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${
-              nflDate.thursdayDate
-            }`,
+        /* jshint ignore:start */
+        const thursdayNFLScores = async () => {
+          this.nfl_feeds.thurs_data = await getScores(
+            nflDate.thursdayDate,
             config
-          )
-          .then(response => {
-            this.nfl_feeds.thurs_data = response.data.scoreboard.gameScore;
-          })
-          .catch(error => {
-            console.log(error);
-            this.errored = true;
-          })
-          .finally(() => (this.loading = false));
-        // ==== End get.then ====== //
+          );
+        };
+        /* jshint ignore:end */
+
+        thursdayNFLScores();
 
         // ================== Get Monday Night NFL Scores ============================= //
-        axios
-          .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/scoreboard.json?fordate=${
-              nflDate.mondayDate
-            }`,
-            config
-          )
-          .then(response => {
-            this.nfl_feeds.mon_data = response.data.scoreboard.gameScore;
-          })
-          .catch(error => {
-            console.log(error);
-            this.errored = true;
-          })
-          .finally(() => (this.loading = false));
-        // ==== End get.then ====== //
+        /* jshint ignore:start */
+        const mondayNFLScores = async () => {
+          this.nfl_feeds.mon_data = await getScores(nflDate.mondayDate, config);
+        };
+        /* jshint ignore:end */
+
+        mondayNFLScores();
         // ============================================================== //
         // ====================== End Get NFL Scores ==================== //
         // ============================================================== //

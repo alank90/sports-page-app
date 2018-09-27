@@ -17,7 +17,8 @@ const nfl = {
             <div class="vue-root-element">
                 <div class="container nfl-scores">
                     <div v-for="(dayDataArray, key, index) in props_league_data_nfl">
-                    <h2> {{ nfl_days[index] }} <span class="week">(Week {{ dayDataArray[0].game.week }})</span></h2>
+                    <!-- v-if prevents Vue from trying to access daydataArray before it has become populated -->
+                    <h2> {{ nfl_days[index] }} <span v-if="dayDataArray.length" class="week">(Week {{ dayDataArray[0].game.week }})</span></h2>
                         
                         <div class="row"> 
                             <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in dayDataArray"> 

@@ -66,15 +66,16 @@ const mlb = {
                                             <th scope="col"></th>
                                             <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
                                             <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>
-                                            <th scope="col" v-if="item.stats.GamesBack['@abbreviation']">{{ item.stats.GamesBack['@abbreviation'] }}</th>
-                                            <th scope="col" v-if="item.stats.WinPct['@abbreviation']">{{ item.stats.WinPct['@abbreviation'] }}</th>
+                                            <th scope="col">{{ item.stats.GamesBack['@abbreviation'] }}</th>
+                                            <th scope="col">{{ item.stats.WinPct['@abbreviation'] }}</th>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td class="box-score-team">{{ item.team.Abbreviation }}</td>
                                                 <td class="box-score-team">{{ item.stats.Wins['#text'] }}</td>
                                                 <td class="box-score-team">{{ item.stats.Losses['#text'] }}</td>
-                                                <td class="box-score-team" v-if="item.stats.GamesBack['#text']">{{ item.stats.GamesBack['#text'] }}</td>
+                                                <td class="box-score-team" v-if="item.stats.GamesBack['#text'] === '0.0'"> -- </td>
+                                                <td class="box-score-team" v-else>{{ item.stats.GamesBack['#text'] }}</td>
                                                 <td class="box-score-team" v-if="item.stats.WinPct['#text']">{{ item.stats.WinPct['#text'].slice(1) }}</td>
                                             </tr>
                                         </tbody>
