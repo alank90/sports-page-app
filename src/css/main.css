@@ -3,14 +3,18 @@ html {
 }
 
 body {
-  background-color: rgba(255, 255,255, 0.685);
+  background-color: rgba(245,245,245, 0.2);
   cursor: default;
   font-size: 62.5%;
 }
 
-h2, h3 {
-  font-weight: 800;
+h1 {
+  font-family: 'Abril Fatface', cursive;
 }
+  h2, h3 {
+    font-weight: 800;
+    font-family: 'Abril Fatface', cursive;
+  }
 
 img {
   height: auto;
@@ -47,24 +51,29 @@ img {
 
 /* Tab Interface Styling */
 .tab-button {
+  font-size: 1.5rem;
   padding: 6px 10px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   border: 1px solid #ccc;
   cursor: pointer;
-  background: #f0f0f0;
+  background: rgba(56,114,173, 0.6);
   margin-bottom: -1px;
   margin-right: -1px;
+  font-weight: 700;
 }
 .tab-button:hover {
-  background: #e0e0e0;
+  background: rgba(56,114,173, 0.8);;
 }
 .tab-button.active {
-  background: #e0e0e0;
+  background: rgba(56,114,173, 0.4);;
 }
 .tab {
   border: 1px solid #ccc;
   padding: 10px;
+}
+span.tab {
+  border: 0;
 }
 /* End Tab Stylings */
 
@@ -79,6 +88,7 @@ a.nav-link {
 
   
 .division-name {
+  font-family: 'Abril Fatface', cursive;
   color: #5a7ba6;
   font-size: 16px;
   margin-top: 30px;
@@ -99,16 +109,19 @@ a.nav-link {
 }
 
   .box-score-team {
+    font-family: 'Chonburi', cursive;
     margin-bottom: 0;
     font-size: 0.8rem;
     font-weight: 700;
   }
   .box-score-inning {
+    font-family: 'Josefin Sans', sans-serif;
     margin-left: 2px;
     font-size: 0.8rem;
     font-weight: 700;
   }
   .box-score-final {
+    font-family: 'Anton', sans-serif;
     margin-left: 10px;
     font-size: 0.8rem;
     font-weight: 700;
