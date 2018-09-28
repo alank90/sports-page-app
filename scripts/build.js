@@ -21,7 +21,7 @@ require("rimraf")("./dist", function() {
       });
       fs.writeFile("dist/css/main.css", uglified, err => {
         if (err) {
-          console.log("Unable to Write main.css to \dist directory.");
+          console.log("Unable to Write main.css to dist directory.");
         }
       });
       // ============ End rimraf ====================== //
@@ -31,7 +31,7 @@ require("rimraf")("./dist", function() {
       /* jshint ignore:start */
       const browserifyBuild = async function() {
         console.log("Checking for index.js");
-        const browserifyJS = await(function() {
+        const browserifyJS = await function() {
           fs.open("index.js", "r", (err, fd) => {
             if (err) {
               reject("No index.js found. Skipped browserfying step");
@@ -46,15 +46,40 @@ require("rimraf")("./dist", function() {
               b.bundle().pipe(indexjs);
             }
           });
-        }); // End of Promise
+        }; // End of browserifyJS
         browserifyJS();
         return console.log("Bundling Successful!");
-        
       }; // End browserifyBuild
-      
-       /* jshint ignore:end */
+      /* jshint ignore:end */
 
-      /* // Create another function w/promise to compress images
+      
+
+      // ==================================================== //
+      // ========== Call promise chain ====================== //
+      // ==================================================== //
+      browserifyBuild();
+      /* .then(compressImages, compressImages) // Call compressImages for either resolve or reject
+      .then(copyIndexHtml)
+      .then(getData)
+      .then(writeData)
+      .then(backImgUrl)
+      .then(miscOperations)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      }); */
+    } // mkdirp else end
+  }); // mkdirp callback end
+}); // rimraf callback end
+
+
+
+
+// ======================================================================================================== //
+
+/* // Create another function w/promise to compress images
       const compressImages = function(result) {
         console.log(result);
         // Compress images
@@ -251,22 +276,3 @@ require("rimraf")("./dist", function() {
 
       // ============= End Misc Operations =============== //
  */
-      // ==================================================== //
-      // ========== Call promise chain ====================== //
-      // ==================================================== //
-      browserifyBuild();
-        /* .then(compressImages, compressImages) // Call compressImages for either resolve or reject
-        .then(copyIndexHtml)
-        .then(getData)
-        .then(writeData)
-        .then(backImgUrl)
-        .then(miscOperations)
-        .then(result => {
-          console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        }); */
-    } // mkdirp else end
-  }); // mkdirp callback end
-}); // rimraf callback end
