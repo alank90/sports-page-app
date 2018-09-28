@@ -28,9 +28,10 @@ require("rimraf")("./dist", function() {
 
       // ===========  Build the browserify bundle using the browserify api ========== //
       // First check if index.js exists
-      const browserifyBuild = function() {
+      /* jshint ignore:start */
+      const browserifyBuild = async function() {
         console.log("Checking for index.js");
-        const promise = new Promise(function(resolve, reject) {
+        const browserifyJS = await(function() {
           fs.open("index.js", "r", (err, fd) => {
             if (err) {
               reject("No index.js found. Skipped browserfying step");
@@ -43,15 +44,17 @@ require("rimraf")("./dist", function() {
               // Bundle the files and their dependencies into a
               // single javascript file.
               b.bundle().pipe(indexjs);
-              resolve("Bundling Successful!");
             }
           });
         }); // End of Promise
-
-        return promise;
+        browserifyJS();
+        return console.log("Bundling Successful!");
+        
       }; // End browserifyBuild
+      
+       /* jshint ignore:end */
 
-      // Create another function w/promise to compress images
+      /* // Create another function w/promise to compress images
       const compressImages = function(result) {
         console.log(result);
         // Compress images
@@ -247,12 +250,12 @@ require("rimraf")("./dist", function() {
       };
 
       // ============= End Misc Operations =============== //
-
+ */
       // ==================================================== //
       // ========== Call promise chain ====================== //
       // ==================================================== //
-      browserifyBuild()
-        .then(compressImages, compressImages) // Call compressImages for either resolve or reject
+      browserifyBuild();
+        /* .then(compressImages, compressImages) // Call compressImages for either resolve or reject
         .then(copyIndexHtml)
         .then(getData)
         .then(writeData)
@@ -263,7 +266,7 @@ require("rimraf")("./dist", function() {
         })
         .catch(err => {
           console.log(err);
-        });
+        }); */
     } // mkdirp else end
   }); // mkdirp callback end
 }); // rimraf callback end
