@@ -12,8 +12,8 @@ h1 {
   font-family: 'Abril Fatface', cursive;
 }
   h2, h3 {
-    font-weight: 800;
     font-family: 'Abril Fatface', cursive;
+    font-weight: 800;
   }
 
 img {
@@ -33,34 +33,34 @@ img {
     width: 25px;
   }
   img[src="./src/img/NFL.png"] {
-    width: 25vw;
-    margin: 0 auto;
     display: block;
+    margin: 0 auto;
+    width: 25vw;
   }
   img[src="./src/img/MLB.png"] {
-    width: 25vw;
-    margin: 0 auto;
     display: block;
+    margin: 0 auto;
+    width: 25vw;
   }
   img[src="./src/img/NBA.png"] {
-    width: 25vw;
-    margin: 0 auto;
     display: block;
+    margin: 0 auto;
+    width: 25vw;
   }
  
 
 /* Tab Interface Styling */
 .tab-button {
-  font-size: 1.5rem;
-  padding: 6px 10px;
+  background: rgba(56,114,173, 0.6);
+  border: 1px solid #ccc;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  border: 1px solid #ccc;
   cursor: pointer;
-  background: rgba(56,114,173, 0.6);
+  font-size: 1.5rem;
+  font-weight: 700;
   margin-bottom: -1px;
   margin-right: -1px;
-  font-weight: 700;
+  padding: 6px 10px;
 }
 .tab-button:hover {
   background: rgba(56,114,173, 0.8);;
@@ -88,8 +88,8 @@ a.nav-link {
 
   
 .division-name {
-  font-family: 'Abril Fatface', cursive;
   color: #5a7ba6;
+  font-family: 'Abril Fatface', cursive;
   font-size: 16px;
   margin-top: 30px;
 }
@@ -102,29 +102,29 @@ a.nav-link {
 
 
 .box-score-status {
-  margin-bottom: 0;
   font-size: 0.8rem;
   font-weight: 700;
+  margin-bottom: 0;
   
 }
 
   .box-score-team {
     font-family: 'Chonburi', cursive;
-    margin-bottom: 0;
     font-size: 0.8rem;
     font-weight: 700;
+    margin-bottom: 0;
   }
   .box-score-inning {
     font-family: 'Josefin Sans', sans-serif;
-    margin-left: 2px;
     font-size: 0.8rem;
     font-weight: 700;
+    margin-left: 2px;
   }
   .box-score-final {
     font-family: 'Anton', sans-serif;
-    margin-left: 10px;
     font-size: 0.8rem;
     font-weight: 700;
+    margin-left: 10px;
   }
 
 .is-completed {
