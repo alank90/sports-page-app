@@ -41,6 +41,12 @@ nbaComponent.nba;
 // ========== End Components ====================== //
 // ================================================ //
 
+// Starting Vue Component. Need this so don't throw Vue error about
+// no custom element "tab-" on first render. 
+Vue.component("tab-", {
+  template: `<span></span>`
+});
+
 // ============================================================ //
 // ========== Vue Instance Here =============================== //
 // ============================================================ //
