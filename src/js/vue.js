@@ -31,6 +31,7 @@ console.log(nflDate.thursdayDate);
 console.log(nflDate.sundayDate);
 console.log(nflDate.mondayDate);
 
+
 mlbComponent.mlb;
 
 nflComponent.nfl;
@@ -100,10 +101,10 @@ new Vue({
         // ========================================================================= //
         // ============ First Get the  MLB Sports Scores =========================== //
         // Check if it's the Regular or Post Season
-        if (date.yesterday < "20181002") {
-          seasonName = "2018-regular";
-        } else if (date.yesterday > "20181001" && date.yesterday < "20181101") {
-          seasonName = "2018-playoff";
+        if (date.yesterday < `${date.year}1001`) {
+          seasonName = `${date.year}-regular`;
+        } else if (date.yesterday > `${date.year}1001` && date.yesterday < `${date.year}1101`) {
+          seasonName = `${date.year}-playoff`;
           config.params = "";
         } else {
           console.log("End of Baseball Season. See you next year!");
@@ -132,12 +133,12 @@ new Vue({
         // =========================== Get MLB Standings ==================================== //
         // ================================================================================== //
         // Check if it's the Regular or Post Season
-        if (date.yesterday < "20181002") {
-          seasonName = "2018-regular";
+        if (date.yesterday < `${date.year}1001`) {
+          seasonName = `${date.year}-regular`;
           teamStats = `W,L,GB,Win %`;
           typeOfStandings = "division_team_standings";
-        } else if (date.yesterday > "20181001" && date.yesterday < "20181101") {
-          seasonName = "2018-playoff";
+        } else if (date.yesterday > `${date.year}1001` && date.yesterday < `${date.year}1101`) {
+          seasonName = `${date.year}-playoff`;
           teamStats = "W,L";
           typeOfStandings = "ovarall_team_standings";
           config.params = "";
