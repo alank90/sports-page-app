@@ -32,5 +32,10 @@ yesterday = yesterday.substring(0, 10).replace(/-/g, "");
 today = today.toISOString();
 today = today.substring(0, 10).replace(/-/g, "");
 
+// Year 
+let year = today;
+year = year.substring(0, 4);
+
 module.exports.yesterday = yesterday;
 module.exports.today = today;
+module.exports.year = year;
