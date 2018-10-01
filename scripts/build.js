@@ -29,36 +29,178 @@ require("rimraf")("./dist", function() {
       // ===========  Build the browserify bundle using the browserify api ========== //
       // First check if index.js exists
       /* jshint ignore:start */
-      const browserifyBuild = async function() {
+      const browserifyJS = async function() {
         console.log("Checking for index.js");
-        const browserifyJS = await function() {
-          fs.open("index.js", "r", (err, fd) => {
-            if (err) {
-              reject("No index.js found. Skipped browserfying step");
-            } else {
-              console.log("/dist/index.js: build and uglify");
-              let b = require("browserify")();
-              b.add("index.js");
-              b.transform("uglifyify", { global: true });
-              let indexjs = fs.createWriteStream("dist/index.js");
-              // Bundle the files and their dependencies into a
-              // single javascript file.
-              b.bundle().pipe(indexjs);
-            }
-          });
-        }; // End of browserifyJS
-        browserifyJS();
-        return console.log("Bundling Successful!");
-      }; // End browserifyBuild
+        fs.open("index.js", "r", (err, fd) => {
+          if (err) {
+            return "No index.js found. Skipped browserfying step";
+          } else {
+            console.log("/dist/index.js: build and uglify");
+            let b = require("browserify")();
+            b.add("index.js");
+            b.transform("uglifyify", { global: true });
+            let indexjs = fs.createWriteStream("dist/index.js");
+            // Bundle the files and their dependencies into a
+            // single javascript file.
+            b.bundle().pipe(indexjs);
+          }
+        });
+
+        return "Bundling Successful! ";
+      }; // End of browserifyJS
       /* jshint ignore:end */
 
-      
+      // ============== End Browserify Build ========================================//
+
+      // Create another function w/promise to compress images
+
+      // Compress images
+      /* jshint ignore:start */
+      const compressImages = async function(result) {
+        console.log(result);
+        fs.readdir("src/img", function(err, files) {
+          if (err) {
+            return `Alert! Check if the directory src/img exists. ${err}`;
+          } else if (files.length === 0) {
+            return "images: No images found.";
+          } else {
+            mkdirp("./dist/img", function(err) {
+              if (err) {
+                return err;
+              } else {
+                imagemin(["src/img/*.{jpg,png,gif}"], "dist/img", {
+                  plugins: [
+                    imageminJpegtran(),
+                    imageminPngquant({ quality: "65-80" }),
+                    imageminGifSicle({ optimizationLevel: 2 })
+                  ]
+                }).then(files => {
+                  // console.log(files);
+                });
+              }
+            });
+          }
+        });
+
+        return "Images Compressed!!!";
+      }; // end async
+      /* jshint ignore:end */
+      // ========= End compressImages Function ==================== //
+
+      // ============ Copy index.html to dist/index.html(copyIndexHtml) ============ //
+      /* jshint ignore:start */
+      const copyIndexHtml = async function(result) {
+        console.log(result);
+        const copyIndexFile = await function() {
+          fs.access(
+            "./index.html",
+            fs.constants.R_OK | fs.constants.W_OK,
+            err => {
+              if (err) {
+                console.log("No index.html file present!");
+              } else {
+                fc("./index.html", "./dist/index.html");
+              }
+            }
+          );
+        }; // end copyIndexFile
+        copyIndexFile();
+        return "Copied index.html to dist directory!";
+      }; // end copyIndexHTML
+      /* jshint ignore:end */
+
+      // ================== End copyIndexHTML ================ //
+
+      // ====== Read data from dist/index.html(getData) =============== //
+
+      /* jshint ignore:start */
+
+      async function getData(result) {
+        console.log(result);
+
+        // Lets update dist/index.html file src and href links to reflect new location
+        try {
+          console.log(
+            "index.html: Redoing file links to reflect move to /dist folder."
+          );
+          const file = await fs.readFile("./dist/index.html", "utf8");
+          console.log(file);
+        } catch (err) {
+          console.err(err);
+        }
+      }
+      /* jshint ignore:end */
+
+      /* let distIndexHtml;
+        // Lets update dist/index.html file src and href links to reflect new location
+        console.log(
+          "index.html: Redoing file links to reflect move to /dist folder."
+        );
+        fs.readFile("dist/index.html", "utf8", function(err, data) {
+          if (err) {
+            throw err;
+          }
+
+          // check and replace both src= and href= links to reflect chenge to dist/ folder
+          // Notice we chained .replace to do it
+          const regEx1 = /src\s*=\s*"\.\/src\//gi;
+          const regEx2 = /src\s*=\s*'\.\/src\//gi;
+          const regEx3 = /href\s*=\s*"\.\/src\//gi;
+          const regEx4 = /href\s*=\s*'\.\/src\//gi;
+
+          distIndexHtml = data
+            .replace(regEx1, 'src="./')
+            .replace(regEx2, "src='./")
+            .replace(regEx3, 'href="./')
+            .replace(regEx4, "href='./");
+
+          fs.stat("./dist/index.html", function(err, stats) {
+            if (err) {
+              console.log(`Error: ${err}`);
+            } else if (stats.size === 0) {
+              console.log(`Error copying index.html!!!!!!`);
+            } else {
+              console.log(
+                `Succesfully copied to dist\index.html. File size is ${
+                  stats.size
+                }`
+              );
+            }
+          });
+        }); // end fs.readfile index.html
+
+        return distIndexHtml;
+      }; //  End of async function */
+      /* jshint ignore:end */
+
+      // ============ End getData function ================= //
 
       // ==================================================== //
       // ========== Call promise chain ====================== //
       // ==================================================== //
-      browserifyBuild();
-      /* .then(compressImages, compressImages) // Call compressImages for either resolve or reject
+      browserifyJS()
+        .then(
+          result => {
+            return compressImages(result);
+          },
+          err => {
+            console.log(err);
+            return compressImages(err);
+          }
+        )
+        .then(result => {
+          return copyIndexHtml(result);
+        })
+        .then(result => {
+          return getData(result);
+        })
+        .then(result => {
+          console.log(result);
+        });
+    } // mkdirp else end
+  }); // mkdirp callback end
+}); // rimraf callback end
+/* .then(compressImages, compressImages) // Call compressImages for either resolve or reject
       .then(copyIndexHtml)
       .then(getData)
       .then(writeData)
@@ -70,12 +212,6 @@ require("rimraf")("./dist", function() {
       .catch(err => {
         console.log(err);
       }); */
-    } // mkdirp else end
-  }); // mkdirp callback end
-}); // rimraf callback end
-
-
-
 
 // ======================================================================================================== //
 
