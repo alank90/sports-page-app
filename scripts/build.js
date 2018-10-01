@@ -1,6 +1,10 @@
 const fs = require("fs");
 const fc = require("file-copy");
 const copydir = require("copy-dir");
+const { promisify } = require("util");
+const copyFileAsync = promisify(fs.access); // convert fs.access to a promise
+const readFileAsync = promisify(fs.readFile); // convert fs.readFile to a promise
+
 const mkdirp = require("mkdirp");
 const imagemin = require("imagemin");
 const imageminJpegtran = require("imagemin-jpegtran");
@@ -89,10 +93,9 @@ require("rimraf")("./dist", function() {
 
       // ============ Copy index.html to dist/index.html(copyIndexHtml) ============ //
       /* jshint ignore:start */
-      const copyIndexHtml = async function(result) {
-        console.log(result);
-        const copyIndexFile = await function() {
-          fs.access(
+      async function copyIndexFile() {
+        try {
+          await copyFileAsync(
             "./index.html",
             fs.constants.R_OK | fs.constants.W_OK,
             err => {
@@ -103,13 +106,32 @@ require("rimraf")("./dist", function() {
               }
             }
           );
-        }; // end copyIndexFile
-        copyIndexFile();
-        return "Copied index.html to dist directory!";
-      }; // end copyIndexHTML
+          console.log(
+                "index.html: Redoing file links to reflect move to /dist folder."
+              );
+          async function readIndexHtml() {
+            try {
+              console.log(
+                "index.html: Redoing file links to reflect move to /dist folder."
+              );
+              const text = await readFileAsync("./dist/index.html", {
+                encoding: "utf8"
+              });
+              console.log("CONTENT:", text);
+            } catch (err) {
+              console.log("ERROR:", err);
+            }
+          }
+        } catch (err) {
+          console.log("ERROR:", err);
+        }
+       readIndexHtml();
+        // Lets update dist/index.html file src and href links to reflect new location
+      }
+      // end copyIndexFile
       /* jshint ignore:end */
 
-      // ================== End copyIndexHTML ================ //
+      // ================== End copyIndexFile ================ //
 
       // ====== Read data from dist/index.html(getData) =============== //
 
@@ -189,7 +211,7 @@ require("rimraf")("./dist", function() {
           }
         )
         .then(result => {
-          return copyIndexHtml(result);
+          return copyIndexFile(result);
         })
         .then(result => {
           return getData(result);
