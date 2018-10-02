@@ -4,6 +4,8 @@ const copydir = require("copy-dir");
 const { promisify } = require("util");
 const copyFileAsync = promisify(fs.access); // convert fs.access to a promise
 const readFileAsync = promisify(fs.readFile); // convert fs.readFile to a promise
+const confirmWriteAsync = promisify(fs.stat); // convert fs.stat to a promise;
+const writeFileAsync = promisify(fs.writeFile); // convert fs.writeFile to a promise
 
 const mkdirp = require("mkdirp");
 const imagemin = require("imagemin");
@@ -93,42 +95,19 @@ require("rimraf")("./dist", function() {
 
       // ============ Copy index.html to dist/index.html(copyIndexHtml) ============ //
       /* jshint ignore:start */
-      async function copyIndexFile() {
+      const copyIndexFile = async function(result) {
         try {
+          console.log(result);
           await copyFileAsync(
             "./index.html",
-            fs.constants.R_OK | fs.constants.W_OK,
-            err => {
-              if (err) {
-                console.log("No index.html file present!");
-              } else {
-                fc("./index.html", "./dist/index.html");
-              }
-            }
-          );
-          console.log(
-                "index.html: Redoing file links to reflect move to /dist folder."
-              );
-          async function readIndexHtml() {
-            try {
-              console.log(
-                "index.html: Redoing file links to reflect move to /dist folder."
-              );
-              const text = await readFileAsync("./dist/index.html", {
-                encoding: "utf8"
-              });
-              console.log("CONTENT:", text);
-            } catch (err) {
-              console.log("ERROR:", err);
-            }
-          }
+            fs.constants.R_OK | fs.constants.W_OK
+          )
+          await fc("./index.html", "./dist/index.html");
         } catch (err) {
           console.log("ERROR:", err);
         }
-       readIndexHtml();
-        // Lets update dist/index.html file src and href links to reflect new location
-      }
-      // end copyIndexFile
+        return "Copied Index.html to /dist!";
+      }; // end copyIndexFile
       /* jshint ignore:end */
 
       // ================== End copyIndexFile ================ //
@@ -136,33 +115,18 @@ require("rimraf")("./dist", function() {
       // ====== Read data from dist/index.html(getData) =============== //
 
       /* jshint ignore:start */
-
-      async function getData(result) {
+      const getData = async function(result) {
         console.log(result);
 
-        // Lets update dist/index.html file src and href links to reflect new location
-        try {
-          console.log(
-            "index.html: Redoing file links to reflect move to /dist folder."
-          );
-          const file = await fs.readFile("./dist/index.html", "utf8");
-          console.log(file);
-        } catch (err) {
-          console.err(err);
-        }
-      }
-      /* jshint ignore:end */
-
-      /* let distIndexHtml;
         // Lets update dist/index.html file src and href links to reflect new location
         console.log(
           "index.html: Redoing file links to reflect move to /dist folder."
         );
-        fs.readFile("dist/index.html", "utf8", function(err, data) {
-          if (err) {
-            throw err;
-          }
-
+        try {
+          const fileContents = await readFileAsync("./dist/index.html", {
+            encoding: "utf8"
+          });
+          
           // check and replace both src= and href= links to reflect chenge to dist/ folder
           // Notice we chained .replace to do it
           const regEx1 = /src\s*=\s*"\.\/src\//gi;
@@ -170,13 +134,16 @@ require("rimraf")("./dist", function() {
           const regEx3 = /href\s*=\s*"\.\/src\//gi;
           const regEx4 = /href\s*=\s*'\.\/src\//gi;
 
-          distIndexHtml = data
+          let distIndexHtml = fileContents
             .replace(regEx1, 'src="./')
             .replace(regEx2, "src='./")
             .replace(regEx3, 'href="./')
             .replace(regEx4, "href='./");
 
-          fs.stat("./dist/index.html", function(err, stats) {
+          console.log(distIndexHtml);
+
+          // Confirm Write to index.html
+          await confirmWriteAsync("./dist/index.html", function(err, stats) {
             if (err) {
               console.log(`Error: ${err}`);
             } else if (stats.size === 0) {
@@ -189,13 +156,25 @@ require("rimraf")("./dist", function() {
               );
             }
           });
-        }); // end fs.readfile index.html
 
-        return distIndexHtml;
-      }; //  End of async function */
+          await writeFileAsync(
+            "dist/index.html",
+            distIndexHtml,
+            "utf8",
+            err => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve("Write to dist//index.html OK.");
+              }
+            }
+          );
+        } catch (err) {
+          console.log("ERROR:", err);
+        }
+        return "Read /dist/index.html file!!";
+      };
       /* jshint ignore:end */
-
-      // ============ End getData function ================= //
 
       // ==================================================== //
       // ========== Call promise chain ====================== //
@@ -222,6 +201,7 @@ require("rimraf")("./dist", function() {
     } // mkdirp else end
   }); // mkdirp callback end
 }); // rimraf callback end
+
 /* .then(compressImages, compressImages) // Call compressImages for either resolve or reject
       .then(copyIndexHtml)
       .then(getData)
