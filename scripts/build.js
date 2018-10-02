@@ -123,9 +123,10 @@ require("rimraf")("./dist", function() {
           "index.html: Redoing file links to reflect move to /dist folder."
         );
         try {
-          const fileContents = await readFileAsync("./dist/index.html", {
+          const fileContents = await readFileAsync("dist/index.html", {
             encoding: "utf8"
           });
+          console.log('CONTENT:', fileContents);
           
           // check and replace both src= and href= links to reflect chenge to dist/ folder
           // Notice we chained .replace to do it
