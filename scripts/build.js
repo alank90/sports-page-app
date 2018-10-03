@@ -1,8 +1,8 @@
 const fs = require("fs");
-const fc = require("file-copy");
 const copydir = require("copy-dir");
 const { promisify } = require("util");
 const readFileAsync = promisify(fs.readFile); // convert fs.readFile to a promise
+const copyFile = promisify(fs.copyFile); // convert fs.copyFile to a promise
 // const confirmWriteAsync = promisify(fs.stat); // convert fs.stat to a promise;
 const writeFileAsync = promisify(fs.writeFile); // convert fs.writeFile to a promise
 const checkFileAccess = promisify(fs.access); // convert fs.access to a promise
@@ -14,9 +14,9 @@ const imageminPngquant = require("imagemin-pngquant");
 const imageminGifSicle = require("imagemin-gifsicle");
 
 // ============= Using rimraf to clean up any existing build ========= //
-require("rimraf")("./dist", function() {
+require("rimraf")("./dist", function () {
   // and then rebuilding everything from scratch
-  mkdirp("./dist/css", function(err) {
+  mkdirp("./dist/css", function (err) {
     if (err) {
       console.error(err);
     } else {
@@ -35,7 +35,7 @@ require("rimraf")("./dist", function() {
       // ===========  Build the browserify bundle using the browserify api ========== //
       // First check if index.js exists
       /* jshint ignore:start */
-      const browserifyJS = async function() {
+      const browserifyJS = async function () {
         console.log("Checking for index.js");
         fs.open("index.js", "r", (err, fd) => {
           if (err) {
@@ -60,17 +60,17 @@ require("rimraf")("./dist", function() {
 
       // Create another function w/promise to compress images
 
-      // Compress images
+      // ================== compressImages ================================ //
       /* jshint ignore:start */
-      const compressImages = async function(result) {
+      const compressImages = async function (result) {
         console.log(result);
-        fs.readdir("src/img", function(err, files) {
+        fs.readdir("src/img", function (err, files) {
           if (err) {
             return `Alert! Check if the directory src/img exists. ${err}`;
           } else if (files.length === 0) {
             return "images: No images found.";
           } else {
-            mkdirp("./dist/img", function(err) {
+            mkdirp("./dist/img", function (err) {
               if (err) {
                 return err;
               } else {
@@ -80,9 +80,7 @@ require("rimraf")("./dist", function() {
                     imageminPngquant({ quality: "65-80" }),
                     imageminGifSicle({ optimizationLevel: 2 })
                   ]
-                }).then(files => {
-                  // console.log(files);
-                });
+                })
               }
             });
           }
@@ -95,14 +93,14 @@ require("rimraf")("./dist", function() {
 
       // ============ Copy index.html to dist/index.html(copyIndexHtml) ============ //
       /* jshint ignore:start */
-      const copyIndexFile = async function(result) {
+      const copyIndexFile = async function (result) {
         try {
           console.log(result);
           await checkFileAccess(
             "./index.html",
             fs.constants.R_OK | fs.constants.W_OK
           );
-          await fc("./index.html", "./dist/index.html");
+          await copyFile("./index.html", "./dist/index.html");
         } catch (err) {
           console.log("ERROR:", err);
         }
@@ -115,7 +113,7 @@ require("rimraf")("./dist", function() {
       // ====== getData (Read data from dist/index.html) =============== //
 
       /* jshint ignore:start */
-      const getData = async function(result) {
+      const getData = async function (result) {
         console.log(result);
 
         // Lets update dist/index.html file src and href links to reflect new location
@@ -145,7 +143,7 @@ require("rimraf")("./dist", function() {
           await writeFileAsync("dist/index.html", distIndexHtml, "utf8");
 
           // Confirm Write to index.html
-          fs.stat("./dist/index.html", function(err, stats) {
+          fs.stat("./dist/index.html", function (err, stats) {
             if (err) {
               console.log(`Error: ${err}`);
             } else if (stats.size === 0) {
@@ -153,7 +151,7 @@ require("rimraf")("./dist", function() {
             } else {
               console.log(
                 `Succesfully copied to dist\index.html. File size is ${
-                  stats.size
+                stats.size
                 }`
               );
             }
@@ -169,7 +167,7 @@ require("rimraf")("./dist", function() {
 
       //  ============= backgroundImgUrl =============================== //
       /* jshint ignore:start */
-      const backgroundImgUrl = async function(result) {
+      const backgroundImgUrl = async function (result) {
         console.log(result);
 
         try {
@@ -203,17 +201,17 @@ require("rimraf")("./dist", function() {
       // ================ Start MiscOperations =============================== //
 
       /* jshint ignore:start */
-      const miscOperations = async function(result) {
+      const miscOperations = async function (result) {
         console.log(result);
         try {
           // Copy CNAME to /dist folder
           await checkFileAccess("CNAME", fs.constants.R_OK | fs.constants.W_OK);
-          await fc("CNAME", "dist/CNAME");
+          await copyFile("CNAME", "dist/CNAME");
 
           // Copy /src/resources to /dist folder
           fs.readdir("./resources", (err, files) => {
             if (err) {
-              console.log("Alert!!! Error reading resources directory!");
+              console.log("Alert!!! Error reading resources directory! Is there one in this build?");
             } else if (!files.length) {
               console.log("Alert!!! /resources directory empty!");
             } else {
@@ -228,7 +226,7 @@ require("rimraf")("./dist", function() {
             }
           }); // end fs.readdir
 
-          setTimeout(function() {
+          setTimeout(function () {
             console.log("Build Process Completed...");
           }, 1500);
 
