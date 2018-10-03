@@ -4,8 +4,9 @@ const copydir = require("copy-dir");
 const { promisify } = require("util");
 const copyFileAsync = promisify(fs.access); // convert fs.access to a promise
 const readFileAsync = promisify(fs.readFile); // convert fs.readFile to a promise
-const confirmWriteAsync = promisify(fs.stat); // convert fs.stat to a promise;
+// const confirmWriteAsync = promisify(fs.stat); // convert fs.stat to a promise;
 const writeFileAsync = promisify(fs.writeFile); // convert fs.writeFile to a promise
+const checkFileAccess = promisify(fs.access); // convert fs.access to a promise
 
 const mkdirp = require("mkdirp");
 const imagemin = require("imagemin");
@@ -101,7 +102,7 @@ require("rimraf")("./dist", function() {
           await copyFileAsync(
             "./index.html",
             fs.constants.R_OK | fs.constants.W_OK
-          )
+          );
           await fc("./index.html", "./dist/index.html");
         } catch (err) {
           console.log("ERROR:", err);
@@ -112,7 +113,7 @@ require("rimraf")("./dist", function() {
 
       // ================== End copyIndexFile ================ //
 
-      // ====== Read data from dist/index.html(getData) =============== //
+      // ====== getData (Read data from dist/index.html) =============== //
 
       /* jshint ignore:start */
       const getData = async function(result) {
@@ -126,8 +127,7 @@ require("rimraf")("./dist", function() {
           const fileContents = await readFileAsync("dist/index.html", {
             encoding: "utf8"
           });
-          console.log('CONTENT:', fileContents);
-          
+
           // check and replace both src= and href= links to reflect chenge to dist/ folder
           // Notice we chained .replace to do it
           const regEx1 = /src\s*=\s*"\.\/src\//gi;
@@ -141,10 +141,12 @@ require("rimraf")("./dist", function() {
             .replace(regEx3, 'href="./')
             .replace(regEx4, "href='./");
 
-          console.log(distIndexHtml);
+          // Write updated links to ./dist/index.html
+          // console.log("distIndexHtml: " + distIndexHtml);
+          await writeFileAsync("dist/index.html", distIndexHtml, "utf8");
 
           // Confirm Write to index.html
-          await confirmWriteAsync("./dist/index.html", function(err, stats) {
+          fs.stat("./dist/index.html", function(err, stats) {
             if (err) {
               console.log(`Error: ${err}`);
             } else if (stats.size === 0) {
@@ -157,25 +159,47 @@ require("rimraf")("./dist", function() {
               );
             }
           });
-
-          await writeFileAsync(
-            "dist/index.html",
-            distIndexHtml,
-            "utf8",
-            err => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve("Write to dist//index.html OK.");
-              }
-            }
-          );
+          return "getData Completed Successfully!";
         } catch (err) {
-          console.log("ERROR:", err);
+          return console.log("ERROR:", err);
         }
-        return "Read /dist/index.html file!!";
       };
       /* jshint ignore:end */
+
+      // =================== End getData =============================== //
+
+      //  ============= backgroundImgUrl =============================== //
+      /* jshint ignore:start */
+      const backgroundImgUrl = async function(result) {
+        console.log(result);
+
+        try {
+          // Check dist\main.css and change the value to reflect move to dist directory
+          console.log(
+            "main.css: Redoing background-image property to reflect move to /dist folder."
+          );
+
+          // Grab contents of main.css, update and write back to disk
+          const readCssFile = await readFileAsync("dist/css/main.css", "utf8");
+          // check and replace background-url property value in dist/main.css
+          const regEx1 = /background-image\s*:\s*url\("\/src\//gi;
+          const regEx2 = /background-image\s*:\s*url\('\/src\//gi;
+
+          let distMainCss = readCssFile
+            .replace(regEx1, 'background-image:url("/')
+            .replace(regEx2, "background-image:url('/");
+          // console.log("distMainCss: " + distMainCss);
+
+          // Write Updated Main.css back to disk
+          await writeFileAsync("dist/css/main.css", distMainCss, "utf8");
+          return "backgroundImageUrl Completed Successfully! ";
+        } catch (err) {
+          return console.log("ERROR:", err);
+        }
+      };
+
+      /* jshint ignore:end */
+      // ============ End backgroundImgUrl ==================================== //
 
       // ==================================================== //
       // ========== Call promise chain ====================== //
@@ -195,6 +219,9 @@ require("rimraf")("./dist", function() {
         })
         .then(result => {
           return getData(result);
+        })
+        .then(result => {
+          return backgroundImgUrl(result);
         })
         .then(result => {
           console.log(result);
