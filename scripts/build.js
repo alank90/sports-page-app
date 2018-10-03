@@ -2,7 +2,6 @@ const fs = require("fs");
 const fc = require("file-copy");
 const copydir = require("copy-dir");
 const { promisify } = require("util");
-const copyFileAsync = promisify(fs.access); // convert fs.access to a promise
 const readFileAsync = promisify(fs.readFile); // convert fs.readFile to a promise
 // const confirmWriteAsync = promisify(fs.stat); // convert fs.stat to a promise;
 const writeFileAsync = promisify(fs.writeFile); // convert fs.writeFile to a promise
@@ -99,7 +98,7 @@ require("rimraf")("./dist", function() {
       const copyIndexFile = async function(result) {
         try {
           console.log(result);
-          await copyFileAsync(
+          await checkFileAccess(
             "./index.html",
             fs.constants.R_OK | fs.constants.W_OK
           );
@@ -201,6 +200,46 @@ require("rimraf")("./dist", function() {
       /* jshint ignore:end */
       // ============ End backgroundImgUrl ==================================== //
 
+      // ================ Start MiscOperations =============================== //
+
+      /* jshint ignore:start */
+      const miscOperations = async function(result) {
+        console.log(result);
+        try {
+          // Copy CNAME to /dist folder
+          await checkFileAccess("CNAME", fs.constants.R_OK | fs.constants.W_OK);
+          await fc("CNAME", "dist/CNAME");
+
+          // Copy /src/resources to /dist folder
+          fs.readdir("./resources", (err, files) => {
+            if (err) {
+              console.log("Alert!!! Error reading resources directory!");
+            } else if (!files.length) {
+              console.log("Alert!!! /resources directory empty!");
+            } else {
+              console.log("resources directory present. Copying to /dist.");
+              copydir("resources", "dist/resources", err => {
+                if (err) {
+                  throw console.log(err);
+                } else {
+                  console.log("Copied /resources directory ok");
+                }
+              });
+            }
+          }); // end fs.readdir
+
+          setTimeout(function() {
+            console.log("Build Process Completed...");
+          }, 1500);
+
+          return "miscOperations Completed Successfully!";
+        } catch (err) {
+          return console.log("ERROR:", err);
+        }
+      }; // end miscOperations
+
+      /* jshint ignore:end */
+
       // ==================================================== //
       // ========== Call promise chain ====================== //
       // ==================================================== //
@@ -224,8 +263,16 @@ require("rimraf")("./dist", function() {
           return backgroundImgUrl(result);
         })
         .then(result => {
-          console.log(result);
-        });
+          return miscOperations(result);
+        })
+        .then(
+          result => {
+            console.log(result);
+          },
+          err => {
+            console.err(err);
+          }
+        );
     } // mkdirp else end
   }); // mkdirp callback end
 }); // rimraf callback end
