@@ -4,6 +4,7 @@ html {
 
 body {
   background-color: rgba(245,245,245, 0.2);
+  background-image: url("/src/img/michael_jordan.jpg");
   cursor: default;
   font-size: 62.5%;
 }
