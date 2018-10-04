@@ -1,11 +1,16 @@
 const fs = require("fs");
 const copydir = require("copy-dir");
 const { promisify } = require("util");
-const readFileAsync = promisify(fs.readFile); // convert fs.readFile to a promise
-const copyFile = promisify(fs.copyFile); // convert fs.copyFile to a promise
+
+// Convert node fs methods w/callbacks to promises with .then
+const access = promisify(fs.access);
+const readFile = promisify(fs.readFile);
+const copyFile = promisify(fs.copyFile);
 // const confirmWriteAsync = promisify(fs.stat); // convert fs.stat to a promise;
-const writeFileAsync = promisify(fs.writeFile); // convert fs.writeFile to a promise
-const checkFileAccess = promisify(fs.access); // convert fs.access to a promise
+const open = promisify(fs.open);
+const readdir = promisify(fs.readdir);
+const writeFile = promisify(fs.writeFile);
+// End promise conversions
 
 const mkdirp = require("mkdirp");
 const imagemin = require("imagemin");
@@ -13,46 +18,58 @@ const imageminJpegtran = require("imagemin-jpegtran");
 const imageminPngquant = require("imagemin-pngquant");
 const imageminGifSicle = require("imagemin-gifsicle");
 
-// ============= Using rimraf to clean up any existing build ========= //
-require("rimraf")("./dist", function () {
-  // and then rebuilding everything from scratch
-  mkdirp("./dist/css", function (err) {
+// ============= Using rimraf to clean up any existing build ============================== //
+require("rimraf")("./dist", function() {
+  // and then start rebuilding everything from scratch
+
+  mkdirp("./dist/css", function(err) {
     if (err) {
       console.error(err);
     } else {
-      console.log("main.css: build and uglify");
-      let uglified = require("uglifycss").processFiles(["src/css/main.css"], {
-        maxLineLen: 500,
-        expandVars: true
-      });
-      fs.writeFile("dist/css/main.css", uglified, err => {
-        if (err) {
-          console.log("Unable to Write main.css to dist directory.");
+      /* jshint ignore:start */
+      const uglifyJS = async function() {
+        try {
+          console.log("main.css: build and uglify");
+          let uglified = require("uglifycss").processFiles(
+            ["src/css/main.css"],
+            {
+              maxLineLen: 500,
+              expandVars: true
+            }
+          );
+
+          await writeFile("dist/css/main.css", uglified);
+        } catch (err) {
+          console.log("ERROR:", err);
         }
-      });
-      // ============ End rimraf ====================== //
+        return "Uglified CSS file(s) Successfully!!!";
+      };
+      /* jshint ignore:end */
+
+      // ============ End rimraf =============================================================== //
 
       // ===========  Build the browserify bundle using the browserify api ========== //
       // First check if index.js exists
       /* jshint ignore:start */
-      const browserifyJS = async function () {
-        console.log("Checking for index.js");
-        fs.open("index.js", "r", (err, fd) => {
-          if (err) {
-            return "No index.js found. Skipped browserfying step";
-          } else {
-            console.log("/dist/index.js: build and uglify");
-            let b = require("browserify")();
-            b.add("index.js");
-            b.transform("uglifyify", { global: true });
-            let indexjs = fs.createWriteStream("dist/index.js");
-            // Bundle the files and their dependencies into a
-            // single javascript file.
-            b.bundle().pipe(indexjs);
-          }
-        });
+      const browserifyJS = async function(result) {
+        try {
+          console.log(result);
+          console.log("Checking for index.js");
+          await open("index.js", "r");
+          console.log("/dist/index.js: build and uglify");
+          // Browserify API calls
+          let b = require("browserify")();
+          b.add("index.js");
+          b.transform("uglifyify", { global: true });
+          let indexjs = fs.createWriteStream("dist/index.js");
+          // Bundle the files and their dependencies into a
+          // single javascript file.
+          b.bundle().pipe(indexjs);
 
-        return "Bundling Successful! ";
+          return "Browserify JavaScript Bundling Successful!!! ";
+        } catch (err) {
+          console.log("ERROR: " + err);
+        }
       }; // End of browserifyJS
       /* jshint ignore:end */
 
@@ -62,15 +79,15 @@ require("rimraf")("./dist", function () {
 
       // ================== compressImages ================================ //
       /* jshint ignore:start */
-      const compressImages = async function (result) {
+      const compressImages = async function(result) {
         console.log(result);
-        fs.readdir("src/img", function (err, files) {
+        fs.readdir("src/img", function(err, files) {
           if (err) {
             return `Alert! Check if the directory src/img exists. ${err}`;
           } else if (files.length === 0) {
             return "images: No images found.";
           } else {
-            mkdirp("./dist/img", function (err) {
+            mkdirp("./dist/img", function(err) {
               if (err) {
                 return err;
               } else {
@@ -80,26 +97,23 @@ require("rimraf")("./dist", function () {
                     imageminPngquant({ quality: "65-80" }),
                     imageminGifSicle({ optimizationLevel: 2 })
                   ]
-                })
+                });
               }
             });
           }
         });
 
-        return "Images Compressed!!!";
+        return "Images Compressed Successfully!!!";
       }; // end async
       /* jshint ignore:end */
       // ========= End compressImages Function ==================== //
 
       // ============ Copy index.html to dist/index.html(copyIndexHtml) ============ //
       /* jshint ignore:start */
-      const copyIndexFile = async function (result) {
+      const copyIndexFile = async function(result) {
         try {
           console.log(result);
-          await checkFileAccess(
-            "./index.html",
-            fs.constants.R_OK | fs.constants.W_OK
-          );
+          await access("./index.html", fs.constants.R_OK | fs.constants.W_OK);
           await copyFile("./index.html", "./dist/index.html");
         } catch (err) {
           console.log("ERROR:", err);
@@ -113,7 +127,7 @@ require("rimraf")("./dist", function () {
       // ====== getData (Read data from dist/index.html) =============== //
 
       /* jshint ignore:start */
-      const getData = async function (result) {
+      const getData = async function(result) {
         console.log(result);
 
         // Lets update dist/index.html file src and href links to reflect new location
@@ -121,7 +135,7 @@ require("rimraf")("./dist", function () {
           "index.html: Redoing file links to reflect move to /dist folder."
         );
         try {
-          const fileContents = await readFileAsync("dist/index.html", {
+          const fileContents = await readFile("dist/index.html", {
             encoding: "utf8"
           });
 
@@ -140,23 +154,23 @@ require("rimraf")("./dist", function () {
 
           // Write updated links to ./dist/index.html
           // console.log("distIndexHtml: " + distIndexHtml);
-          await writeFileAsync("dist/index.html", distIndexHtml, "utf8");
+          await writeFile("dist/index.html", distIndexHtml, "utf8");
 
           // Confirm Write to index.html
-          fs.stat("./dist/index.html", function (err, stats) {
+          fs.stat("./dist/index.html", function(err, stats) {
             if (err) {
               console.log(`Error: ${err}`);
             } else if (stats.size === 0) {
               console.log(`Error copying index.html!!!!!!`);
             } else {
               console.log(
-                `Succesfully copied to dist\index.html. File size is ${
-                stats.size
+                `Successfully copied to dist\index.html. File size is ${
+                  stats.size
                 }`
               );
             }
           });
-          return "getData Completed Successfully!";
+          return "Updated ./src and ./href links to show new ./dist folder(getData). Completed Successfully!";
         } catch (err) {
           return console.log("ERROR:", err);
         }
@@ -167,7 +181,7 @@ require("rimraf")("./dist", function () {
 
       //  ============= backgroundImgUrl =============================== //
       /* jshint ignore:start */
-      const backgroundImgUrl = async function (result) {
+      const backgroundImgUrl = async function(result) {
         console.log(result);
 
         try {
@@ -177,19 +191,23 @@ require("rimraf")("./dist", function () {
           );
 
           // Grab contents of main.css, update and write back to disk
-          const readCssFile = await readFileAsync("dist/css/main.css", "utf8");
+          const readCssFile = await readFile("dist/css/main.css", "utf8");
           // check and replace background-url property value in dist/main.css
           const regEx1 = /background-image\s*:\s*url\("\/src\//gi;
           const regEx2 = /background-image\s*:\s*url\('\/src\//gi;
 
-          let distMainCss = readCssFile
-            .replace(regEx1, 'background-image:url("/')
-            .replace(regEx2, "background-image:url('/");
-          // console.log("distMainCss: " + distMainCss);
+          if (regEx1.test(readCssFile) || regEx2.test(readCssFile)) {
+            let distMainCss = readCssFile
+              .replace(regEx1, 'background-image:url("/')
+              .replace(regEx2, "background-image:url('/");
+            // console.log("distMainCss: " + distMainCss);
 
-          // Write Updated Main.css back to disk
-          await writeFileAsync("dist/css/main.css", distMainCss, "utf8");
-          return "backgroundImageUrl Completed Successfully! ";
+            // Write Updated Main.css back to disk
+            await writeFile("dist/css/main.css", distMainCss, "utf8");
+            return "Updated background-img URL CSS property Successfully!!! ";
+          } else {
+            return "Alert! No background-img property in CSS file";
+          }
         } catch (err) {
           return console.log("ERROR:", err);
         }
@@ -201,36 +219,29 @@ require("rimraf")("./dist", function () {
       // ================ Start MiscOperations =============================== //
 
       /* jshint ignore:start */
-      const miscOperations = async function (result) {
+      const miscOperations = async function(result) {
         console.log(result);
         try {
           // Copy CNAME to /dist folder
-          await checkFileAccess("CNAME", fs.constants.R_OK | fs.constants.W_OK);
+          await access("CNAME", fs.constants.R_OK | fs.constants.W_OK);
           await copyFile("CNAME", "dist/CNAME");
 
           // Copy /src/resources to /dist folder
-          fs.readdir("./resources", (err, files) => {
-            if (err) {
-              console.log("Alert!!! Error reading resources directory! Is there one in this build?");
-            } else if (!files.length) {
-              console.log("Alert!!! /resources directory empty!");
-            } else {
-              console.log("resources directory present. Copying to /dist.");
-              copydir("resources", "dist/resources", err => {
-                if (err) {
-                  throw console.log(err);
-                } else {
-                  console.log("Copied /resources directory ok");
-                }
-              });
-            }
-          }); // end fs.readdir
-
-          setTimeout(function () {
-            console.log("Build Process Completed...");
-          }, 1500);
-
-          return "miscOperations Completed Successfully!";
+          const readDirectory = await readdir("./resources");
+          if (readDirectory.length > 0) {
+            console.log("/resources directory present. Copying to /dist...");
+            copydir("resources", "dist/resources", err => {
+              if (err) {
+                throw console.log(err);
+              } else {
+                return "Copied /resources directory Successfully!!! End miscOperations.";
+              }
+            });
+          } else if (!readDirectory.length) {
+            return "Alert. /resources directory empty!!!. End miscOperations.";
+          } else {
+            throw "Error reading /resources dierctory!";
+          } // end if/else
         } catch (err) {
           return console.log("ERROR:", err);
         }
@@ -241,7 +252,10 @@ require("rimraf")("./dist", function () {
       // ==================================================== //
       // ========== Call promise chain ====================== //
       // ==================================================== //
-      browserifyJS()
+      uglifyJS()
+        .then(result => {
+          return browserifyJS(result);
+        })
         .then(
           result => {
             return compressImages(result);
@@ -263,227 +277,13 @@ require("rimraf")("./dist", function () {
         .then(result => {
           return miscOperations(result);
         })
-        .then(
-          result => {
-            console.log(result);
-          },
-          err => {
-            console.err(err);
-          }
-        );
+        .then(result => {
+          console.log(result);
+          console.log("Build Process Completed...");
+        })
+        .catch(function(error) {
+          console.err(error);
+        });
     } // mkdirp else end
   }); // mkdirp callback end
 }); // rimraf callback end
-
-/* .then(compressImages, compressImages) // Call compressImages for either resolve or reject
-      .then(copyIndexHtml)
-      .then(getData)
-      .then(writeData)
-      .then(backImgUrl)
-      .then(miscOperations)
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.log(err);
-      }); */
-
-// ======================================================================================================== //
-
-/* // Create another function w/promise to compress images
-      const compressImages = function(result) {
-        console.log(result);
-        // Compress images
-        const promise = new Promise(function(resolve, reject) {
-          fs.readdir("src/img", function(err, files) {
-            if (err) {
-              reject(`Alert! Check if the directory src/img exists. ${err}`);
-            } else if (files.length === 0) {
-              reject("images: No images found.");
-            } else {
-              mkdirp("./dist/img", function(err) {
-                if (err) {
-                  reject(err);
-                } else {
-                  imagemin(["src/img/*.{jpg,png,gif}"], "dist/img", {
-                    plugins: [
-                      imageminJpegtran(),
-                      imageminPngquant({ quality: "65-80" }),
-                      imageminGifSicle({ optimizationLevel: 2 })
-                    ]
-                  }).then(files => {
-                    console.log(files);
-                    resolve("Images Compressed!!!");
-                  });
-                }
-              });
-            }
-          });
-        }); // end of promise
-
-        return promise;
-      }; // ========= End compressImages Function ==================== //
-
-      // ============ Copy index.html to dist/index.html(copyIndexHtml) ============ //
-      const copyIndexHtml = function(result) {
-        console.log(result);
-
-        const promise = new Promise(function(resolve, reject) {
-          fs.access(
-            "./index.html",
-            fs.constants.R_OK | fs.constants.W_OK,
-            err => {
-              if (err) {
-                console.log("No No index.html file present!");
-              } else {
-                fc("./index.html", "./dist/index.html");
-                resolve("Copied index.html to dist directory!");
-              }
-            }
-          );
-        }); // end promise
-
-        return promise;
-      };
-
-      // ====== Read data from dist/index.html(getData) =============== //
-      const getData = function(result) {
-        console.log(result);
-
-        const promise = new Promise(function(resolve, reject) {
-          // Lets update dist/index.html file src and href links to reflect new location
-          console.log(
-            "index.html: Redoing file links to reflect move to /dist folder."
-          );
-          fs.readFile("dist/index.html", "utf8", function(err, data) {
-            if (err) {
-              reject(err);
-            }
-
-            // check and replace both src= and href= links to reflect chenge to dist/ folder
-            // Notice we chained .replace to do it
-            const regEx1 = /src\s*=\s*"\.\/src\//gi;
-            const regEx2 = /src\s*=\s*'\.\/src\//gi;
-            const regEx3 = /href\s*=\s*"\.\/src\//gi;
-            const regEx4 = /href\s*=\s*'\.\/src\//gi;
-
-            let distIndexHtml = data
-              .replace(regEx1, 'src="./')
-              .replace(regEx2, "src='./")
-              .replace(regEx3, 'href="./')
-              .replace(regEx4, "href='./");
-
-            fs.stat("./dist/index.html", function(err, stats) {
-              if (err) {
-                console.log(`Error: ${err}`);
-              } else if (stats.size === 0) {
-                console.log(`Error copying index.html!!!!!!`);
-              } else {
-                console.log(
-                  `Succesfully copied to dist\index.html. File size is ${
-                    stats.size
-                  }`
-                );
-              }
-            });
-
-            resolve(distIndexHtml);
-          }); // end fs.readfile index.html
-        }); //  End of promise.
-
-        return promise;
-      }; // ============ End getData function ================= //
-
-      // ===========  Write to dist/index.html (writeData) =================== //
-      const writeData = function(result) {
-        const promise = new Promise(function(resolve, reject) {
-          fs.writeFile("dist/index.html", result, "utf8", err => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve("Write to dist//index.html OK.");
-            }
-          });
-        }); // end fs.writefile promise
-
-        return promise;
-      }; // ============= End of writeData ======================= //
-
-      //  ============= Modify background-url property value if present =========== //
-      const backImgUrl = result => {
-        console.log(result);
-        // Check dist\main.css and change the value to reflect move to dist directory
-        console.log(
-          "main.css: Redoing background-image property to reflect move to /dist folder."
-        );
-
-        const promise = new Promise(function(resolve, reject) {
-          // Grab contents of main.css and put results in callback 'data' value
-          fs.readFile("dist/css/main.css", "utf8", function(err, data) {
-            if (err) {
-              reject(err);
-            }
-            // check and replace background-url property value in dist/main.css
-            const regEx1 = /background-image\s*:\s*url\("\/src\//gi;
-            const regEx2 = /background-image\s*:\s*url\('\/src\//gi;
-
-            let distMainCss = data
-              .replace(regEx1, 'background-image:url("/')
-              .replace(regEx2, "background-image:url('/");
-
-            fs.writeFile("dist/css/main.css", distMainCss, "utf8", function(
-              err
-            ) {
-              if (err) {
-                console.log(`Error updating background image url ${err}`);
-              } else {
-                resolve("Updated main.css!!!");
-              }
-            });
-          });
-        }); // end promise
-
-        return promise;
-      }; // ====== End backImgUrl function =================
-
-      // === Misc Operations =========== //
-      const miscOperations = function(result) {
-        const promise = new Promise(function(resolve, reject) {
-          // Copy CNAME to /dist folder
-          fs.access("CNAME", fs.constants.R_OK | fs.constants.W_OK, err => {
-            if (err) {
-              reject("No CNAME file present!");
-            } else {
-              console.log("CNAME file present. Copying to /dist.");
-              fc("CNAME", "dist/CNAME");
-            }
-          });
-
-          // Copy resources to /dist folder
-          fs.readdir("./resources", (err, files) => {
-            if (err) {
-              console.log("Error reading resources directory!");
-            } else if (!files.length) {
-              console.log("resources directory empty");
-            } else {
-              console.log("resources directory present. Copying to /dist.");
-              copydir("resources", "dist/resources", err => {
-                if (err) {
-                  console.log(err);
-                } else {
-                  console.log("Copied resources directory ok");
-                }
-              });
-            }
-          });
-
-          setTimeout(function() {
-            resolve("Build Process Completed...");
-          }, 1500); // Copy CNAME to /dist folder
-        }); // end promise
-
-        return promise;
-      };
-
-      // ============= End Misc Operations =============== //
- */
