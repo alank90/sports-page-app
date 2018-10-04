@@ -6,7 +6,6 @@ const { promisify } = require("util");
 const access = promisify(fs.access);
 const readFile = promisify(fs.readFile);
 const copyFile = promisify(fs.copyFile);
-// const confirmWriteAsync = promisify(fs.stat); // convert fs.stat to a promise;
 const open = promisify(fs.open);
 const readdir = promisify(fs.readdir);
 const writeFile = promisify(fs.writeFile);
@@ -21,7 +20,6 @@ const imageminGifSicle = require("imagemin-gifsicle");
 // ============= Using rimraf to clean up any existing build ============================== //
 require("rimraf")("./dist", function() {
   // and then start rebuilding everything from scratch
-
   mkdirp("./dist/css", function(err) {
     if (err) {
       console.error(err);
@@ -46,7 +44,7 @@ require("rimraf")("./dist", function() {
       };
       /* jshint ignore:end */
 
-      // ============ End rimraf =============================================================== //
+      // ============ End rimraf ==================================================== //
 
       // ===========  Build the browserify bundle using the browserify api ========== //
       // First check if index.js exists
@@ -75,9 +73,7 @@ require("rimraf")("./dist", function() {
 
       // ============== End Browserify Build ========================================//
 
-      // Create another function w/promise to compress images
-
-      // ================== compressImages ================================ //
+      // ================== compressImages ========================================= //
       /* jshint ignore:start */
       const compressImages = async function(result) {
         console.log(result);
