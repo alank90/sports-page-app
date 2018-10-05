@@ -23,14 +23,13 @@ const config = {
   params: {}
 };
 
-// ================================================ //
-// ========== Components Here ===================== //
-// ================================================ //
+// ========================================================================== //
+// ========================== Components Here =============================== //
+// ========================================================================== //
 /* jshint ignore:start */
 console.log(nflDate.thursdayDate);
 console.log(nflDate.sundayDate);
 console.log(nflDate.mondayDate);
-
 
 mlbComponent.mlb;
 
@@ -38,19 +37,19 @@ nflComponent.nfl;
 
 nbaComponent.nba;
 /* jshint ignore:end */
-// ================================================ //
-// ========== End Components ====================== //
-// ================================================ //
+// ============================================================================ //
+// ========== End Components ================================================== //
+// ============================================================================ //
 
-// Starting Vue Component. Need this so don't throw Vue error about
-// no custom element "tab-" on first render. 
+// Starting Vue Component. Need this so don't throw Vue error message about
+// no custom element "tab-" on first render.
 Vue.component("tab-", {
   template: `<span></span>`
 });
 
-// ============================================================ //
-// ========== Vue Instance Here =============================== //
-// ============================================================ //
+// ============================================================================ //
+// ========================== Vue Instance Here =============================== //
+// ============================================================================ //
 new Vue({
   el: "#app",
   data() {
@@ -73,7 +72,6 @@ new Vue({
       errored: false
     };
   },
-
   computed: {
     currentTabComponent: function() {
       return "tab-" + this.currentTab.toLowerCase();
@@ -103,7 +101,10 @@ new Vue({
         // Check if it's the Regular or Post Season
         if (date.yesterday < `${date.year}1001`) {
           seasonName = `${date.year}-regular`;
-        } else if (date.yesterday > `${date.year}1001` && date.yesterday < `${date.year}1101`) {
+        } else if (
+          date.yesterday > `${date.year}1001` &&
+          date.yesterday < `${date.year}1101`
+        ) {
           seasonName = `${date.year}-playoff`;
           config.params = "";
         } else {
@@ -137,7 +138,10 @@ new Vue({
           seasonName = `${date.year}-regular`;
           teamStats = `W,L,GB,Win %`;
           typeOfStandings = "division_team_standings";
-        } else if (date.yesterday > `${date.year}1001` && date.yesterday < `${date.year}1101`) {
+        } else if (
+          date.yesterday > `${date.year}1001` &&
+          date.yesterday < `${date.year}1101`
+        ) {
           seasonName = `${date.year}-playoff`;
           teamStats = "W,L";
           typeOfStandings = "ovarall_team_standings";
