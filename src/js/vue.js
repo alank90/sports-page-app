@@ -55,6 +55,7 @@ new Vue({
   data() {
     return {
       baseball_feeds_data: [],
+      baseball_playoffs: false,
       nfl_feeds: {
         sunday_data: [],
         thurs_data: [],
@@ -143,8 +144,9 @@ new Vue({
           date.yesterday < `${date.year}1101`
         ) {
           seasonName = `${date.year}-playoff`;
-          teamStats = "W,L";
-          typeOfStandings = "ovarall_team_standings";
+          this.baseball_playoffs = true;
+          teamStats = `W,L,ER,AVG`;
+          typeOfStandings = "division_team_standings";
           config.params = "";
         } else {
           console.log("End of Baseball Season. See you next year!");

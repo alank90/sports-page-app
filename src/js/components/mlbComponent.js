@@ -4,7 +4,11 @@ const Vue = require("vue");
 
 const mlb = {
   mlbComponent: Vue.component("tab-mlb", {
-    props: ["props_league_data", "props_league_standings"],
+    props: [
+      "props_league_data",
+      "props_league_standings",
+      "props_baseball_playoffs"
+    ],
     template: `
                 <div class="vue-root-element">
                     <div class="container mlb-scores">
@@ -56,7 +60,7 @@ const mlb = {
                     </div> <!-- End container -->
                 
                     <hr>
-                    <div class="container mlb-standings">
+                    <div v-if="props_baseball_playoffs === false" class="container mlb-standings">
                         <div class="row">
                             <div class="col-12 col-md-4 division-name" v-for="value in props_league_standings">
                                 {{ value['@name'] }}
@@ -83,6 +87,40 @@ const mlb = {
                                 </div> <!-- End item in value.teamentry -->
                             </div> <!-- End v-for props_league_standings -->
                         </div> <!-- End of row -->
+                    </div> <!-- End container -->
+
+                    <!-- ========== Markup for Divional Playoff Standings =========== -->
+                    <div v-if="props_baseball_playoffs === true" class="container mlb-standings">
+                        <div class="row">
+                            <h2> MLB Playoff Standings </h2>
+                            <div class="col-12 col-md-4 division-name" v-for="value in props_league_standings">
+                                {{ value['@name'] }}
+                                <div class="box-score-team" v-for="item in value.teamentry">
+                                    <table class="table table-striped table-sm">
+                                        <thead>
+                                            <th scope="col"></th>
+                                            <th scope="col" v-if="item.stats">{{ item.stats.Wins['@abbreviation'] }}</th>
+                                            <th scope="col" v-if="item.stats">{{ item.stats.Losses['@abbreviation'] }}</th>
+                                            <th scope="col" v-if="item.stats">{{ item.stats.GamesPlayed['@abbreviation'] }}</th>
+                                            <th scope="col" v-if="item.stats">Team Batting AVG</th>
+
+                                        </thead>
+
+                                        <tbody>
+                                          <tr>
+                                            <td class="box-score-team" v-if="item.team">{{ item.team.Abbreviation }}</td>
+                                            <th scope="col" v-if="item.stats">{{ item.stats.Wins['#text'] }}</th>
+                                            <th scope="col" v-if="item.stats">{{ item.stats.Losses['#text'] }}</th>
+                                            <th scope="col" v-if="item.stats">{{ item.stats.Wins['#text'] }}</th>
+                                            <th scope="col" v-if="item.stats">{{ item.stats.BattingAvg['#text'] }}</th>
+
+                                          </tr>
+                                        </tbody>
+                                </table>
+                                </div> <!-- End item in value.teamentry -->
+                            </div> <!-- End v-for props_league_standings -->
+
+                        </div> <!-- End row -->      
                     </div>  <!-- End container -->  
                 </div> <!-- End Vue root -->
             `
