@@ -19,7 +19,7 @@ module.exports = {
   /* jshint ignore:start */
   feedsData: async function(url) {
     url = encodeURI(url); // Format the URI
-    
+
     return (await axios.get(url, config)).data.divisionteamstandings.division;
   }
   /* jshint ignore:end */
