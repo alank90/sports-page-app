@@ -29,37 +29,37 @@ const nfl = {
                                 </thead>
 
                                     <tbody>
-                                        <tr>
-                                            <td class="box-score-team"> {{ arrayItem.game.awayTeam.Abbreviation }} </td>
+                                        <tr class="d-flex">
+                                            <td class="team col-xs-3"> {{ arrayItem.game.awayTeam.Abbreviation }} </td>
                                             
                                             <td v-if="arrayItem.isCompleted === 'false'">Not Completed/Postponed: {{arrayItem.game.delayedOrPostponedReason}}</td>
                                             <template v-else>
-                                                <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
+                                                <td class="inning-or-quarter-score" v-for="quarter_score in arrayItem.quarterSummary.quarter">
                                                     {{quarter_score.awayScore }}
                                                 </td>
                                                 <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.awayScore) > Number(arrayItem.homeScore)}">{{ arrayItem.awayScore }}
                                                 </td>
                                             </template>
 
-                                            <td><img class="team-logo" scope="row" v-if="arrayItem.game.awayTeam.Abbreviation === 'NYJ'" src="./src/img/nyj.png"></td>
-                                            <td><img class="team-logo" scope="row" v-if="arrayItem.game.awayTeam.Abbreviation === 'NYG'" src="./src/img/nyg.png"></td>
+                                            <td v-if="arrayItem.game.awayTeam.Abbreviation === 'NYJ'"><img class="team-logo" scope="row" src="./src/img/nyj.png"></td>
+                                            <td v-if="arrayItem.game.awayTeam.Abbreviation === 'NYG'"><img class="team-logo" scope="row"  src="./src/img/nyg.png"></td>
                                         </tr>
 
-                                        <tr>
-                                            <td class="box-score-team"> {{ arrayItem.game.homeTeam.Abbreviation }} </td>
+                                        <tr class="d-flex">
+                                            <td class="team col-xs-3" > {{ arrayItem.game.homeTeam.Abbreviation }} </td>
 
                                             <td v-if="arrayItem.isCompleted === 'false'"></td>
                                             <template v-else>
-                                                <td class="box-score-inning" v-for="quarter_score in arrayItem.quarterSummary.quarter">
+                                                <td class="inning-or-quarter-score" v-for="quarter_score in arrayItem.quarterSummary.quarter">
                                                     {{quarter_score.homeScore }}</td>
                                                 <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.homeScore) > Number(arrayItem.awayScore)}">{{ arrayItem.homeScore }}
                                                 </td>
                                             </template>
 
-                                            <td><img class="team-logo" scope="row" v-if="arrayItem.game.homeTeam.Abbreviation === 'NYJ'" src="./src/img/nyj.png"></td>
-                                            <td><img class="team-logo" scope="row" v-if="arrayItem.game.homeTeam.Abbreviation === 'NYG'" src="./src/img/nyg.png"></td>
+                                            <td v-if="arrayItem.game.homeTeam.Abbreviation === 'NYJ'"><img class="team-logo" scope="row" src="./src/img/nyj.png"></td>
+                                            <td v-if="arrayItem.game.homeTeam.Abbreviation === 'NYG'"><img class="team-logo" scope="row" src="./src/img/nyg.png"></td>
                                         </tr>
-                                        <tr><td class="box-score-team w-150">Location:  {{ arrayItem.game.location }} </td></tr>
+                                        <tr class="d-flex"><td class="team col-xs-5 location">Location:  {{ arrayItem.game.location }} </td></tr>
                                     </tbody>
                                 </table>  
                             
@@ -77,8 +77,7 @@ const nfl = {
                         <div class="row">
                             <div class="col-12 col-md-4 division-name text-center" v-for="value in props_league_standings">
                                 {{ value['@name'].slice(4) }} 
-                                <div class="box-score-team" v-for="item in value.teamentry">
-                                    <!-- <p> {{ item }} </p> -->
+                                <div v-for="item in value.teamentry">
                                     <table class="table table-striped table-sm">
                                         <thead>
                                             <th scope="col"></th>
@@ -89,19 +88,19 @@ const nfl = {
                                         </thead> 
                                         <tbody>
                                         <tr>
-                                            <td class="box-score-team">{{ item.team.Abbreviation }}</td>
-                                            <td class="box-score-team">{{ item.stats.Wins['#text'] }}</td>
-                                            <td class="box-score-team">{{ item.stats.Losses['#text'] }}</td>
-                                            <td class="box-score-team">{{ item.stats.Ties['#text'] }}</td>
-                                            <td v-if="item.stats.Losses['#text'] != '0'" class="box-score-team">{{ item.stats.WinPct['#text'].slice(1) }}</td>
-                                            <td v-else class="box-score-team">100%</td>
+                                            <td class="team">{{ item.team.Abbreviation }}</td>
+                                            <td class="team">{{ item.stats.Wins['#text'] }}</td>
+                                            <td class="team">{{ item.stats.Losses['#text'] }}</td>
+                                            <td class="team">{{ item.stats.Ties['#text'] }}</td>
+                                            <td v-if="item.stats.Losses['#text'] != '0'" class="team">{{ item.stats.WinPct['#text'].slice(1) }}</td>
+                                            <td v-else class="team">100%</td>
                                         </tr>
                                     </tbody>
                                     </table>
                                 </div> <!-- End item in value.teamentry -->
                             </div> <!-- end v-for in props_league_standings -->                   
                         </div>  <!-- End row -->
-                </div> <!-- End container -->
+                    </div> <!-- End container -->
             </div>  <!-- End Vue root element -->
             `
   })

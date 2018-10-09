@@ -32,6 +32,12 @@ img {
   img[src="./src/img/nyg.png"] {
     width: 25px;
   }
+  img[src="./src/img/nyk.png"] {
+    width: 20px;
+  }
+  img[src="./src/img/bro.png"] {
+    width: 20px;
+  }
   img[src="./src/img/NFL.png"] {
     display: block;
     margin: 0 auto;
@@ -108,13 +114,14 @@ a.nav-link {
   
 }
 
-  .box-score-team {
+  .team {
     font-family: 'Chonburi', cursive;
     font-size: 0.8rem;
     font-weight: 700;
     margin-bottom: 0;
   }
-  .box-score-inning {
+  
+  .inning-or-quarter-score {
     font-family: 'Josefin Sans', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
