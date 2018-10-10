@@ -3,61 +3,61 @@ html {
 }
 
 body {
-  background-color: rgba(245,245,245, 0.2);
+  background-color: rgba(245, 245, 245, 0.2);
   cursor: default;
   font-size: 62.5%;
 }
 
 h1 {
-  font-family: 'Abril Fatface', cursive;
+  font-family: "Abril Fatface", cursive;
 }
-  h2, h3 {
-    font-family: 'Abril Fatface', cursive;
-    font-weight: 800;
-  }
+h2,
+h3 {
+  font-family: "Abril Fatface", cursive;
+  font-weight: 800;
+}
 
 img {
   height: auto;
   width: 100%;
 }
-  img[src="./src/img/nyy.png"] {
-    width: 15px;
-  }
-  img[src="./src/img/nym.png"] {
-    width: 15px;
-  }
-  img[src="./src/img/nyj.png"] {
-    width: 25px;
-  }
-  img[src="./src/img/nyg.png"] {
-    width: 25px;
-  }
-  img[src="./src/img/nyk.png"] {
-    width: 20px;
-  }
-  img[src="./src/img/bro.png"] {
-    width: 20px;
-  }
-  img[src="./src/img/NFL.png"] {
-    display: block;
-    margin: 0 auto;
-    width: 25vw;
-  }
-  img[src="./src/img/MLB.png"] {
-    display: block;
-    margin: 0 auto;
-    width: 25vw;
-  }
-  img[src="./src/img/NBA.png"] {
-    display: block;
-    margin: 0 auto;
-    width: 25vw;
-  }
- 
+img[src="./src/img/nyy.png"] {
+  width: 15px;
+}
+img[src="./src/img/nym.png"] {
+  width: 15px;
+}
+img[src="./src/img/nyj.png"] {
+  width: 25px;
+}
+img[src="./src/img/nyg.png"] {
+  width: 25px;
+}
+img[src="./src/img/nyk.png"] {
+  width: 20px;
+}
+img[src="./src/img/bro.png"] {
+  width: 20px;
+}
+img[src="./src/img/NFL.png"] {
+  display: block;
+  margin: 0 auto;
+  width: 25vw;
+}
+img[src="./src/img/MLB.png"] {
+  display: block;
+  margin: 0 auto;
+  width: 25vw;
+}
+img[src="./src/img/NBA.png"] {
+  display: block;
+  margin: 0 auto;
+  width: 25vw;
+}
 
 /* Tab Interface Styling */
 .tab-button {
-  background: rgba(1,51,105, 0.6);
+  background: rgba(1, 51, 105, 0.6);
   border: 1px solid #ccc;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -69,10 +69,10 @@ img {
   padding: 6px 10px;
 }
 .tab-button:hover {
-  background: rgba(1,51,105, 0.8);;
+  background: rgba(1, 51, 105, 0.8);
 }
 .tab-button.active {
-  background: rgba(1,51,105, 0.4);;
+  background: rgba(1, 51, 105, 0.4);
 }
 .tab {
   border: 1px solid #ccc;
@@ -92,47 +92,44 @@ a.nav-link {
   margin-top: 40px;
 }
 
-  
 .division-name {
   color: #5a7ba6;
-  font-family: 'Abril Fatface', cursive;
+  font-family: "Abril Fatface", cursive;
   font-size: 16px;
   margin-top: 30px;
 }
-  .division-name table {
-    all: initial;
-  }
-  th {
-    font-size: .8rem;
-  }
-
+.division-name table {
+  all: initial;
+}
+th {
+  font-size: 0.8rem;
+}
 
 .box-score-status {
   font-size: 0.8rem;
   font-weight: 700;
   margin-bottom: 0;
-  
 }
 
-  .team {
-    font-family: 'Chonburi', cursive;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-bottom: 0;
-  }
-  
-  .inning-or-quarter-score {
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-left: 2px;
-  }
-  .box-score-final {
-    font-family: 'Anton', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    margin-left: 10px;
-  }
+.team {
+  font-family: "Chonburi", cursive;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.inning-or-quarter-score {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-left: 2px;
+}
+.box-score-final {
+  font-family: "Anton", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-left: 10px;
+}
 
 .is-completed {
   color: rgb(245, 45, 45);
