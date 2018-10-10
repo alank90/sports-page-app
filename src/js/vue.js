@@ -56,6 +56,7 @@ new Vue({
     return {
       sports_feeds_data: [],
       baseball_playoffs: false,
+      end_of_season: false,
       nfl_feeds: {
         sunday_data: [],
         thurs_data: [],
@@ -109,8 +110,11 @@ new Vue({
         ) {
           seasonName = `${date.year}-playoff`;
           config.params = "";
+          this.baseball_playoffs = true;
         } else {
           console.log("End of Baseball Season. See you next year!");
+          this.end_of_season = true;
+          return;
         }
 
         axios
@@ -136,23 +140,14 @@ new Vue({
         // ================================================================================== //
         // =========================== Get MLB Standings ==================================== //
         // ================================================================================== //
-        // Check if it's the Regular or Post Season
+        // Check if it's the Regular Season. If not Do Nothing. The API is garbage for
+        // playoff standings
         if (date.yesterday < `${date.year}1001`) {
           seasonName = `${date.year}-regular`;
           teamStats = `W,L,GB,Win %`;
           typeOfStandings = "division_team_standings";
-        } else if (
-          date.yesterday > `${date.year}1001` &&
-          date.yesterday < `${date.year}1101`
-        ) {
-          seasonName = `${date.year}-playoff`;
-          this.baseball_playoffs = true;
-          teamStats = `W,L,ER,AVG`;
-          typeOfStandings = "division_team_standings";
-          config.params = "";
-        } else {
-          console.log("End of Baseball Season. See you next year!");
         }
+
         url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/${typeOfStandings}.json?teamstats=${teamStats}`;
         /* jshint ignore:start */
         // Note: We use the arrow function here because "this" is defined by where
@@ -166,7 +161,7 @@ new Vue({
         // =========================== End MLB Standings ==================================== //
         // ================================================================================== //
 
-        // -------------------------------------------------------------------------------------------------------- //
+        // --------------------------------------------------------------------------------------- //
 
         // ================================================================================= //
         // ================== else check if the NFL ======================================== //
@@ -225,9 +220,12 @@ new Vue({
         };
         /* jshint ignore:end */
         leagueStandings();
-        // ================= End Get NFL Standings ===================== //
+        // ============================================================== //
+        // ================= End Get NFL Standings ====================== //
         // ============================================================= //
 
+        // --------------------------------------------------------------------------------------- //
+        
         // ============================================================== //
         // ================== else check if the NBA ===================== //
         // ============================================================== //
@@ -239,7 +237,7 @@ new Vue({
           force: true
         };
         // ========================================================================= //
-        // ============ Get the NBA Sports Scores ================================== //
+        // ================ Get the NBA Sports Scores ============================== //
         // ========================================================================= //
 
         // Check if it's the Regular or Post Season ================= //
@@ -310,7 +308,7 @@ new Vue({
         // =========================== End NBA Standings ================================= //
         // =============================================================================== //
       }
-    } // ======= end getSportsData =============== //
+    } // ================ end getSportsData =============================== //
   }
 });
 

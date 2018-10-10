@@ -57,7 +57,7 @@ img {
 
 /* Tab Interface Styling */
 .tab-button {
-  background: rgba(56,114,173, 0.6);
+  background: rgba(1,51,105, 0.6);
   border: 1px solid #ccc;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -69,10 +69,10 @@ img {
   padding: 6px 10px;
 }
 .tab-button:hover {
-  background: rgba(56,114,173, 0.8);;
+  background: rgba(1,51,105, 0.8);;
 }
 .tab-button.active {
-  background: rgba(56,114,173, 0.4);;
+  background: rgba(1,51,105, 0.4);;
 }
 .tab {
   border: 1px solid #ccc;
