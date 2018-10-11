@@ -21,7 +21,7 @@ const nfl = {
                     <h2> {{ nfl_days[index] }} <span v-if="dayDataArray.length" class="week">(Week {{ dayDataArray[0].game.week }})</span></h2>
                         
                         <div class="row"> 
-                            <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in dayDataArray"> 
+                            <div class="col-xs-12 col-sm-4 col-lg-3" v-for="arrayItem in dayDataArray"> 
                             
                                 <table class="table table-striped table-sm">   
                                 <thead>
@@ -73,9 +73,9 @@ const nfl = {
         <!-- ==================================================================================================== -->
 
                     <hr>
-                    <div class="container nfl-standings">
+                    <div class="container">
                         <div class="row">
-                            <div class="col-12 col-md-4 division-name text-center" v-for="value in props_league_standings">
+                            <div class="col-xs-12 col-sm-4 col-lg-3 division-name text-center" v-for="value in props_league_standings">
                                 {{ value['@name'].slice(4) }} 
                                 <div v-for="item in value.teamentry">
                                     <table class="table table-striped table-sm">
