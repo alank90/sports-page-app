@@ -35,9 +35,11 @@
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-pngquant": "^5.0.1",
     "mkdirp": "^0.5.1",
+    "postcss-uncss": "^0.16.1",
     "rimraf": "^2.6.2",
     "uglifycss": "0.0.27",
-    "uglifyify": "^4.0.4"
+    "uglifyify": "^4.0.4",
+    "uncss": "^0.16.2"
   },
   "dependencies": {
     "axios": "^0.18.0",

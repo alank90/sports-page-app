@@ -11,7 +11,7 @@ const nba = {
     ],
     template: `
                 <div class="vue-root-element">
-                    <div class="container mlb-scores">
+                    <div class="container">
                         <div class="row">
                             <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in props_league_data">
                                     <table class="table table-striped table-sm">
@@ -59,7 +59,7 @@ const nba = {
                     </div> <!-- End container -->
 
                     <hr>
-                    <div class="container nfl-standings">
+                    <div class="container">
                         <div class="row">
                             <div class="col-12 col-md-4 division-name text-center" v-for="value in props_league_standings">
                                 {{ value['@name'] }} 
