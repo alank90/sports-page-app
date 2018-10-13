@@ -40,7 +40,7 @@ require("rimraf")("./dist", function () {
         } catch (err) {
           console.log("ERROR:", err);
         }
-        return "Uglified CSS file(s) Successfully!!!";
+        return "======= Uglified CSS file(s) Successfully!!! ==============";
       };
       /* jshint ignore:end */
 
@@ -64,7 +64,7 @@ require("rimraf")("./dist", function () {
           // single javascript file.
           b.bundle().pipe(indexjs);
 
-          return "Browserify JavaScript Bundling Successful!!! ";
+          return "========== Browserify JavaScript Bundling Successful!!! ===============";
         } catch (err) {
           console.log("ERROR: " + err);
         }
@@ -99,7 +99,7 @@ require("rimraf")("./dist", function () {
           }
         });
 
-        return "Images Compressed Successfully!!!";
+        return "========== Images Compressed Successfully!!! ===============";
       }; // end async
       /* jshint ignore:end */
       // ========= End compressImages Function ==================== //
@@ -166,7 +166,8 @@ require("rimraf")("./dist", function () {
               );
             }
           });
-          return "Updated ./src and ./href links to show new ./dist folder(getData). Completed Successfully!";
+          return `======== Updated ./src and ./href links to show new /dist folder(getData). 
+          Completed Successfully! ==========`;
         } catch (err) {
           return console.log("ERROR:", err);
         }
@@ -224,7 +225,11 @@ require("rimraf")("./dist", function () {
 
           // Copy /src/resources to /dist folder
           const readDirectory = await readdir("./resources");
-          if (readDirectory.length > 0) {
+
+          if (readDirectory[0] === "foo.txt" && readDirectory.length === 1) {
+            return `Alert! /resources only contains foo.txt. Directory not copied to /dist.
+            ======== End miscOperations. =========`;
+          } else if (readDirectory.length > 0) {
             console.log("/resources directory present. Copying to /dist...");
             copydir("resources", "dist/resources", err => {
               if (err) {
@@ -232,11 +237,13 @@ require("rimraf")("./dist", function () {
               }
             });
           } else if (!readDirectory.length) {
-            return "Alert. /resources directory empty!!!. End miscOperations.";
+            return `Alert. /resources directory empty!!!
+            ======== End miscOperations. =========`;
           } else {
             throw "Error reading /resources dierctory!";
           } // end if/else
-          return "Copied /resources directory Successfully!!! End miscOperations.";
+          return `Copied /resources to /dist directory successfully!!!
+           ====== End miscOperations. ======`;
         } catch (err) {
           return console.log("ERROR:", err);
         }
