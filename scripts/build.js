@@ -41,7 +41,7 @@ require("rimraf")("./dist", function () {
           console.log("ERROR:", err);
         }
         return "======= Uglified CSS file(s) Successfully!!! ==============";
-      };
+      }; // end uglifyJS async function
       /* jshint ignore:end */
 
       // ============ End rimraf ==================================================== //
@@ -51,7 +51,7 @@ require("rimraf")("./dist", function () {
       /* jshint ignore:start */
       const browserifyJS = async function (result) {
         try {
-          console.log(result);
+          console.log(result); // output result from previous async function uglifyJS 
           console.log("Checking for index.js");
           await open("index.js", "r");
           console.log("/dist/index.js: build and uglify");
