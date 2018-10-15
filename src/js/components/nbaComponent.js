@@ -20,36 +20,41 @@ const nba = {
                                         </thead>
                     
                                         <tbody>
-                                            <tr class="d-flex">
-                                              <td class="team col-2"> {{ arrayItem.game.awayTeam.Abbreviation }} </td>
+                                            <tr class="d-flex justify-content-around">
+                                              <td class="team"> {{ arrayItem.game.awayTeam.Abbreviation }} </td>
                                               
                                               <td v-if="arrayItem.isCompleted === 'false'">Not Completed/Postponed: {{arrayItem.game.delayedOrPostponedReason}}</td>
                                               <template v-else>
-                                                  <td class="inning-or-quarter-score col-1" v-for="quarter_score in arrayItem.quarterSummary.quarter">
+                                                  <td class="inning-or-quarter-score" v-for="quarter_score in arrayItem.quarterSummary.quarter">
                                                       {{quarter_score.awayScore }}
                                                   </td>
-                                                  <td class="box-score-final col-1" v-bind:class="{ won: Number(arrayItem.awayScore) > Number(arrayItem.homeScore)}">{{ arrayItem.awayScore }}
+                                                  <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.awayScore) > Number(arrayItem.homeScore)}">{{ arrayItem.awayScore }}
                                                   </td>
                                               </template>
-
-                                              <td v-if="arrayItem.game.awayTeam.Abbreviation === 'NYK'"><img class="team-logo" scope="row"  src="./src/img/nyk.png"></td>
-                                              <td v-if="arrayItem.game.awayTeam.Abbreviation === 'BRO'"><img class="team-logo" scope="row" src="./src/img/bro.png"></td>
                                             </tr>
 
-                                            <tr class="d-flex">
-                                            <td class="team col-2"> {{ arrayItem.game.homeTeam.Abbreviation }} </td>
+                                            <tr class="team-logo"> 
+                                                <img v-if="arrayItem.game.awayTeam.Abbreviation === 'NYK'" class="team-logo" scope="row" src="./src/img/nyk.png">
+                                                <img v-if="arrayItem.game.awayTeam.Abbreviation === 'BRO'" class="team-logo" scope="row" src="./src/img/bro.png">
+                                            </tr>
 
-                                            <td v-if="arrayItem.isCompleted === 'false'"></td>
-                                            <template v-else>
-                                                <td class="inning-or-quarter-score col-1" v-for="quarter_score in arrayItem.quarterSummary.quarter">
-                                                    {{quarter_score.homeScore }}</td>
-                                                <td class="box-score-final col-2" v-bind:class="{ won: Number(arrayItem.homeScore) > Number(arrayItem.awayScore)}">{{ arrayItem.homeScore }}
-                                                </td>
-                                            </template>
-                                            <td v-if="arrayItem.game.homeTeam.Abbreviation === 'NYK'"><img class="team-logo" scope="row" src="./src/img/nyk.png"></td>
-                                            <td v-if="arrayItem.game.homeTeam.Abbreviation === 'BRO'"><img class="team-logo" scope="row" src="./src/img/bro.png"></td>
-                                        </tr>
-                                        <tr class="shadow p-3 mb-5 bg-white rounded"><td class="team location">Location:  {{ arrayItem.game.location }} </td></tr>
+                                            <tr class="d-flex justify-content-around">
+                                                <td class="team"> {{ arrayItem.game.homeTeam.Abbreviation }} </td>
+
+                                                <td v-if="arrayItem.isCompleted === 'false'"></td>
+                                                <template v-else>
+                                                    <td class="inning-or-quarter-score" v-for="quarter_score in arrayItem.quarterSummary.quarter">
+                                                        {{quarter_score.homeScore }}</td>
+                                                    <td class="box-score-final" v-bind:class="{ won: Number(arrayItem.homeScore) > Number(arrayItem.awayScore)}">{{ arrayItem.homeScore }}
+                                                    </td>
+                                                </template>
+                                            </tr>
+
+                                            <tr class="team-logo"> 
+                                                    <img v-if="arrayItem.game.homeTeam.Abbreviation === 'NYk'" class="team-logo" scope="row" src="./src/img/nyk.png">
+                                                    <img v-if="arrayItem.game.homeTeam.Abbreviation === 'BRO'" class="team-logo" scope="row" src="./src/img/bro.png">
+                                            </tr>
+                                            <tr class="shadow p-3 mb-5 bg-white rounded"><td class="team location">Location:  {{ arrayItem.game.location }} </td></tr>
                                             
                                         </tbody>
                                     </table>
