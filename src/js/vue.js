@@ -27,10 +27,6 @@ const config = {
 // ========================== Components Here =============================== //
 // ========================================================================== //
 /* jshint ignore:start */
-console.log(nflDate.thursdayDate);
-console.log(nflDate.sundayDate);
-console.log(nflDate.mondayDate);
-
 mlbComponent.mlb;
 
 nflComponent.nfl;
