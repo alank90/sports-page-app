@@ -124,6 +124,10 @@ th {
   margin-bottom: 0;
 }
 
+team-logo {
+  display: inline;
+}
+
 .inning-or-quarter-score {
   font-family: "Josefin Sans", sans-serif;
   font-size: 0.8rem;
@@ -131,6 +135,7 @@ th {
   margin-left: 2px;
 }
 .box-score-final {
+  text-align: right;
   font-family: "Anton", sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
