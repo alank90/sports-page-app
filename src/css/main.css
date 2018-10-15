@@ -135,11 +135,11 @@ team-logo {
   margin-left: 2px;
 }
 .box-score-final {
-  text-align: right;
   font-family: "Anton", sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
   margin-left: 10px;
+  text-align: right;
 }
 
 .is-completed {
