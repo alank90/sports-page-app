@@ -68,7 +68,7 @@ const mlb = {
                         <!-- ============== End of Markup for Divional Regular Season Standings =============== -->
                     
                         <hr>
-                        <!-- ============== Markup for Divional Regular Season Standings =============== -->
+                        <!-- ============== Markup for Regular/Divisional Season Standings =============== -->
                         <div v-if="props_baseball_playoffs === false" class="container mlb-standings">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-4 col-lg-3 division-name" v-for="value in props_league_standings">

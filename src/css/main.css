@@ -9,23 +9,21 @@ body {
 }
 
 h1 {
+  color: rgb(255,255,255);
   font-family: "Abril Fatface", cursive;
   font-size: 2rem;
 }
 h2,
 h3 {
+  color: rgb(41, 100, 228);
   font-family: "Abril Fatface", cursive;
   font-size: 1.5rem;
   font-weight: 800;
 }
 
-.test12 {
-  font-size: 12px;
-}
-
 img {
   height: auto;
-  width: 100%;
+  max-width: 100%;
 }
 img[src="./src/img/nyy.png"] {
   width: 15px;
@@ -59,6 +57,15 @@ img[src="./src/img/NBA.png"] {
   display: block;
   margin: 0 auto;
   width: 12vw;
+}
+
+.title-images {
+  z-index: -99;
+  display: absolute;
+}
+
+#app {
+  margin-top: 200px;
 }
 
 /* Tab Interface Styling */
