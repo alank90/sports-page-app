@@ -9,14 +9,20 @@ body {
 }
 
 h1 {
-  color: rgb(255,255,255);
-  font-family: "Abril Fatface", cursive;
-  font-size: 2rem;
+  color: #fff;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff,
+    0 0 20px rgba(4, 4, 4, 0.8), 0 0 30px rgba(4, 4, 4, 0.8),
+    0 0 40px rgba(4, 4, 4, 0.8), 0 0 50px rgba(4, 4, 4, 0.8),
+    0 0 75px rgba(4, 4, 4, 0.8);
+  letter-spacing: 5px;
+  font: 2.7rem "MisoRegular";
 }
+
 h2,
 h3 {
-  color: rgb(41, 100, 228);
+  color: rgba(0, 0, 0, 0.8);
   font-family: "Abril Fatface", cursive;
+  text-shadow: 4px 4px 4px rgba(255, 255, 255, 0.9);
   font-size: 1.5rem;
   font-weight: 800;
 }
@@ -71,9 +77,9 @@ img[src="./src/img/NBA.png"] {
 /* Tab Interface Styling */
 .tab-button {
   background: rgba(1, 51, 105, 0.6);
-  border: 1px solid #ccc;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  border: 1px solid rgb(22, 50, 126);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   cursor: pointer;
   font-size: 1.5rem;
   font-weight: 700;
@@ -135,11 +141,17 @@ team-logo {
   display: inline;
 }
 
+.location {
+  background: rgba(196, 212, 235, 0.5);
+  font-size: .8rem;
+}
+
 .inning-or-quarter-score {
   font-family: "Josefin Sans", sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
   margin-left: 2px;
+  text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.9);
 }
 .box-score-final {
   font-family: "Anton", sans-serif;
@@ -155,4 +167,20 @@ team-logo {
 
 .won {
   color: goldenrod;
+}
+
+/* ========== Media Queries Below Here ================ */
+
+@media only screen and (max-width: 400px) {
+  /* For mobile phones: */
+  #app {
+      margin-top: 25px;
+  }
+}
+
+@media only screen and (min-width: 401px) and (max-width: 700px) {
+  /* For mobile phones: */
+  #app {
+      margin-top: 50px;
+  }
 }

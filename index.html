@@ -18,7 +18,7 @@
 
 <body>
     <div class="container-fluid">
-        <h1 class="text-center">Scores From Around The Leagues</h1>
+        <h1 class="text-center inset-shadow">Scores From Around The Leagues</h1>
         <div class="title-images d-inline-flex justify-content-around fixed-top">
             <img src="./src/img/mlb-sm.jpg" alt="Pitcher Throwing Ball">
             <img src="./src/img/nfl-sm.jpg" alt="David Tyree Superbowl Catch">
@@ -26,7 +26,7 @@
         </div>
         <hr class="my-2">
         
-        <div id="app">
+        <div id="app" class="mt-xs-1">
             <img v-bind:src="sport_logo_image">
             <h2 class="text-center">{{ currentTab }} Scores</h2>
             <h3 class="text-center">For {{ gameDate }} </h3>
