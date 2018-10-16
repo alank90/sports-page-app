@@ -59,7 +59,7 @@ const nfl = {
                                             <img v-if="arrayItem.game.homeTeam.Abbreviation === 'NYG'" class="team-logo" scope="row" src="./src/img/nyg.png">
                                         </tr>
 
-                                        <tr class="shadow p-3 mb-5 bg-white rounded"><td class="team location">Location:  {{ arrayItem.game.location }} </td></tr>
+                                        <tr class="shadow p-3 mb-5  rounded"><td class="team location">Location:  {{ arrayItem.game.location }} </td></tr>
                                     </tbody>
                                 </table>  
                             
