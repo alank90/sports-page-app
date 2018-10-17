@@ -1,7 +1,7 @@
 // /src/js/vue.js
 
 const Vue = require("vue");
-const top = require("topVue");
+const top = require("./modules/topVue");
 const axios = require("axios");
 const date = require("./modules/todayDate");
 const nflDate = require("./modules/nflDate");
