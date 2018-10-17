@@ -25,7 +25,7 @@
             <img src="./src/img/nba-sm.jpg" alt="Michael Jordan Dunking">
         </div>
         <hr class="my-2">
-        
+
         <div id="app" class="mt-xs-1">
             <img v-bind:src="sport_logo_image">
             <h2 class="text-center">{{ currentTab }} Scores</h2>
@@ -36,28 +36,29 @@
                 <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
             </section>
             <section v-else>
-               <div v-if="loading">Loading...</div>
+                <div v-if="loading">Loading...</div>
             </section>
             <!-- End API Error Markup -->
 
-            <button v-for="tab in tabs" 
-                v-bind:key="tab" 
-                v-bind:class="['tab-button', {active: currentTab === tab }]" 
+            <button v-for="tab in tabs" v-bind:key="tab" v-bind:class="['tab-button', {active: currentTab === tab }]"
                 v-on:click="getSportsData( tab )">{{ tab }}
             </button>
             <!--  ==== v-bind:is tells us what component to use i.e. mlb-tab  
                         Important. Must use kebab case for v-bind baseballData attribute
                         because html is case insensitive and we used camelCase for
                         variable names in component.
-            -->  
-            <component v-bind:is="currentTabComponent" v-bind:props_league_data="sports_feeds_data" v-bind:props_league_data_nfl="nfl_feeds" v-bind:props_league_standings="standings" v-bind:props_baseball_playoffs="baseball_playoffs" v-bind:props_end_of_season="end_of_season" class="tab"></component>
-                            
+            -->
+            <component v-bind:is="currentTabComponent" v-bind:props_league_data="sports_feeds_data"
+                v-bind:props_league_data_nfl="nfl_feeds" v-bind:props_league_standings="standings"
+                v-bind:props_baseball_playoffs="baseball_playoffs" v-bind:props_nfl_playoffs="nfl_playoffs"
+                v-bind:props_basketball_playoffs="basketball_playoffs" v-bind:props_end_of_season="end_of_season" class="tab"></component>
+
         </div>
     </div>
     <!-- ====================================================================== -->
     <!-- ===================== JavaScript Files Below This Line =============== -->
     <!-- ====================================================================== -->
-    <!-- No Javascript for Bootstrap or jQuery needed. Gotta like Vue.js. -->
+    <!-- No jQuery needed. Gotta like Vue.js. -->
 
     <script src="index.js"></script>
 

@@ -52,6 +52,8 @@ new Vue({
     return {
       sports_feeds_data: [],
       baseball_playoffs: false,
+      basketball_playoffs: false,
+      nfl_playoffs: false,
       end_of_season: false,
       nfl_feeds: {
         sunday_data: [],
@@ -94,7 +96,7 @@ new Vue({
         };
 
         // ========================================================================= //
-        // ============ First Get the  MLB Sports Scores =========================== //
+        // ============ First Get the MLB Sports Scores =========================== //
         // ========================================================================= //
 
         // Check if it's the Regular or Post Season ===================== //
@@ -171,6 +173,21 @@ new Vue({
         };
 
         // ===================== Get Sunday NFL Scores ======================= //
+        // Check if it's the Regular or Post Season ===================== //
+        if (date.yesterday > `${date.year}0907`) {
+          seasonName = `${date.year}-regular`;
+        } else if (
+          date.yesterday > `${date.year}0104` &&
+          date.yesterday < `${date.year}0204`
+        ) {
+          seasonName = `${date.year}-playoff`;
+          config.params = "";
+          this.nfl_playoffs = true;
+        } else {
+          console.log("End of Football Season. See you next year!");
+          this.end_of_season = true;
+          return;
+        }
         /* jshint ignore:start */
         const sundayNFLScores = async () => {
           this.nfl_feeds.sunday_data = await getScores(
@@ -181,7 +198,7 @@ new Vue({
         };
         /* jshint ignore:end */
 
-        sundayNFLScores();
+        sundayNFLScores(); // Always call Sunday Scores Regular or Playoffs.
 
         // ================= Get Thursday NFL Scores ========================= //
         /* jshint ignore:start */
@@ -193,8 +210,9 @@ new Vue({
         };
         /* jshint ignore:end */
 
-        thursdayNFLScores();
-
+        if (this.nfl_playoffs === false) {
+          thursdayNFLScores();
+        }
         // ================== Get Monday Night NFL Scores ============================= //
         /* jshint ignore:start */
         const mondayNFLScores = async () => {
@@ -202,7 +220,9 @@ new Vue({
         };
         /* jshint ignore:end */
 
-        mondayNFLScores();
+        if (this.nfl_playoffs === false) {
+          mondayNFLScores();
+        }
         // ============================================================== //
         // ====================== End Get NFL Scores ==================== //
         // ============================================================== //
@@ -229,6 +249,7 @@ new Vue({
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         let startOfSeasonYear = "";
+        // reset axios config parameters
         config.params = {
           force: true
         };
@@ -237,9 +258,9 @@ new Vue({
         // ========================================================================= //
 
         // Check if it's the Regular or Post Season ================= //
-        if (date.yesterday > `${date.year}1007`) {
+        if (date.yesterday > `${date.year}1015`) {
           // Note: Change startOfSeasonYear on every new season !!!!!!!!! ======= //
-          startOfSeasonYear = `2018`;
+          startOfSeasonYear = 2018;
           seasonName = `${startOfSeasonYear}-${startOfSeasonYear + 1}-regular`;
         } else if (
           date.yesterday > `${date.year}0412` &&
@@ -249,11 +270,15 @@ new Vue({
           config.params = "";
         } else {
           console.log("End of Basketball Season. See you next year!");
+          this.end_of_season = true;
+          return;
         }
 
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/scoreboard.json?fordate=20180321`,
+            `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${
+              date.yesterday
+            }`,
             config
           )
           .then(response => {
@@ -273,7 +298,7 @@ new Vue({
         // =========================== Get NBA Standings ==================================== //
         // ================================================================================== //
         // Check if it's the Regular or Post Season
-        if (date.yesterday > `${date.year}1007`) {
+        if (date.yesterday > `${date.year}1015`) {
           // Note: Change startOfSeasonYear on every new season !!!!!!!!! ======= //
           startOfSeasonYear = `2018`;
           seasonName = `${startOfSeasonYear}-${startOfSeasonYear + 1}-regular`;
@@ -284,14 +309,14 @@ new Vue({
           date.yesterday < `${date.year}0607`
         ) {
           seasonName = `${date.year}-playoff`;
-          this.baseball_playoffs = true;
+          this.basketball_playoffs = true;
           teamStats = `W,L`;
           typeOfStandings = "division_team_standings";
           config.params = "";
         } else {
           console.log("End of Basketball Season. See you next year!");
         }
-        url = `https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/division_team_standings.json`;
+        url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/${typeOfStandings}.json?teamstats=${teamStats}`;
         /* jshint ignore:start */
         // Note: We use the arrow function here because "this" is defined by where
         // getStandings() is called (the vue instance) not by where it is used.
