@@ -4,7 +4,7 @@ const Vue = require("vue");
 
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
-    props: ["props_league_data_nfl", "props_league_standings"],
+    props: ["props_league_data_nfl", "props_league_standings","props_nfl_playoffs"],
     data: function() {
       return {
         nfl_days: ["Sunday", "Thursday Night", "Monday Night"]
@@ -12,7 +12,8 @@ const nfl = {
     },
     template: `
             <div class="vue-root-element">
-                <div class="container nfl-scores">
+                <!-- ============== Markup for Divional/Regular Season Scores =============== -->
+                <div class="container">
                     <div v-for="(dayDataArray, key, index) in props_league_data_nfl">
                     <!-- v-if prevents Vue from trying to access daydataArray before it has become populated -->
                     <h2> {{ nfl_days[index] }} <span v-if="dayDataArray.length" class="week">(Week {{ dayDataArray[0].game.week }})</span></h2>
@@ -68,9 +69,10 @@ const nfl = {
                     </div> <!-- End v-for props_league_data_nfl -->
                     
                 </div> <!-- End container -->
+                <!-- ============== End of Markup for Divional/Regular Season Scores =============== -->
 
                         
-        <!-- ==================================================================================================== -->
+                <!-- ============== Markup for Regular/Divisional Season Standings =============== -->
 
                     <hr>
                     <div class="container">
@@ -100,6 +102,7 @@ const nfl = {
                                 </div> <!-- End item in value.teamentry -->
                             </div> <!-- end v-for in props_league_standings -->                   
                         </div>  <!-- End row -->
+                        <!-- ============== End of Markup for Regular/Divisional Season Standings =============== -->
                     </div> <!-- End container -->
             </div>  <!-- End Vue root element -->
             `

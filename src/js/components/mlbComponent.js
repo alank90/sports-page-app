@@ -65,39 +65,41 @@ const mlb = {
                                 
                             </div> <!-- End of row -->
                         </div> <!-- End container -->
-                        <!-- ============== End of Markup for Divional Regular Season Standings =============== -->
+                        <!-- ============== End of Markup for Divional Regular Season Scores =============== -->
                     
                         <hr>
                         <!-- ============== Markup for Regular/Divisional Season Standings =============== -->
-                        <div v-if="props_baseball_playoffs === false" class="container mlb-standings">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-4 col-lg-3 division-name" v-for="value in props_league_standings">
-                                    {{ value['@name'] }}
-                                    <div class="team" v-for="item in value.teamentry">
-                                        <table class="table table-striped table-sm">
-                                            <thead>
-                                                <th scope="col"></th>
-                                                <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
-                                                <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>
-                                                <th scope="col">{{ item.stats.GamesBack['@abbreviation'] }}</th>
-                                                <th scope="col">{{ item.stats.WinPct['@abbreviation'] }}</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="team">{{ item.team.Abbreviation }}</td>
-                                                    <td class="team">{{ item.stats.Wins['#text'] }}</td>
-                                                    <td class="team">{{ item.stats.Losses['#text'] }}</td>
-                                                    <td class="team" v-if="item.stats.GamesBack['#text'] === '0.0'"> -- </td>
-                                                    <td class="team" v-else>{{ item.stats.GamesBack['#text'] }}</td>
-                                                    <td class="team" v-if="item.stats.WinPct['#text']">{{ item.stats.WinPct['#text'].slice(1) }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div> <!-- End item in value.teamentry -->
-                                </div> <!-- End v-for props_league_standings -->
-                            </div> <!-- End of row -->
-                        </div> <!-- End container -->
-                        <!-- ============== End of Markup for Divional Regular Season Standings =============== -->
+                        <div class="container">
+                            <div v-if="props_baseball_playoffs === false">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-4 col-lg-3 division-name" v-for="value in props_league_standings">
+                                        {{ value['@name'] }}
+                                        <div class="team" v-for="item in value.teamentry">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
+                                                    <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>
+                                                    <th scope="col">{{ item.stats.GamesBack['@abbreviation'] }}</th>
+                                                    <th scope="col">{{ item.stats.WinPct['@abbreviation'] }}</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="team">{{ item.team.Abbreviation }}</td>
+                                                        <td class="team">{{ item.stats.Wins['#text'] }}</td>
+                                                        <td class="team">{{ item.stats.Losses['#text'] }}</td>
+                                                        <td class="team" v-if="item.stats.GamesBack['#text'] === '0.0'"> -- </td>
+                                                        <td class="team" v-else>{{ item.stats.GamesBack['#text'] }}</td>
+                                                        <td class="team" v-if="item.stats.WinPct['#text']">{{ item.stats.WinPct['#text'].slice(1) }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div> <!-- End item in value.teamentry -->
+                                    </div> <!-- End v-for props_league_standings -->
+                                </div> <!-- End of row -->
+                            </div> <!-- End v-if props_league_playoffs -->
+                        </div> <!-- ======= End container ============ -->
+                        <!-- ============== End of Markup for Divional/Regular Season Scores =============== -->
 
                         <!-- ============== Markup for End of Season =============== -->
                         <div v-if="props_end_of_season === true">
