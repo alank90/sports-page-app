@@ -2,7 +2,7 @@
 
 const Vue = require("vue");
 
-const backToTop = {
+const toTop = {
   backToTopComponent: Vue.component("backtotop", {
     template: "#backtotop",
     data: function() {
@@ -12,10 +12,10 @@ const backToTop = {
     },
     methods: {
       initToTopButton: function() {
-        $(document).bind(
+        $(document).on(
           "scroll",
           function() {
-            var backToTopButton = $(".goTop");
+            const backToTopButton = $(".goTop");
             if ($(document).scrollTop() > 250) {
               backToTopButton.addClass("isVisible");
               this.isVisible = true;
@@ -46,4 +46,4 @@ const backToTop = {
   })
 };
 
-module.exports = backToTop;
+module.exports = toTop;
