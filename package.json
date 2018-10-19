@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/peterbarraud/rapo-browserify-budo.git"
+    "url": "https://github.com/alank90/sports-page-app"
   },
   "keywords": [
     "browserify",
@@ -22,9 +22,9 @@
   "author": "@gapeterb",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/peterbarraud/rapo-browserify-budo/issues"
+    "url": "http://akillian.x10host.com/my_portfolio/"
   },
-  "homepage": "https://github.com/peterbarraud/rapo-browserify-budo#browserify-with-budo",
+  "homepage": "http://akillian.x10host.com/my_portfolio/",
   "devDependencies": {
     "autoprefixer": "^8.1.0",
     "budo": "^10.0.4",
