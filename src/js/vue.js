@@ -34,7 +34,7 @@ nflComponent.nfl;
 
 nbaComponent.nba;
 
-helperComponent.backToTop
+helperComponent.toTop;
 
 
 /* jshint ignore:end */
