@@ -173,6 +173,24 @@ team-logo {
   color: goldenrod;
 }
 
+.footer {
+  display: flex;
+  justify-content: space-evenly;
+  font-family: "Lora", sans-serif;
+  font-size: 1.2rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5%;
+  background-color: rgba(4, 69, 129, 0.925);
+  
+}
+  div .footer a {
+    color:rgba(255, 255, 255, 0.6);
+    text-decoration: none; 
+  }
+
 /* ============== backToTop Stylings ================================= */
 .goTop {
   border-radius: 50%;
@@ -182,8 +200,8 @@ team-logo {
   width: 65px;
   height: 65px;
   display: block;
-  right: 15px;
-  bottom: 15px;
+  right: 20px;
+  bottom: 45px;
   border: none;
   opacity: 0;
   z-index: -1;
