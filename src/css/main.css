@@ -252,14 +252,14 @@ div .footer a img {
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 900px) {
   /* For mobile phones: */
   .footer {
     font-size: 0.7rem;
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 900px) {
   div .footer a img {
     width: 20px;
     max-height: 20px;
