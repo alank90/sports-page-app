@@ -205,6 +205,40 @@ div .footer a img {
   width: 50px;
 }
 
+/* ============= Spinner Stylings ================================ */
+@-webkit-keyframes spinner {
+  /* For Safari */
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.spin-it {
+  -webkit-animation: spinner 1s linear infinite; /* Safari */
+  animation: spinner 1s linear infinite;
+}
+
+.fa-spinner {
+  color: #077784;
+  font-size: 1.7rem;
+}
+
+/* ============= End Spinner Stylings ============================ */
+
 /* ============== backToTop Stylings ================================= */
 .goTop {
   background-color: #010e1b;
@@ -272,7 +306,7 @@ div .footer a img {
   div .footer a[href="https://www.mlb.com"]:hover,
   div .footer a[href="https://www.nfl.com"]:hover,
   div .footer a[href="https://www.nba.com"]:hover {
-  font-size: 0.75rem;
+    font-size: 0.75rem;
   }
 }
 
