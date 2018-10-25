@@ -18,14 +18,14 @@ const imageminPngquant = require("imagemin-pngquant");
 const imageminGifSicle = require("imagemin-gifsicle");
 
 // ============= Using rimraf to clean up any existing build ============================== //
-require("rimraf")("./dist", function () {
+require("rimraf")("./dist", function() {
   // and then start rebuilding everything from scratch
-  mkdirp("./dist/css", function (err) {
+  mkdirp("./dist/css", function(err) {
     if (err) {
       console.error(err);
     } else {
       /* jshint ignore:start */
-      const uglifyJS = async function () {
+      const uglifyJS = async function() {
         try {
           console.log("main.css: build and uglify");
           let uglified = require("uglifycss").processFiles(
@@ -49,9 +49,9 @@ require("rimraf")("./dist", function () {
       // ===========  Build the browserify bundle using the browserify api ========== //
       // First check if index.js exists
       /* jshint ignore:start */
-      const browserifyJS = async function (result) {
+      const browserifyJS = async function(result) {
         try {
-          console.log(result); // output result from previous async function uglifyJS 
+          console.log(result); // output result from previous async function uglifyJS
           console.log("Checking for index.js");
           await open("index.js", "r");
           console.log("/dist/index.js: build and uglify");
@@ -75,15 +75,15 @@ require("rimraf")("./dist", function () {
 
       // ================== compressImages ========================================= //
       /* jshint ignore:start */
-      const compressImages = async function (result) {
+      const compressImages = async function(result) {
         console.log(result);
-        fs.readdir("src/img", function (err, files) {
+        fs.readdir("src/img", function(err, files) {
           if (err) {
             return `Alert! Check if the directory src/img exists. ${err}`;
           } else if (files.length === 0) {
             return "images: No images found.";
           } else {
-            mkdirp("./dist/img", function (err) {
+            mkdirp("./dist/img", function(err) {
               if (err) {
                 return err;
               } else {
@@ -104,13 +104,31 @@ require("rimraf")("./dist", function () {
       /* jshint ignore:end */
       // ========= End compressImages Function ==================== //
 
-      // ============ Copy index.html to dist/index.html(copyIndexHtml) ============ //
+      // ============ Copy index.html & /js  to /dist(copyIndexHtml) ============ //
       /* jshint ignore:start */
-      const copyIndexFile = async function (result) {
+      const copyIndexFile = async function(result) {
         try {
           console.log(result);
+          // Copy index.html to /dist
           await access("./index.html", fs.constants.R_OK | fs.constants.W_OK);
           await copyFile("./index.html", "./dist/index.html");
+
+          // Copy /src/js directory to /dist
+          fs.readdir("src/js", function(err, files) {
+            if (err) {
+              return `Alert! Check if the directory src/img exists. ${err}`;
+            } else if (files.length === 0) {
+              return "JavaScript: No Components or Modules found!";
+            } else {
+              mkdirp("./dist/js", function(err) {
+                if (err) {
+                  return err;
+                } else {
+                  console.log("Need to copy js files here!!");
+                }
+              });
+            }
+          });
         } catch (err) {
           console.log("ERROR:", err);
         }
@@ -123,7 +141,7 @@ require("rimraf")("./dist", function () {
       // ====== getData (Read data from dist/index.html) =============== //
 
       /* jshint ignore:start */
-      const getData = async function (result) {
+      const getData = async function(result) {
         console.log(result);
 
         // Lets update dist/index.html file src and href links to reflect new location
@@ -153,20 +171,20 @@ require("rimraf")("./dist", function () {
           await writeFile("dist/index.html", distIndexHtml, "utf8");
 
           // Confirm Write to index.html
-          fs.stat("./dist/index.html", function (err, stats) {
+          fs.stat("./dist/index.html", function(err, stats) {
             if (err) {
               console.log(`Error: ${err}`);
             } else if (stats.size === 0) {
               console.log(`Error copying index.html!!!!!!`);
             } else {
               console.log(
-                `Successfully copied to dist\index.html. File size is ${
-                stats.size
+                `Successfully copied to dist/index.html. File size is ${
+                  stats.size
                 }`
               );
             }
           });
-          return `======== Updated ./src and ./href links to show new /dist folder(getData). 
+          return `======== Updated src and href attributes to show new /dist folder(getData). 
           Completed Successfully! ==========`;
         } catch (err) {
           return console.log("ERROR:", err);
@@ -178,7 +196,7 @@ require("rimraf")("./dist", function () {
 
       //  ============= backgroundImgUrl =============================== //
       /* jshint ignore:start */
-      const backgroundImgUrl = async function (result) {
+      const backgroundImgUrl = async function(result) {
         console.log(result);
 
         try {
@@ -216,7 +234,7 @@ require("rimraf")("./dist", function () {
       // ================ Start MiscOperations =============================== //
 
       /* jshint ignore:start */
-      const miscOperations = async function (result) {
+      const miscOperations = async function(result) {
         console.log(result);
         try {
           // Copy CNAME to /dist folder
@@ -283,7 +301,7 @@ require("rimraf")("./dist", function () {
           console.log(result);
           console.log("Build Process Completed...");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.err(error);
         });
     } // mkdirp else end
