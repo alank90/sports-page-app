@@ -85,6 +85,21 @@ git commit -m "Removed Directory from Git Tracking"
 Step 4. Push your changes to your git repo.
 git push 
 
+======================= Git Tags from https://git-scm.com/book/en/v2/Git-Basics-Tagging ========================
+# List Tags
+$ git tag
+
+# Annotated Tags
+$ git tag -a v1.4 -m "my version 1.4"
+
+# Lightweight Tags 
+$ git tag v1.4-lw
+
+# Pushing Tags (Not done automatically to remote server)
+$ git push origin v1.5
+
+
+
 =============================================================================================================
 ========================= NPM Commands ======================================================================
 =============================================================================================================
