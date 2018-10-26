@@ -18,14 +18,14 @@ const imageminPngquant = require("imagemin-pngquant");
 const imageminGifSicle = require("imagemin-gifsicle");
 
 // ============= Using rimraf to clean up any existing build ============================== //
-require("rimraf")("./dist", function () {
+require("rimraf")("./dist", function() {
   // and then start rebuilding everything from scratch
-  mkdirp("./dist/css", function (err) {
+  mkdirp("./dist/css", function(err) {
     if (err) {
       console.error(err);
     } else {
       /* jshint ignore:start */
-      const uglifyJS = async function () {
+      const uglifyJS = async function() {
         try {
           console.log("main.css: build and uglify");
           let uglified = require("uglifycss").processFiles(
@@ -49,9 +49,9 @@ require("rimraf")("./dist", function () {
       // ===========  Build the browserify bundle using the browserify api ========== //
       // First check if index.js exists
       /* jshint ignore:start */
-      const browserifyJS = async function (result) {
+      const browserifyJS = async function(result) {
         try {
-          console.log(result); // output result from previous async function uglifyJS 
+          console.log(result); // output result from previous async function uglifyJS
           console.log("Checking for index.js");
           await open("index.js", "r");
           console.log("/dist/index.js: build and uglify");
@@ -75,19 +75,19 @@ require("rimraf")("./dist", function () {
 
       // ================== compressImages ========================================= //
       /* jshint ignore:start */
-      const compressImages = async function (result) {
+      const compressImages = async function(result) {
         console.log(result);
-        fs.readdir("src/img", function (err, files) {
+        fs.readdir("src/img", function(err, files) {
           if (err) {
             return `Alert! Check if the directory src/img exists. ${err}`;
           } else if (files.length === 0) {
             return "images: No images found.";
           } else {
-            mkdirp("./dist/img", function (err) {
+            mkdirp("./dist/img", function(err) {
               if (err) {
                 return err;
               } else {
-                imagemin(["src/img/*.{jpg,png,gif}"], "dist/img", {
+                imagemin(["src/img/*.{jpg,png,gif,svg}"], "dist/img", {
                   plugins: [
                     imageminJpegtran(),
                     imageminPngquant({ quality: "65-80" }),
@@ -106,7 +106,7 @@ require("rimraf")("./dist", function () {
 
       // ============ Copy index.html to dist/index.html(copyIndexHtml) ============ //
       /* jshint ignore:start */
-      const copyIndexFile = async function (result) {
+      const copyIndexFile = async function(result) {
         try {
           console.log(result);
           await access("./index.html", fs.constants.R_OK | fs.constants.W_OK);
@@ -123,7 +123,7 @@ require("rimraf")("./dist", function () {
       // ====== getData (Read data from dist/index.html) =============== //
 
       /* jshint ignore:start */
-      const getData = async function (result) {
+      const getData = async function(result) {
         console.log(result);
 
         // Lets update dist/index.html file src and href links to reflect new location
@@ -153,7 +153,7 @@ require("rimraf")("./dist", function () {
           await writeFile("dist/index.html", distIndexHtml, "utf8");
 
           // Confirm Write to index.html
-          fs.stat("./dist/index.html", function (err, stats) {
+          fs.stat("./dist/index.html", function(err, stats) {
             if (err) {
               console.log(`Error: ${err}`);
             } else if (stats.size === 0) {
@@ -161,7 +161,7 @@ require("rimraf")("./dist", function () {
             } else {
               console.log(
                 `Successfully copied to dist\index.html. File size is ${
-                stats.size
+                  stats.size
                 }`
               );
             }
@@ -178,7 +178,7 @@ require("rimraf")("./dist", function () {
 
       //  ============= backgroundImgUrl =============================== //
       /* jshint ignore:start */
-      const backgroundImgUrl = async function (result) {
+      const backgroundImgUrl = async function(result) {
         console.log(result);
 
         try {
@@ -213,10 +213,55 @@ require("rimraf")("./dist", function () {
       /* jshint ignore:end */
       // ============ End backgroundImgUrl ==================================== //
 
+      // ================= Update index.js src and href links ================= //
+      /* jshint ignore:start */
+      const updateIndexJS = async function(result) {
+        console.log(result);
+        try {
+          // Check dist/index.js and change src and href values to reflect move to /dist directory
+          console.log(
+            "index.js: Redoing src and href links to reflect move to /dist folder."
+          );
+
+          // Grab contents of main.css, update and write back to disk
+          const readIndexJSFile = await readFile("dist/index.js", "utf8");
+          // check and replace href and src attribute values in dist/index.js
+          // check and replace both src= and href= links to reflect chenge to dist/ folder
+          // Notice we chained .replace to do it
+          const regEx1 = /src\s*=\s*"\.\/src\//gi;
+          const regEx2 = /src\s*=\s*'\.\/src\//gi;
+          const regEx3 = /href\s*=\s*"\.\/src\//gi;
+          const regEx4 = /href\s*=\s*'\.\/src\//gi;
+
+          if (
+            regEx1.test(readIndexJSFile) ||
+            regEx2.test(readIndexJSFile) ||
+            regEx3.test(readIndexJSFile) ||
+            regEx4.test(readIndexJSFile)
+          ) {
+            let distIndexJSFile = readIndexJSFile
+              .replace(regEx1, 'src="./')
+              .replace(regEx2, "src='./")
+              .replace(regEx3, 'href="./')
+              .replace(regEx4, "href='./");
+
+            // Write Updated Index.js back to disk
+            await writeFile("dist/index.js", distIndexJSFile, "utf8");
+            return "Updated dist/index.js src and href attribute values Successfully!!! ";
+          } else {
+            return "Alert! No src or href to change in index.js file";
+          }
+        } catch (err) {
+          return console.log("ERROR:", err);
+        }
+      };
+      /* jshint ignore:end */
+      // ================= End Update index.js ================================ //
+
       // ================ Start MiscOperations =============================== //
 
       /* jshint ignore:start */
-      const miscOperations = async function (result) {
+      const miscOperations = async function(result) {
         console.log(result);
         try {
           // Copy CNAME to /dist folder
@@ -277,13 +322,16 @@ require("rimraf")("./dist", function () {
           return backgroundImgUrl(result);
         })
         .then(result => {
+          return updateIndexJS(result);
+        })
+        .then(result => {
           return miscOperations(result);
         })
         .then(result => {
           console.log(result);
           console.log("Build Process Completed...");
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.err(error);
         });
     } // mkdirp else end
