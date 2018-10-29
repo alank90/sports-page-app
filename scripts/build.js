@@ -1,6 +1,7 @@
 const fs = require("fs");
 const copydir = require("copy-dir");
 const { promisify } = require("util");
+const updateLinks = require("./updateLinks");
 
 // Convert node fs methods w/callbacks to promises with .then
 const access = promisify(fs.access);
@@ -120,60 +121,20 @@ require("rimraf")("./dist", function() {
 
       // ================== End copyIndexFile ================ //
 
-      // ====== getData (Read data from dist/index.html) =============== //
-
+      // ====== updateLinks (Read and update links from dist/index.html and main.css if necessary) ============ //
       /* jshint ignore:start */
-      const getData = async function(result) {
-        console.log(result);
-
-        // Lets update dist/index.html file src and href links to reflect new location
-        console.log(
-          "index.html: Redoing file links to reflect move to /dist folder."
-        );
+      const UpdateFileLinks = async function(result) {
         try {
-          const fileContents = await readFile("dist/index.html", {
-            encoding: "utf8"
-          });
-
-          // check and replace both src= and href= links to reflect chenge to dist/ folder
-          // Notice we chained .replace to do it
-          const regEx1 = /src\s*=\s*"\.\/src\//gi;
-          const regEx2 = /src\s*=\s*'\.\/src\//gi;
-          const regEx3 = /href\s*=\s*"\.\/src\//gi;
-          const regEx4 = /href\s*=\s*'\.\/src\//gi;
-
-          let distIndexHtml = fileContents
-            .replace(regEx1, 'src="./')
-            .replace(regEx2, "src='./")
-            .replace(regEx3, 'href="./')
-            .replace(regEx4, "href='./");
-
-          // Write updated links to ./dist/index.html
-          // console.log("distIndexHtml: " + distIndexHtml);
-          await writeFile("dist/index.html", distIndexHtml, "utf8");
-
-          // Confirm Write to index.html
-          fs.stat("./dist/index.html", function(err, stats) {
-            if (err) {
-              console.log(`Error: ${err}`);
-            } else if (stats.size === 0) {
-              console.log(`Error copying index.html!!!!!!`);
-            } else {
-              console.log(
-                `Successfully copied to dist\index.html. File size is ${
-                  stats.size
-                }`
-              );
-            }
-          });
-          return `======== Updated ./src and ./href links to show new /dist folder(getData). 
-          Completed Successfully! ==========`;
+          console.log(result);
+          updateLinks("index.html");
+          updateLinks("main.css");
+          return "==== Index.html and/or main.css links updated ok!!! ======";
         } catch (err) {
-          return console.log("ERROR:", err);
+          console.log("ERROR:", err);
         }
       };
-      /* jshint ignore:end */
 
+      /* jshint ignore:end */
       // =================== End getData =============================== //
 
       //  ============= backgroundImgUrl =============================== //
@@ -247,6 +208,7 @@ require("rimraf")("./dist", function() {
 
             // Write Updated Index.js back to disk
             await writeFile("dist/index.js", distIndexJSFile, "utf8");
+            await updateLinks("index.js");
             return "Updated dist/index.js src and href attribute values Successfully!!! ";
           } else {
             return "Alert! No src or href to change in index.js file";
@@ -316,13 +278,16 @@ require("rimraf")("./dist", function() {
           return copyIndexFile(result);
         })
         .then(result => {
-          return getData(result);
+          return UpdateFileLinks(result);
         })
         .then(result => {
           return backgroundImgUrl(result);
         })
         .then(result => {
-          return updateIndexJS(result);
+          console.log("Pause for index.js to bundle");
+          setTimeout(() => {
+            return updateIndexJS(result);
+          }, 7000);
         })
         .then(result => {
           return miscOperations(result);
