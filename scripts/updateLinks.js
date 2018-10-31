@@ -7,7 +7,7 @@ const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 // End promise conversions
 
-const checkMark = '\u2714';
+const checkMark = "\u2714";
 
 /* jshint ignore:start */
 const updateLinks = async function(file) {

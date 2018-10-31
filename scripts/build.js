@@ -239,7 +239,8 @@ require("rimraf")("./dist", function() {
         .then(result => {
           console.log(result);
           console.log(`Pause for index.js to bundle and finish \u270B`);
-          setTimeout(() => {  // I know this is a kludge!!
+          setTimeout(() => {
+            // I know this is a kludge!!
             return UpdateFileLinks();
           }, 7000);
         })
