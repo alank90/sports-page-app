@@ -11,6 +11,8 @@ const mlbComponent = require("./components/mlbComponent");
 const nflComponent = require("./components/nflComponent");
 const nbaComponent = require("./components/nbaComponent");
 
+Vue.config.productionTip = false;
+
 // Axios config object. Sent with Get request
 const config = {
   // `headers` are custom headers to be sent
