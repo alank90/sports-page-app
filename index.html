@@ -53,13 +53,16 @@
             <!--  ==== v-bind:is tells us what component to use i.e. mlb-tab  
                         Important. Must use kebab case for v-bind baseballData attribute
                         because html is case insensitive and we used camelCase for
-                        variable names in component.
+                        variable names in component. <keep-alive> caches components once
+                        rendered. Here it works out good.
             -->
-            <component v-bind:is="currentTabComponent" v-bind:props_league_data="sports_feeds_data"
-                v-bind:props_league_data_nfl="nfl_feeds" v-bind:props_league_standings="standings"
-                v-bind:props_baseball_playoffs="baseball_playoffs" v-bind:props_nfl_playoffs="nfl_playoffs"
-                v-bind:props_basketball_playoffs="basketball_playoffs" v-bind:props_end_of_season="end_of_season" class="tab">
-            </component>
+            <keep-alive>
+                <component v-bind:is="currentTabComponent" v-bind:props_league_data="sports_feeds_data"
+                    v-bind:props_league_data_nfl="nfl_feeds" v-bind:props_league_standings="standings"
+                    v-bind:props_baseball_playoffs="baseball_playoffs" v-bind:props_nfl_playoffs="nfl_playoffs"
+                    v-bind:props_basketball_playoffs="basketball_playoffs" v-bind:props_end_of_season="end_of_season" class="tab">
+                </component>
+            </keep-alive>
 
             <!-- ------------------------------------------------------------------------------------------- -->
 
