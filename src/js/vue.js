@@ -78,12 +78,12 @@ new Vue({
     };
   },
   computed: {
-    currentTabComponent: function () {
+    currentTabComponent: function() {
       return "tab-" + this.currentTab.toLowerCase();
     }
   },
   methods: {
-    getSportsData: function (tab) {
+    getSportsData: function(tab) {
       let url = "";
       let leagueStandings = [];
       let seasonName = "";
@@ -124,7 +124,7 @@ new Vue({
         axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${
-            date.yesterday
+              date.yesterday
             }`,
             config
           )
@@ -283,7 +283,7 @@ new Vue({
         axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${
-            date.yesterday
+              date.yesterday
             }`,
             config
           )
