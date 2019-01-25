@@ -146,6 +146,7 @@ new Vue({
         // ================================================================================== //
         // Check if it's the Regular Season. If not Do Nothing. The API is garbage for
         // playoff standings
+
         if (date.yesterday < `${date.year}1001`) {
           seasonName = `${date.year}-regular`;
           teamStats = `W,L,GB,Win %`;
@@ -254,7 +255,13 @@ new Vue({
       } else if (this.currentTab === "NBA") {
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
-        let startOfSeasonYear = "";
+        let startOfSeasonYear = date.year;
+        if (
+          date.today > `${date.year - 1}1231` &&
+          date.today < `${date.year}0701`
+        ) {
+          startOfSeasonYear = startOfSeasonYear - 1;
+        }
         // reset axios config parameters
         config.params = {
           force: true
@@ -264,13 +271,11 @@ new Vue({
         // ========================================================================= //
 
         // Check if it's the Regular or Post Season ================= //
-        if (date.yesterday > `${date.year}1015`) {
-          // Note: Change startOfSeasonYear on every new season !!!!!!!!! ======= //
-          startOfSeasonYear = 2018;
+        if ((date.today > `${startOfSeasonYear}1015`) && (date.today < `${startOfSeasonYear + 1}0412`)){
           seasonName = `${startOfSeasonYear}-${startOfSeasonYear + 1}-regular`;
         } else if (
-          date.yesterday > `${date.year}0412` &&
-          date.yesterday < `${date.year}0607`
+          date.yesterday > `${startOfSeasonYear + 1}0412` &&
+          date.yesterday < `${startOfSeasonYear + 1}0607`
         ) {
           seasonName = `${startOfSeasonYear}-playoff`;
           config.params = "";
@@ -304,15 +309,13 @@ new Vue({
         // =========================== Get NBA Standings ==================================== //
         // ================================================================================== //
         // Check if it's the Regular or Post Season
-        if (date.yesterday > `${date.year}1015`) {
-          // Note: Change startOfSeasonYear on every new season !!!!!!!!! ======= //
-          startOfSeasonYear = `2018`;
+        if (date.yesterday > `${startOfSeasonYear}1015`) {
           seasonName = `${startOfSeasonYear}-${startOfSeasonYear + 1}-regular`;
           teamStats = `W,L,GB,Win %`;
           typeOfStandings = "division_team_standings";
         } else if (
-          date.yesterday > `${date.year}0412` &&
-          date.yesterday < `${date.year}0607`
+          date.yesterday > `${startOfSeasonYear + 1}0412` &&
+          date.yesterday < `${startOfSeasonYear + 1}0607`
         ) {
           seasonName = `${date.year}-playoff`;
           this.basketball_playoffs = true;
@@ -322,6 +325,7 @@ new Vue({
         } else {
           console.log("End of Basketball Season. See you next year!");
         }
+
         url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/${typeOfStandings}.json?teamstats=${teamStats}`;
         /* jshint ignore:start */
         // Note: We use the arrow function here because "this" is defined by where
