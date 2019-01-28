@@ -11,7 +11,7 @@ const mlbComponent = require("./components/mlbComponent");
 const nflComponent = require("./components/nflComponent");
 const nbaComponent = require("./components/nbaComponent");
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 
 // Axios config object. Sent with Get request
 const config = {
@@ -172,6 +172,18 @@ new Vue({
         // ================== else check if the NFL ======================================== //
         // ================================================================================= //
       } else if (this.currentTab === "NFL") {
+        // First set regular season start and end dates
+        const regularSeasonStartDate = "20180907";
+        const regularSeasonEndDate = "20181231";
+        const superbowlDate = "20190124";
+
+        // Check if it is the Off-Season
+        if (date.today > superbowlDate) {
+          console.log("End of Football Season. See you next year!");
+          this.end_of_season = true;
+          return;
+        }
+
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         // reset axios config parameters
@@ -179,22 +191,36 @@ new Vue({
           force: true
         };
 
+        // Set API call for regular or playoff season
+        /* let startOfSeasonYear = date.year;
+        if (
+          date.today >= `${regularSeasonStartDate}` &&
+          date.today <= `${regularSeasonEndDate}`
+        ) {
+          startOfSeasonYear = date.year;
+        } else if (
+          date.today > `${regularSeasonEndDate}` &&
+          date.today <= superbowlDate
+        ) {
+          startOfSeasonYear = startOfSeasonYear - 1;
+        } */
+
         // ===================== Get Sunday NFL Scores ======================= //
         // Check if it's the Regular or Post Season ===================== //
-        if (date.yesterday > `${date.year}0907`) {
+        if (
+          date.yesterday >= `${regularSeasonStartDate}` &&
+          date.yesterday <= `${regularSeasonEndDate}`
+        ) {
           seasonName = `${date.year}-regular`;
         } else if (
-          date.yesterday > `${date.year}0104` &&
-          date.yesterday < `${date.year}0204`
+          date.yesterday > `${regularSeasonEndDate}` &&
+          date.yesterday < `${superbowlDate}`
         ) {
           seasonName = `${date.year}-playoff`;
           config.params = "";
           this.nfl_playoffs = true;
-        } else {
-          console.log("End of Football Season. See you next year!");
-          this.end_of_season = true;
-          return;
         }
+
         /* jshint ignore:start */
         const sundayNFLScores = async () => {
           this.nfl_feeds.sunday_data = await getScores(
@@ -205,7 +231,9 @@ new Vue({
         };
         /* jshint ignore:end */
 
-        sundayNFLScores(); // Always call Sunday Scores Regular or Playoffs.
+        if (date.today <= superbowlDate) {
+          sundayNFLScores(); // Always call Sunday Scores Regular or Playoffs.
+        }
 
         // ================= Get Thursday NFL Scores ========================= //
         /* jshint ignore:start */
@@ -271,7 +299,10 @@ new Vue({
         // ========================================================================= //
 
         // Check if it's the Regular or Post Season ================= //
-        if ((date.today > `${startOfSeasonYear}1015`) && (date.today < `${startOfSeasonYear + 1}0412`)){
+        if (
+          date.today > `${startOfSeasonYear}1015` &&
+          date.today < `${startOfSeasonYear + 1}0412`
+        ) {
           seasonName = `${startOfSeasonYear}-${startOfSeasonYear + 1}-regular`;
         } else if (
           date.yesterday > `${startOfSeasonYear + 1}0412` &&
