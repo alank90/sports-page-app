@@ -4,7 +4,7 @@ const Vue = require("vue");
 
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
-    props: ["props_league_data_nfl", "props_league_standings","props_nfl_playoffs"],
+    props: ["props_league_data_nfl", "props_league_standings","props_nfl_playoffs", "props_end_of_season"],
     data: function() {
       return {
         nfl_days: ["Sunday", "Thursday Night", "Monday Night"]
@@ -13,7 +13,10 @@ const nfl = {
     template: `
             <div class="vue-root-element">
                 <!-- ============== Markup for Divional/Regular Season Scores =============== -->
-                <div class="container">
+                <div v-if="props_end_of_season" class="container">
+                    <h3> End of Football Season. See you in the Fall </h3>
+                </div>
+                <div v-else class="container">
                     <div v-for="(dayDataArray, key, index) in props_league_data_nfl">
                     <!-- v-if prevents Vue from trying to access daydataArray before it has become populated -->
                     <h2> {{ nfl_days[index] }} <span v-if="dayDataArray.length" class="week">(Week {{ dayDataArray[0].game.week }})</span></h2>

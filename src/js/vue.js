@@ -173,13 +173,38 @@ new Vue({
         // ================================================================================= //
       } else if (this.currentTab === "NFL") {
         // First set regular season start and end dates
-        const regularSeasonStartDate = "20180907";
-        const regularSeasonEndDate = "20181231";
-        const superbowlDate = "20190124";
+        const regularSeasonStartDate = "20190905";
+        const regularSeasonEndDate = "20191230";
+        let superbowlDate = new Date(2019, 1, 3); // Feb 03 2019
+        let superbowlOffsetDate = new Date();
+        const daysToMilliseconds = 3600 * 24 * 7 * 1000;
+        superbowlOffsetDate.setTime(superbowlDate - daysToMilliseconds);
 
         // Check if it is the Off-Season
-        if (date.today > superbowlDate) {
+        if (
+          date.today >
+            superbowlDate
+              .toISOString()
+              .substring(0, 10)
+              .replace(/-/g, "") &&
+          date.today < regularSeasonStartDate
+        ) {
           console.log("End of Football Season. See you next year!");
+          this.end_of_season = true;
+          return;
+        } else if (
+          date.today >=
+            superbowlOffsetDate
+              .toISOString()
+              .substring(0, 10)
+              .replace(/-/g, "") &&
+          date.today <=
+            superbowlDate
+              .toISOString()
+              .substring(0, 10)
+              .replace(/-/g, "")
+        ) {
+          console.log(`Super Bowl on ${superbowlDate}. See you there!`);
           this.end_of_season = true;
           return;
         }
@@ -190,20 +215,6 @@ new Vue({
         config.params = {
           force: true
         };
-
-        // Set API call for regular or playoff season
-        /* let startOfSeasonYear = date.year;
-        if (
-          date.today >= `${regularSeasonStartDate}` &&
-          date.today <= `${regularSeasonEndDate}`
-        ) {
-          startOfSeasonYear = date.year;
-        } else if (
-          date.today > `${regularSeasonEndDate}` &&
-          date.today <= superbowlDate
-        ) {
-          startOfSeasonYear = startOfSeasonYear - 1;
-        } */
 
         // ===================== Get Sunday NFL Scores ======================= //
         // Check if it's the Regular or Post Season ===================== //
