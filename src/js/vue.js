@@ -3,6 +3,7 @@
 const Vue = require("vue");
 const helperComponent = require("./components/topHelperComponent");
 const axios = require("axios");
+const league = require("./modules/seasonDates");
 const date = require("./modules/todayDate");
 const nflDate = require("./modules/nflDate");
 const getStandings = require("./modules/getStandings");
@@ -60,7 +61,11 @@ new Vue({
       baseball_playoffs: false,
       basketball_playoffs: false,
       nfl_playoffs: false,
-      end_of_season: false,
+      end_of_season: {
+        mlb: false,
+        nfl: false,
+        nba: false
+      },
       nfl_feeds: {
         sunday_data: [],
         thurs_data: [],
@@ -91,6 +96,7 @@ new Vue({
       let typeOfStandings = "";
       this.currentTab = tab; // Set the currentTab
 
+      
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
       if (this.currentTab === "MLB") {
@@ -106,18 +112,21 @@ new Vue({
         // ========================================================================= //
 
         // Check if it's the Regular or Post Season ===================== //
-        if (date.yesterday < `${date.year}1001`) {
+        if (
+          date.yesterday > league.mlb.regularSeasonStartDate &&
+          date.yesterday <= league.mlb.regularSeasonEndDate
+        ) {
           seasonName = `${date.year}-regular`;
         } else if (
-          date.yesterday > `${date.year}1001` &&
-          date.yesterday < `${date.year}1101`
+          date.yesterday > `${league.mlb.playoffsBeginDate}` &&
+          date.yesterday < `${league.mlb.playoffsEndDate}`
         ) {
           seasonName = `${date.year}-playoff`;
           config.params = "";
           this.baseball_playoffs = true;
         } else {
           this.loading = false;
-          this.end_of_season = true;
+          this.end_of_season.mlb = true; // trouble here !!!!!!!!!
           return;
         }
 
@@ -147,7 +156,7 @@ new Vue({
         // Check if it's the Regular Season. If not Do Nothing. The API is garbage for
         // playoff standings
 
-        if (date.yesterday < `${date.year}1001`) {
+        if (date.yesterday < `${league.mlb.regularSeasonEndDate}`) {
           seasonName = `${date.year}-regular`;
           teamStats = `W,L,GB,Win %`;
           typeOfStandings = "division_team_standings";
@@ -172,40 +181,38 @@ new Vue({
         // ================== else check if the NFL ======================================== //
         // ================================================================================= //
       } else if (this.currentTab === "NFL") {
-        // First set regular season start and end dates
-        const regularSeasonStartDate = "20190905";
-        const regularSeasonEndDate = "20191230";
-        let superbowlDate = new Date(2019, 1, 3); // Feb 03 2019
-        let superbowlOffsetDate = new Date();
-        const daysToMilliseconds = 3600 * 24 * 7 * 1000;
-        superbowlOffsetDate.setTime(superbowlDate - daysToMilliseconds);
+        league.nfl.superbowlOffsetDate.setTime(
+          league.nfl.superbowlDate - league.nfl.daysToMilliseconds
+        );
 
         // Check if it is the Off-Season
         if (
           date.today >
-            superbowlDate
+            league.nfl.superbowlDate
               .toISOString()
               .substring(0, 10)
               .replace(/-/g, "") &&
-          date.today < regularSeasonStartDate
+          date.today < league.nfl.regularSeasonStartDate
         ) {
           console.log("End of Football Season. See you next year!");
-          this.end_of_season = true;
+          this.end_of_season.nfl = true;
           return;
         } else if (
           date.today >=
-            superbowlOffsetDate
+            league.nfl.superbowlOffsetDate
               .toISOString()
               .substring(0, 10)
               .replace(/-/g, "") &&
           date.today <=
-            superbowlDate
+            league.nfl.superbowlDate
               .toISOString()
               .substring(0, 10)
               .replace(/-/g, "")
         ) {
-          console.log(`Super Bowl on ${superbowlDate}. See you there!`);
-          this.end_of_season = true;
+          console.log(
+            `Super Bowl on ${league.nfl.superbowlDate}. See you there!`
+          );
+          this.end_of_season.nfl = true;
           return;
         }
 
@@ -219,13 +226,13 @@ new Vue({
         // ===================== Get Sunday NFL Scores ======================= //
         // Check if it's the Regular or Post Season ===================== //
         if (
-          date.yesterday >= `${regularSeasonStartDate}` &&
-          date.yesterday <= `${regularSeasonEndDate}`
+          date.yesterday >= `${league.nfl.regularSeasonStartDate}` &&
+          date.yesterday <= `${league.nfl.regularSeasonEndDate}`
         ) {
           seasonName = `${date.year}-regular`;
         } else if (
-          date.yesterday > `${regularSeasonEndDate}` &&
-          date.yesterday < `${superbowlDate}`
+          date.yesterday > `${league.nfl.regularSeasonEndDate}` &&
+          date.yesterday < `${league.nfl.superbowlDate}`
         ) {
           seasonName = `${date.year}-playoff`;
           config.params = "";
@@ -242,7 +249,7 @@ new Vue({
         };
         /* jshint ignore:end */
 
-        if (date.today <= superbowlDate) {
+        if (date.today <= league.nfl.superbowlDate) {
           sundayNFLScores(); // Always call Sunday Scores Regular or Playoffs.
         }
 
@@ -294,13 +301,7 @@ new Vue({
       } else if (this.currentTab === "NBA") {
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
-        let startOfSeasonYear = date.year;
-        if (
-          date.today > `${date.year - 1}1231` &&
-          date.today < `${date.year}0701`
-        ) {
-          startOfSeasonYear = startOfSeasonYear - 1;
-        }
+
         // reset axios config parameters
         config.params = {
           force: true
@@ -311,19 +312,20 @@ new Vue({
 
         // Check if it's the Regular or Post Season ================= //
         if (
-          date.today > `${startOfSeasonYear}1015` &&
-          date.today < `${startOfSeasonYear + 1}0412`
+          date.today > `${league.nba.regularSeasonStartDate}` &&
+          date.today < `${league.nba.regularSeasonEndDate}`
         ) {
-          seasonName = `${startOfSeasonYear}-${startOfSeasonYear + 1}-regular`;
+          seasonName = `${league.nba.startOfRegularSeasonYear()}-${league.nba.startOfRegularSeasonYear() +
+            1}-regular`;
         } else if (
-          date.yesterday > `${startOfSeasonYear + 1}0412` &&
-          date.yesterday < `${startOfSeasonYear + 1}0607`
+          date.yesterday > `${league.nba.playoffsBeginDate}` &&
+          date.yesterday < `${league.nba.playoffsEndDate}`
         ) {
-          seasonName = `${startOfSeasonYear}-playoff`;
+          seasonName = `${league.nba.startOfRegularSeasonYear() + 1}-playoff`;
           config.params = "";
         } else {
           console.log("End of Basketball Season. See you next year!");
-          this.end_of_season = true;
+          this.end_of_season.nba = true;
           return;
         }
 
@@ -351,13 +353,17 @@ new Vue({
         // =========================== Get NBA Standings ==================================== //
         // ================================================================================== //
         // Check if it's the Regular or Post Season
-        if (date.yesterday > `${startOfSeasonYear}1015`) {
-          seasonName = `${startOfSeasonYear}-${startOfSeasonYear + 1}-regular`;
+        if (
+          date.yesterday > `${league.nba.regularSeasonStartDate}` &&
+          date.yesterday < `${league.nba.regularSeasonEndDate}`
+        ) {
+          seasonName = `${league.nba.startOfRegularSeasonYear()}-${league.nba.startOfRegularSeasonYear() +
+            1}-regular`;
           teamStats = `W,L,GB,Win %`;
           typeOfStandings = "division_team_standings";
         } else if (
-          date.yesterday > `${startOfSeasonYear + 1}0412` &&
-          date.yesterday < `${startOfSeasonYear + 1}0607`
+          date.yesterday > `${league.nba.playoffsBeginDate}` &&
+          date.yesterday < `${league.nba.playoffsEndDate}`
         ) {
           seasonName = `${date.year}-playoff`;
           this.basketball_playoffs = true;
