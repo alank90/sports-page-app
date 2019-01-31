@@ -96,10 +96,16 @@ new Vue({
       let typeOfStandings = "";
       this.currentTab = tab; // Set the currentTab
 
-      
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
+
       if (this.currentTab === "MLB") {
+        // If Off-Seson skip AJAX call and just print Off-Season template
+        if (date.today <= league.mlb.regularSeasonStartDate) {
+          this.end_of_season.mlb = true; // trouble here !!!!!!!!!
+          return;
+        }
+
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         config.params = {
@@ -111,7 +117,8 @@ new Vue({
         // ============ First Get the MLB Sports Scores =========================== //
         // ========================================================================= //
 
-        // Check if it's the Regular or Post Season ===================== //
+        // Check if it's the Regular, Post Season, or Off-Season ===================== //
+
         if (
           date.yesterday > league.mlb.regularSeasonStartDate &&
           date.yesterday <= league.mlb.regularSeasonEndDate
@@ -125,8 +132,9 @@ new Vue({
           config.params = "";
           this.baseball_playoffs = true;
         } else {
-          this.loading = false;
-          this.end_of_season.mlb = true; // trouble here !!!!!!!!!
+          console.log(
+            "OOPS. Error in Baseball Offseason logic! Check your Season Dates."
+          );
           return;
         }
 
@@ -139,6 +147,7 @@ new Vue({
           )
           .then(response => {
             this.sports_feeds_data = response.data.scoreboard.gameScore;
+            this.loading = false;
           })
           .catch(error => {
             console.log(error);
@@ -299,6 +308,13 @@ new Vue({
         // ================== else check if the NBA ===================== //
         // ============================================================== //
       } else if (this.currentTab === "NBA") {
+        // first check if Off-Season and skip AJAX call
+        if (date.today > league.nba.playoffsEndDate) {
+          console.log("End of Basketball Season. See you next year!");
+          this.end_of_season.nba = true;
+          return;
+        }
+
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
 
@@ -324,8 +340,8 @@ new Vue({
           seasonName = `${league.nba.startOfRegularSeasonYear() + 1}-playoff`;
           config.params = "";
         } else {
-          console.log("End of Basketball Season. See you next year!");
-          this.end_of_season.nba = true;
+          console.log("OOPs! Error with NBA Season Dates. Please check them.");
+
           return;
         }
 
