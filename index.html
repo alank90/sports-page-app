@@ -75,10 +75,11 @@
                         because html is case insensitive and we used camelCase for
                         variable names in component. <keep-alive> caches components once
                         rendered. Here it works out good.
-            -->
+        -->
         <keep-alive>
+          <!-- === The Main Web Component ========= -->
           <component
-            v-bind:is="currentTabComponent"
+            v-bind:is="currentTabComponent"  
             v-bind:props_league_data="sports_feeds_data"
             v-bind:props_league_data_nfl="nfl_feeds"
             v-bind:props_league_standings="standings"
@@ -89,6 +90,7 @@
             class="tab"
           >
           </component>
+          <!-- === End The Main Web Component ========= -->
         </keep-alive>
 
         <!-- ------------------------------------------------------------------------------------------- -->

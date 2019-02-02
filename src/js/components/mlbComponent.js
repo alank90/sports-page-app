@@ -12,12 +12,16 @@ const mlb = {
     ],
     template: `
                 <div class="vue-root-element">
-                    <!-- Check if data returned from get request to mysportsfeeds API -->
+                    <!-- Check if data was returned from get request to mysportsfeeds API -->
                     <div v-if="props_league_data === undefined">
                         <p> No Games Yesterday</p>
                     </div>
-                    <div v-else>
+                    <!-- =========== Markup for End of Season ======= -->
+                    <div v-else-if="props_end_of_season === true">
+                        <h2> End of Baseball Season. See Ya in April!!!</h2>
+                    </div>
                     <!-- ============== Markup for Divional Regular/Playoff Season Scores =============== -->
+                    <div v-else>
                         <div class="container">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-4 col-lg-3" v-for="value in props_league_data">
@@ -65,9 +69,11 @@ const mlb = {
                                 
                             </div> <!-- End of row -->
                         </div> <!-- End container -->
-                        <!-- ============== End of Markup for Divional Regular Season Scores =============== -->
+                    <!-- ============== End of Markup for Divional Regular Season Daily Scores =============== -->
                     
                         <hr>
+            <!-- ------------------------------------------------------------------------------------------------------ -->
+                
                         <!-- ============== Markup for Regular/Divisional Season Standings =============== -->
                         <div class="container">
                             <div v-if="props_baseball_playoffs === false">
@@ -101,12 +107,7 @@ const mlb = {
                         </div> <!-- ======= End container ============ -->
                         <!-- ============== End of Markup for Divional/Regular Season Scores =============== -->
 
-                        <!-- ============== Markup for End of Season =============== -->
-                        <div v-if="props_end_of_season === true">
-                            <h2> End of Baseball Season. See Ya in April!!!</h2>
-                        </div>
-                        <!-- ============== End Markup for End of Season =============== -->
-
+                        
                     </div> <!-- End main else --> 
                      
                 </div> <!-- End Vue root -->

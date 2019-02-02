@@ -11,7 +11,16 @@ const nba = {
       "props_end_of_season"
     ],
     template: `
-                <div class="vue-root-element">
+            <div class="vue-root-element">
+                <!-- Check if data was returned from get request to mysportsfeeds API -->
+                <div v-if="props_league_data === undefined">
+                    <p> No Games Yesterday</p>
+                </div>
+                <!-- ============== Markup for End of Season =============== -->
+                <div v-else-if="props_end_of_season === true">
+                    <h3> End of Basketball Season. See Ya in October!!!</h3>
+                </div>
+                <div v-else>
                      <!-- ============== Markup for Divional Regular/Playoff Season Scores =============== -->
                     <div class="container">
                         <div class="row">
@@ -103,14 +112,10 @@ const nba = {
                     </div> <!-- ===== End container ======== -->
                     <!-- ============== End of Markup for Divional/Regular Season Standings =============== -->
 
-                    <!-- ============== Markup for End of Season =============== -->
-                        <div v-if="props_end_of_season === true">
-                            <h2> End of Basketball Season. See Ya in October!!!</h2>
-                        </div>
-                    <!-- ============== End Markup for End of Season =============== -->
+                </div <!-- End else -->
 
-                  </div> <!-- ================= End Vue root  ======================================== -->
-                ` // End Template Literal
+            </div> <!-- ================= End Vue root  ======================================== -->
+    ` // End Template Literal
   })
 };
 
