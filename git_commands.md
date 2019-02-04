@@ -8,9 +8,9 @@
 *Note- Remember to add node_modules/ directory to .gitignore file befor the commit* 
 
 ## === Checkout(Create) Local Branch and Setup Remote Repo to Track It: ===
-**$ git checkout -b <branch>**
+**$ git checkout -b [new_branch]**
 
-**$ git push -u origin <branch>**
+**$ git push -u origin [new_branch]**
 
 ## ===== Add existing remote branch to a local repo and track branch: =====
 **$ git fetch** 
