@@ -58,6 +58,7 @@ new Vue({
   data() {
     return {
       sports_feeds_data: [],
+      sports_feeds_boxscore: {},
       baseball_playoffs: false,
       basketball_playoffs: false,
       nfl_playoffs: false,
@@ -102,7 +103,7 @@ new Vue({
       if (this.currentTab === "MLB") {
         // If Off-Seson skip AJAX call and just print Off-Season template
         if (date.today <= league.mlb.regularSeasonStartDate) {
-          this.end_of_season.mlb = true; // trouble here !!!!!!!!!
+          this.end_of_season.mlb = true;
           return;
         }
 
@@ -195,14 +196,7 @@ new Vue({
         );
 
         // Check if it is the Off-Season
-        if (
-          date.today >
-            league.nfl.superbowlDate
-              .toISOString()
-              .substring(0, 10)
-              .replace(/-/g, "") &&
-          date.today < league.nfl.regularSeasonStartDate
-        ) {
+        if (date.today < league.nfl.regularSeasonStartDate) {
           console.log("End of Football Season. See you next year!");
           this.end_of_season.nfl = true;
           return;
@@ -224,6 +218,7 @@ new Vue({
           this.end_of_season.nfl = true;
           return;
         }
+        // End Check for Off-season. Continue on if it is Football Season!
 
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
@@ -358,6 +353,24 @@ new Vue({
           .catch(error => {
             console.log(error);
             this.errored = true;
+          });
+
+        // Reset config for Boxscore Query
+        config.params = {
+          teamstats: "none",
+          playerstats: "PTS,AST,REB,3PM",
+          sort: "stats.PTS.D",
+          limit: 3,
+          force: true
+        };
+        axios
+          .get(
+            `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/game_boxscore.json?gameid=20181228-DET-IND`,
+            config
+          )
+          .then(response => {
+            this.sports_feeds_boxscore = response.data.gameboxscore.game;
+            console.log(this.sports_feeds_boxscore);
           })
           .finally(() => (this.loading = false));
         // End ==== get.then ====== //
