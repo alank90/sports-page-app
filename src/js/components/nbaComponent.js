@@ -8,7 +8,8 @@ const nba = {
       "props_league_data",
       "props_league_standings",
       "props_basketball_playoffs",
-      "props_end_of_season"
+      "props_end_of_season",
+      "props_box_game_score"
     ],
     template: `
             <div class="vue-root-element">

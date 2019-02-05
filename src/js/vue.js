@@ -58,7 +58,8 @@ new Vue({
   data() {
     return {
       sports_feeds_data: [],
-      sports_feeds_boxscore: {},
+      sports_feeds_boxscore: [],
+      gameBoxScores: [],
       baseball_playoffs: false,
       basketball_playoffs: false,
       nfl_playoffs: false,
@@ -310,6 +311,9 @@ new Vue({
           return;
         }
 
+        // Variable declarations
+        let gameID = [];
+
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
 
@@ -349,6 +353,10 @@ new Vue({
           )
           .then(response => {
             this.sports_feeds_data = response.data.scoreboard.gameScore;
+            // Fill up array with all the game ID's for today's games
+            this.sports_feeds_data.forEach(function(item, index) {
+              gameID[index] = item.game.ID;
+            });
           })
           .catch(error => {
             console.log(error);
@@ -363,16 +371,30 @@ new Vue({
           limit: 3,
           force: true
         };
-        axios
+
+        gameID.forEach(function(item, index) {
+          axios
+            .get(
+              `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/game_boxscore.json?gameid=${item}`,
+              config
+            )
+            .then(response => {
+              gameBoxScores[index] = response.data.gameboxscore;
+            });
+        });
+
+        console.log(...gameBoxScores);
+        // Do a Get request for every gameID we have
+
+        /*  axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/game_boxscore.json?gameid=20181228-DET-IND`,
             config
           )
           .then(response => {
-            this.sports_feeds_boxscore = response.data.gameboxscore.game;
-            console.log(this.sports_feeds_boxscore);
+            this.sports_feeds_boxscore = response.data.gameboxscore;
           })
-          .finally(() => (this.loading = false));
+          .finally(() => (this.loading = false)); */
         // End ==== get.then ====== //
         // ================================================================================= //
         // ============================ End Get NBA Scores ================================= //
@@ -412,6 +434,8 @@ new Vue({
         };
         /* jshint ignore:end */
         leagueStandings();
+
+        this.loading = false;
         // =============================================================================== //
         // =========================== End NBA Standings ================================= //
         // =============================================================================== //
