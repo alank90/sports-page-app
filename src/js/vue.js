@@ -313,6 +313,8 @@ new Vue({
 
         // Variable declarations
         let gameID = [];
+        let nbaBoxScores = [];
+        let promises = [];
 
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
@@ -372,29 +374,19 @@ new Vue({
           force: true
         };
 
-        gameID.forEach(function(item, index) {
-          axios
-            .get(
-              `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/game_boxscore.json?gameid=${item}`,
-              config
-            )
-            .then(response => {
-              gameBoxScores[index] = response.data.gameboxscore;
-            });
+        gameID.forEach(function(item) {
+          let myUrl = `https://api.mysportsfeeds.com/v1.2/pull/nba/2018-2019-regular/game_boxscore.json?gameid=${item}, ${config}`;
+          promises.push(axios.get(myUrl));
         });
 
-        console.log(...gameBoxScores);
-        // Do a Get request for every gameID we have
+        axios.all(promises).then(function(results) {  // Problem results is empty!!!
+          results.forEach(function(response) {
+            nbaBoxScores.push(response.data.gameboxscore);
+          });
+        });
 
-        /*  axios
-          .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/game_boxscore.json?gameid=20181228-DET-IND`,
-            config
-          )
-          .then(response => {
-            this.sports_feeds_boxscore = response.data.gameboxscore;
-          })
-          .finally(() => (this.loading = false)); */
+        console.log(...nbaBoxScores);
+
         // End ==== get.then ====== //
         // ================================================================================= //
         // ============================ End Get NBA Scores ================================= //
