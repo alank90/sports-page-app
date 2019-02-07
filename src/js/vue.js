@@ -356,6 +356,7 @@ new Vue({
           .then(response => {
             this.sports_feeds_data = response.data.scoreboard.gameScore;
             // Fill up array with all the game ID's for today's games
+            // This will be used to retieve the Box Scores later
             this.sports_feeds_data.forEach(function(item, index) {
               gameID[index] = item.game.ID;
             });
@@ -385,8 +386,24 @@ new Vue({
         };
 
         gameID.forEach(function(item) {
-          let myUrl = `https://api.mysportsfeeds.com/v1.2/pull/nba/2018-2019-regular/game_boxscore.json?gameid=${item}, ${config}`;
-          promises.push(axios.get(myUrl));
+          let myUrl = `https://api.mysportsfeeds.com/v1.2/pull/nba/2018-2019-regular/game_boxscore.json?gameid=${item}`;
+          promises.push(
+            axios({
+              method: "get",
+              headers: {
+                Authorization:
+                  "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA=="
+              },
+              url: myUrl,
+              params: {
+                teamstats: "none",
+                playerstats: "PTS,AST,REB,3PM",
+                sort: "stats.PTS.D",
+                limit: 3,
+                force: true
+              }
+            })
+          );
         });
 
         axios.all(promises).then(function(results) {
