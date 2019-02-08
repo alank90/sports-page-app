@@ -382,8 +382,8 @@ new Vue({
           this.gameBoxScores = await getBoxScores(gameIDs);
         };
         /* jshint ignore:end */
-        boxScores(gameIDs);
-        console.log("Here are boxScores" + boxScores);
+        this.gameBoxScores = boxScores(gameIDs);
+        console.log("Here are boxScores" + this.gameBoxScores);
 
         // ============================================================================ //
         // ======================= End Get NBA  Box Scores ============================ //

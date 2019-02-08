@@ -13,7 +13,7 @@ config.params = {
 };
 
 /* jshint ignore:start */
-const boxScores = async gameIDs => {
+const gameBoxScores = async gameIDs => {
   console.log(gameIDs);
   gameIDs.forEach(function(item) {
     let myUrl = `https://api.mysportsfeeds.com/v1.2/pull/nba/2018-2019-regular/game_boxscore.json?gameid=${item}`;
@@ -45,4 +45,4 @@ const boxScores = async gameIDs => {
 };
 /* jshint ignore:end */
 
-module.exports = boxScores;
+module.exports = gameBoxScores;
