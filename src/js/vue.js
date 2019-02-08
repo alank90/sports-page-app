@@ -8,6 +8,7 @@ const date = require("./modules/todayDate");
 const nflDate = require("./modules/nflDate");
 const getStandings = require("./modules/getStandings");
 const getScores = require("./modules/getScores");
+const getBoxScores = require("../js/modules/getBoxScores");
 const mlbComponent = require("./components/mlbComponent");
 const nflComponent = require("./components/nflComponent");
 const nbaComponent = require("./components/nbaComponent");
@@ -312,9 +313,7 @@ new Vue({
         }
 
         // Variable declarations
-        let gameID = [];
-        let nbaBoxScores = [];
-        let promises = [];
+        let gameIDs = [];
 
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
@@ -358,7 +357,7 @@ new Vue({
             // Fill up array with all the game ID's for today's games
             // This will be used to retieve the Box Scores later
             this.sports_feeds_data.forEach(function(item, index) {
-              gameID[index] = item.game.ID;
+              gameIDs[index] = item.game.ID;
             });
           })
           .catch(error => {
@@ -376,44 +375,15 @@ new Vue({
         // ================ Get NBA Box Scores ===================================== //
         // ========================================================================= //
 
-        // Reset config for Boxscore Query
-        config.params = {
-          teamstats: "none",
-          playerstats: "PTS,AST,REB,3PM",
-          sort: "stats.PTS.D",
-          limit: 3,
-          force: true
+        // Note I think we need to async/await the Games scores above also. Otherwise gameIDs
+        // will not have anything in it when getBoxScores is called....
+        /* jshint ignore:start */
+        let boxScores = async gameIDs => {
+          this.gameBoxScores = await getBoxScores(gameIDs);
         };
-
-        gameID.forEach(function(item) {
-          let myUrl = `https://api.mysportsfeeds.com/v1.2/pull/nba/2018-2019-regular/game_boxscore.json?gameid=${item}`;
-          promises.push(
-            axios({
-              method: "get",
-              headers: {
-                Authorization:
-                  "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA=="
-              },
-              url: myUrl,
-              params: {
-                teamstats: "none",
-                playerstats: "PTS,AST,REB,3PM",
-                sort: "stats.PTS.D",
-                limit: 3,
-                force: true
-              }
-            })
-          );
-        });
-
-        axios.all(promises).then(function(results) {
-          // Problem results is empty!!!
-          results.forEach(function(response) {
-            nbaBoxScores.push(response.data.gameboxscore);
-          });
-        });
-
-        console.log(...nbaBoxScores);
+        /* jshint ignore:end */
+        boxScores(gameIDs);
+        console.log("Here are boxScores" + boxScores);
 
         // ============================================================================ //
         // ======================= End Get NBA  Box Scores ============================ //
