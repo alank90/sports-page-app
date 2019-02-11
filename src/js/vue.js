@@ -8,7 +8,7 @@ const date = require("./modules/todayDate");
 const nflDate = require("./modules/nflDate");
 const getStandings = require("./modules/getStandings");
 const getScores = require("./modules/getScores");
-const getBoxScores = require("../js/modules/getBoxScores");
+// const getBoxScores = require("../js/modules/getBoxScores");
 const mlbComponent = require("./components/mlbComponent");
 const nflComponent = require("./components/nflComponent");
 const nbaComponent = require("./components/nbaComponent");
@@ -59,8 +59,7 @@ new Vue({
   data() {
     return {
       sports_feeds_data: [],
-      sports_feeds_boxscore: [],
-      gameBoxScores: [],
+      sports_feeds_boxscores: [],
       baseball_playoffs: false,
       basketball_playoffs: false,
       nfl_playoffs: false,
@@ -92,6 +91,8 @@ new Vue({
   },
   methods: {
     getSportsData: function(tab) {
+      // Variable declarations
+      let gameIDs = [];
       let url = "";
       let leagueStandings = [];
       let seasonName = "";
@@ -311,10 +312,7 @@ new Vue({
           this.end_of_season.nba = true;
           return;
         }
-
-        // Variable declarations
-        let gameIDs = [];
-
+      
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
 
@@ -345,6 +343,7 @@ new Vue({
           return;
         }
 
+         /* jshint ignore:start */
         axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${
@@ -352,10 +351,11 @@ new Vue({
             }`,
             config
           )
-          .then(response => {
-            this.sports_feeds_data = response.data.scoreboard.gameScore;
+          .then(async response => {
+            this.sports_feeds_data = await response.data.scoreboard.gameScore;
             // Fill up array with all the game ID's for today's games
             // This will be used to retieve the Box Scores later
+            console.log(this.sports_feeds_data);
             this.sports_feeds_data.forEach(function(item, index) {
               gameIDs[index] = item.game.ID;
             });
@@ -364,7 +364,7 @@ new Vue({
             console.log(error);
             this.errored = true;
           });
-
+         /* jshint ignore:end */
         // ================================================================================= //
         // ============================ End Get NBA Scores ================================= //
         // ================================================================================= //
@@ -378,12 +378,13 @@ new Vue({
         // Note I think we need to async/await the Games scores above also. Otherwise gameIDs
         // will not have anything in it when getBoxScores is called....
         /* jshint ignore:start */
-        let boxScores = async gameIDs => {
-          this.gameBoxScores = await getBoxScores(gameIDs);
-        };
+        console.log(gameIDs[0]);
+        /* const boxScores = async gameIDs => {
+          this.sports_feeds_boxscores = await getBoxScores(gameIDs);
+        }; */
         /* jshint ignore:end */
-        this.gameBoxScores = boxScores(gameIDs);
-        console.log("Here are boxScores" + this.gameBoxScores);
+        /* boxScores();
+        console.log("Here are boxScores" + this.sports_feeds_boxscores); */
 
         // ============================================================================ //
         // ======================= End Get NBA  Box Scores ============================ //

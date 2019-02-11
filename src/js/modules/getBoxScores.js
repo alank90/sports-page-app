@@ -3,20 +3,12 @@
 let boxScores = [];
 let promises = [];
 
-// Reset config for Boxscore Query
-config.params = {
-  teamstats: "none",
-  playerstats: "PTS,AST,REB,3PM",
-  sort: "stats.PTS.D",
-  limit: 3,
-  force: true
-};
-
 /* jshint ignore:start */
-const gameBoxScores = async gameIDs => {
+const getBoxScores = async gameIDs => {
   console.log(gameIDs);
   gameIDs.forEach(function(item) {
     let myUrl = `https://api.mysportsfeeds.com/v1.2/pull/nba/2018-2019-regular/game_boxscore.json?gameid=${item}`;
+
     promises.push(
       axios({
         method: "get",
@@ -37,6 +29,7 @@ const gameBoxScores = async gameIDs => {
   });
 
   await axios.all(promises).then(function(results) {
+    console.log("Results of axios.all: " + results);
     // Problem results is empty!!!
     results.forEach(function(response) {
       boxScores.push(response.data.gameboxscore);
@@ -45,4 +38,7 @@ const gameBoxScores = async gameIDs => {
 };
 /* jshint ignore:end */
 
-module.exports = gameBoxScores;
+module.exports = {
+  getBoxScores: getBoxScores(),
+  boxScores: boxScores
+};
