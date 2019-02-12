@@ -8,7 +8,7 @@ const date = require("./modules/todayDate");
 const nflDate = require("./modules/nflDate");
 const getStandings = require("./modules/getStandings");
 const getScores = require("./modules/getScores");
-// const getBoxScores = require("../js/modules/getBoxScores");
+const getBoxScores = require("../js/modules/getBoxScores");
 const mlbComponent = require("./components/mlbComponent");
 const nflComponent = require("./components/nflComponent");
 const nbaComponent = require("./components/nbaComponent");
@@ -312,7 +312,7 @@ new Vue({
           this.end_of_season.nba = true;
           return;
         }
-      
+
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
 
@@ -343,7 +343,7 @@ new Vue({
           return;
         }
 
-         /* jshint ignore:start */
+        /* jshint ignore:start */
         axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${
@@ -355,7 +355,6 @@ new Vue({
             this.sports_feeds_data = await response.data.scoreboard.gameScore;
             // Fill up array with all the game ID's for today's games
             // This will be used to retieve the Box Scores later
-            console.log(this.sports_feeds_data);
             this.sports_feeds_data.forEach(function(item, index) {
               gameIDs[index] = item.game.ID;
             });
@@ -364,7 +363,7 @@ new Vue({
             console.log(error);
             this.errored = true;
           });
-         /* jshint ignore:end */
+        /* jshint ignore:end */
         // ================================================================================= //
         // ============================ End Get NBA Scores ================================= //
         // ================================================================================= //
@@ -378,13 +377,13 @@ new Vue({
         // Note I think we need to async/await the Games scores above also. Otherwise gameIDs
         // will not have anything in it when getBoxScores is called....
         /* jshint ignore:start */
-        console.log(gameIDs[0]);
-        /* const boxScores = async gameIDs => {
+
+        const boxScores = async gameIDs => {
           this.sports_feeds_boxscores = await getBoxScores(gameIDs);
-        }; */
+        };
         /* jshint ignore:end */
-        /* boxScores();
-        console.log("Here are boxScores" + this.sports_feeds_boxscores); */
+        boxScores(gameIDs);
+        // console.log("Here are boxScores" + this.sports_feeds_boxscores);
 
         // ============================================================================ //
         // ======================= End Get NBA  Box Scores ============================ //

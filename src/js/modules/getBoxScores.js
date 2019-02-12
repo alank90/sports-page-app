@@ -1,13 +1,15 @@
 // --------- src/modules/getBoxScores.js --------------- //
+const axios = require("axios");
 
 let boxScores = [];
 let promises = [];
 
 /* jshint ignore:start */
-const getBoxScores = async gameIDs => {
+const getBoxScores = gameIDs => {
   console.log(gameIDs);
   gameIDs.forEach(function(item) {
-    let myUrl = `https://api.mysportsfeeds.com/v1.2/pull/nba/2018-2019-regular/game_boxscore.json?gameid=${item}`;
+    console.log(item);
+    /* let myUrl = `https://api.mysportsfeeds.com/v1.2/pull/nba/2018-2019-regular/game_boxscore.json?gameid=${item}`;
 
     promises.push(
       axios({
@@ -25,12 +27,11 @@ const getBoxScores = async gameIDs => {
           force: true
         }
       })
-    );
+    ); */
   });
 
-  await axios.all(promises).then(function(results) {
-    console.log("Results of axios.all: " + results);
-    // Problem results is empty!!!
+  console.log(promises); // problem here. promises array is empty at this point!!!
+  axios.all(promises).then(function(results) {
     results.forEach(function(response) {
       boxScores.push(response.data.gameboxscore);
     });
@@ -38,7 +39,4 @@ const getBoxScores = async gameIDs => {
 };
 /* jshint ignore:end */
 
-module.exports = {
-  getBoxScores: getBoxScores(),
-  boxScores: boxScores
-};
+module.exports = getBoxScores;
