@@ -351,43 +351,33 @@ new Vue({
             }`,
             config
           )
-          .then(async response => {
-            this.sports_feeds_data = await response.data.scoreboard.gameScore;
+          .then(response => {
+            this.sports_feeds_data = response.data.scoreboard.gameScore;
+            return this.sports_feeds_data;
+          })
+          .then(response => {
             // Fill up array with all the game ID's for today's games
-            // This will be used to retieve the Box Scores later
-            this.sports_feeds_data.forEach(function(item, index) {
+            // This will be used to retrieve the Box Scores later
+            response.forEach(function(item, index) {
               gameIDs[index] = item.game.ID;
             });
+
+            return gameIDs;
+          })
+          // Now call getBoxScores to retrieve box scores
+          .then(gameIDs => {
+            test = getBoxScores(gameIDs);
+            console.log(test);
           })
           .catch(error => {
             console.log(error);
             this.errored = true;
           });
         /* jshint ignore:end */
+
         // ================================================================================= //
         // ============================ End Get NBA Scores ================================= //
         // ================================================================================= //
-
-        // ----------------------------------------------------------------------------------------------------------------------------------- //
-
-        // ========================================================================= //
-        // ================ Get NBA Box Scores ===================================== //
-        // ========================================================================= //
-
-        // Note I think we need to async/await the Games scores above also. Otherwise gameIDs
-        // will not have anything in it when getBoxScores is called....
-        /* jshint ignore:start */
-
-        const boxScores = async gameIDs => {
-          this.sports_feeds_boxscores = await getBoxScores(gameIDs);
-        };
-        /* jshint ignore:end */
-        boxScores(gameIDs);
-        // console.log("Here are boxScores" + this.sports_feeds_boxscores);
-
-        // ============================================================================ //
-        // ======================= End Get NBA  Box Scores ============================ //
-        // ============================================================================ //
 
         // ----------------------------------------------------------------------------------------------------------------------------------- //
 
