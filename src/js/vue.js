@@ -366,17 +366,18 @@ new Vue({
           })
           // Now call getBoxScores to retrieve box scores
           .then(gameIDs => {
-            this.sports_feeds_boxscores = getBoxScores(gameIDs);
-            console.log(this.sports_feeds_boxscores);
-            
+            console.log(this.sports_feeds_boxscores.length);
+            if (this.sports_feeds_boxscores.length === 0) {
+              // Box Scores never retrieved
+              this.sports_feeds_boxscores = getBoxScores(gameIDs);
+              console.log(this.sports_feeds_boxscores);
+            }
           })
           .catch(error => {
             console.log(error);
             this.errored = true;
           });
         /* jshint ignore:end */
-
-       
 
         // ================================================================================= //
         // ============================ End Get NBA Scores ================================= //
