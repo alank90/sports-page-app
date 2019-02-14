@@ -365,13 +365,10 @@ new Vue({
             return gameIDs;
           })
           // Now call getBoxScores to retrieve box scores
-          .then(gameIDs => {
-            console.log(this.sports_feeds_boxscores.length);
-            if (this.sports_feeds_boxscores.length === 0) {
-              // Box Scores never retrieved
-              this.sports_feeds_boxscores = getBoxScores(gameIDs);
-              console.log(this.sports_feeds_boxscores);
-            }
+          .then(async gameIDs => {
+            let resolvedPromises = await getBoxScores(gameIDs);
+            this.sports_feeds_boxscores = resolvedPromises.map(response => this.sports_feeds_boxscores.push(response.data.boxscore));
+            console.log(this.sports_feeds_boxscores);
           })
           .catch(error => {
             console.log(error);
