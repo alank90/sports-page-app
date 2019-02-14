@@ -364,9 +364,10 @@ new Vue({
 
             return gameIDs;
           })
-          // Now call getBoxScores() to retrieve box scores
+          // Now call getBoxScores to retrieve box scores
           .then(gameIDs => {
-            this.sports_feeds_boxscores = getBoxScores(gameIDs);
+            test = getBoxScores(gameIDs);
+            console.log(test);
           })
           .catch(error => {
             console.log(error);
