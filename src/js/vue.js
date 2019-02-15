@@ -366,9 +366,10 @@ new Vue({
           })
           // Now call getBoxScores to retrieve box scores
           .then(async gameIDs => {
-            let resolvedPromises = await getBoxScores(gameIDs);
-            this.sports_feeds_boxscores = resolvedPromises.map(response => this.sports_feeds_boxscores.push(response.data.boxscore));
-            console.log(this.sports_feeds_boxscores);
+            // Check if boxscores have been retrieved on previous tab click
+            if (this.sports_feeds_boxscores.length === 0) {
+              this.sports_feeds_boxscores = await getBoxScores(gameIDs);
+            }
           })
           .catch(error => {
             console.log(error);
