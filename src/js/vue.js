@@ -59,7 +59,11 @@ new Vue({
   data() {
     return {
       sports_feeds_data: [],
-      sports_feeds_boxscores: [],
+      sports_feeds_boxscores: {
+        mlb: null,
+        nfl: null,
+        nba: null
+      },
       baseball_playoffs: false,
       basketball_playoffs: false,
       nfl_playoffs: false,
@@ -364,12 +368,11 @@ new Vue({
 
             return gameIDs;
           })
-          // Now call getBoxScores to retrieve box scores
+          // Now call getBoxScores to retrieve boxscores
           .then(async gameIDs => {
             // Check if boxscores have been retrieved on previous tab click
-            if (this.sports_feeds_boxscores.length === 0) {
-              this.sports_feeds_boxscores = await getBoxScores(gameIDs);
-            }
+            this.sports_feeds_boxscores.nba =
+              this.sports_feeds_boxscores.nba || (await getBoxScores(gameIDs));
           })
           .catch(error => {
             console.log(error);
