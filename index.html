@@ -56,7 +56,7 @@
           <div class="loading" v-if="loading">
             Loading
             <!-- below is our font awesome icon with the class “spin-it” where 
-                         we have set the infinite animation: -->
+                 we have set the infinite animation:                        -->
             <i class="fas fa-spinner spin-it" aria-hidden="true"></i>
           </div>
         </section>
@@ -87,7 +87,7 @@
             v-bind:props_nfl_playoffs="nfl_playoffs"
             v-bind:props_basketball_playoffs="basketball_playoffs"
             v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
-            v-bind:props_box_game_scores="sports_feeds_boxscores"
+            v-bind:props_box_game_scores="sports_feeds_boxscores[this.currentTab.toLowerCase()]"
             class="tab"
           >
           </component>
