@@ -7,10 +7,8 @@ let promises = [];
 /* jshint ignore:start */
 // Make function async that way it will return a promise that the await invocation can consume
 try {
-  const getBoxScores = async gameIDs => {
+  const getBoxScores = async (gameIDs, myUrl, params) => {
     gameIDs.forEach(function(item) {
-      let myUrl = `https://api.mysportsfeeds.com/v1.2/pull/nba/2018-2019-regular/game_boxscore.json?gameid=${item}`;
-
       promises.push(
         axios({
           method: "get",
@@ -18,14 +16,8 @@ try {
             Authorization:
               "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA=="
           },
-          url: myUrl,
-          params: {
-            teamstats: "none",
-            playerstats: "PTS,AST,REB,3PM",
-            sort: "stats.PTS.D",
-            limit: 3,
-            force: true
-          }
+          url: myUrl + item,
+          params: params
         })
       );
     });

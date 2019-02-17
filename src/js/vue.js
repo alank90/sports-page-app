@@ -350,9 +350,7 @@ new Vue({
         /* jshint ignore:start */
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${
-              date.yesterday
-            }`,
+            `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=20190201`,
             config
           )
           .then(response => {
@@ -370,9 +368,18 @@ new Vue({
           })
           // Now call getBoxScores to retrieve boxscores
           .then(async gameIDs => {
+            const url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/game_boxscore.json?gameid=`;
+            const params = {
+              teamstats: "none",
+              playerstats: "PTS,AST,REB,3PM",
+              sort: "stats.PTS.D",
+              limit: 3,
+              force: true
+            };
             // Check if boxscores have been retrieved on previous tab click
             this.sports_feeds_boxscores.nba =
-              this.sports_feeds_boxscores.nba || (await getBoxScores(gameIDs));
+              this.sports_feeds_boxscores.nba ||
+              (await getBoxScores(gameIDs, url, params));
           })
           .catch(error => {
             console.log(error);
