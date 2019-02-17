@@ -74,6 +74,24 @@ const nba = {
                             
                         </div> <!-- End of row -->
                     </div> <!-- End container -->
+
+
+                    <!-- ==================== Begin Markup for Game Boxscores ============================ -->
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in props_box_game_scores">
+                            <table class="table table-striped table-sm">
+                                <tbody>
+                                    <tr class="d-flex justify-content-around">
+                                        <td class="team"> {{ arrayItem.data.gameboxscore.game.awayTeam.Abbreviation }} </td>
+                                    </tr>   
+                                </tbody>
+
+                            </table>
+                    
+                        </div>
+                    </div> <!-- End of row -->
+
+
                     <!-- ============== End of Markup for Divional Regular Season Standings =============== -->
 
 
