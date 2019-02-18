@@ -25,13 +25,14 @@ const nba = {
                      <!-- ============== Markup for Divional Regular/Playoff Season Scores =============== -->
                     <div class="container">
                         <div class="row">
-                            <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in props_league_data">
+                            <div class="col-xs-12 col-md-4 col-lg-3" v-for="(arrayItem, index) in props_league_data">
                                     <table class="table table-striped table-sm">
                                         <thead>
-                                            <th scope="col" class="box-score-status is-completed" v-if="arrayItem.isCompleted">Final</th>
+                                            <th class="box-score-status is-completed" v-if="arrayItem.isCompleted">Final</th>
                                         </thead>
                     
                                         <tbody>
+
                                             <tr class="d-flex justify-content-around">
                                               <td class="team"> {{ arrayItem.game.awayTeam.Abbreviation }} </td>
                                               
@@ -70,28 +71,41 @@ const nba = {
                                             
                                         </tbody>
                                     </table>
+
+                                    <!-- ==================== Begin Markup for Game Boxscores ============================ -->
+                                    
+                                    <table class="table table-striped table-sm">
+                                        <tbody>
+                                            <thead>
+                                                <!-- <th>
+                                                    <td class="team" v-if="props_box_game_scores"> {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:</td>
+                                                </th> -->
+                                                <th></th>
+                                                <th>Pts</th>
+                                                <th>Rebs</th>
+                                                <th>Assists</th>
+                                                <th>3-pointers</th>
+                                            </thead>
+                                            <template v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                <tr>
+                                                    <td>{{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
+                                                    <td>{{playerStats.stats.Pts['#text']}}</td>
+                                                    <td>{{playerStats.stats.Reb['#text']}}</td>
+                                                    <td>{{playerStats.stats.Ast['#text']}}</td>
+                                                    <td>{{playerStats.stats.Fg3PtMade['#text']}}</td>
+                                                </tr>
+                                            </template>
+                                         </tbody>
+                                    </table>
+                                    <!-- ==================== End Markup for Game Boxscores ============================ -->
+                            
                             </div> <!-- End v-for -->
                             
                         </div> <!-- End of row -->
                     </div> <!-- End container -->
 
 
-                    <!-- ==================== Begin Markup for Game Boxscores ============================ -->
-                    <div class="row">
-                        <div class="col-xs-12 col-md-4 col-lg-3" v-for="arrayItem in props_box_game_scores">
-                            <table class="table table-striped table-sm">
-                                <tbody>
-                                    <tr class="d-flex justify-content-around">
-                                        <td class="team"> {{ arrayItem.data.gameboxscore.game.awayTeam.Abbreviation }} </td>
-                                    </tr>   
-                                </tbody>
-
-                            </table>
                     
-                        </div>
-                    </div> <!-- End of row -->
-
-
                     <!-- ============== End of Markup for Divional Regular Season Standings =============== -->
 
 
@@ -106,11 +120,11 @@ const nba = {
                                         <!-- <p> {{ item }} </p> -->
                                         <table class="table table-striped table-sm">
                                             <thead>
-                                                <th scope="col"></th>
-                                                <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
-                                                <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>
-                                                <th scope="col">{{ item.stats.GamesBack['@abbreviation'] }}</th>
-                                                <th scope="col">{{ item.stats.WinPct['@abbreviation'] }} </th>
+                                                <th></th>
+                                                <th>{{ item.stats.Wins['@abbreviation'] }}</th>
+                                                <th>{{ item.stats.Losses['@abbreviation'] }}</th>
+                                                <th>{{ item.stats.GamesBack['@abbreviation'] }}</th>
+                                                <th>{{ item.stats.WinPct['@abbreviation'] }} </th>
                                             </thead> 
                                             <tbody>
                                             <tr>
