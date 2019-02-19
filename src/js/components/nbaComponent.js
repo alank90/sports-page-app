@@ -76,23 +76,23 @@ const nba = {
                                     
                                     <table class="table table-striped table-sm">
                                         <tbody>
-                                            <thead>
+                                            <thead class="d-flex">
                                                 <!-- <th>
                                                     <td class="team" v-if="props_box_game_scores"> {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:</td>
                                                 </th> -->
-                                                <th></th>
-                                                <th>Pts</th>
-                                                <th>Rebs</th>
-                                                <th>Assists</th>
-                                                <th>3-pointers</th>
+                                                <th class="col-4 justify-content-center" scope="col"></th>
+                                                <th class="col-2 justify-content-center" scope="col">Pts</th>
+                                                <th class="col-2 justify-content-center" scope="col">Rebs</th>
+                                                <th class="col-2 justify-content-center" scope="col">Assts</th>
+                                                <th class="col-2 justify-content-center" scope="col">3-pts</th>
                                             </thead>
                                             <template v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
-                                                <tr>
-                                                    <td>{{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
-                                                    <td>{{playerStats.stats.Pts['#text']}}</td>
-                                                    <td>{{playerStats.stats.Reb['#text']}}</td>
-                                                    <td>{{playerStats.stats.Ast['#text']}}</td>
-                                                    <td>{{playerStats.stats.Fg3PtMade['#text']}}</td>
+                                                <tr class="d-flex">
+                                                    <td class="col-4 justify-content-center" scope="row">{{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
+                                                    <td class="col-2 justify-content-center" justify-content="center">{{playerStats.stats.Pts['#text']}}</td>
+                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Reb['#text']}}</td>
+                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Ast['#text']}}</td>
+                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Fg3PtMade['#text']}}</td>
                                                 </tr>
                                             </template>
                                          </tbody>
