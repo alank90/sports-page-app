@@ -73,14 +73,20 @@ const nba = {
                                     </table>
 
                                     <!-- ==================== Begin Markup for Game Boxscores ============================ -->
+                                    <p>
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="collapseExample">
+                                    Toggle BoxScores
+                                    </button>
+                                    </p>
                                     
-                                    <table class="table table-striped table-sm">
+                                    <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse'">
                                         <tbody>
-                                            <thead class="d-flex">
-                                                <!-- <th>
+                                            <!-- ---------- Away Team Boxscore ------------------------- -->
+                                            <thead class="d-flex flex-wrap">
+                                                <th class="col-12">
                                                     <td class="team" v-if="props_box_game_scores"> {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:</td>
-                                                </th> -->
-                                                <th class="col-4 justify-content-center" scope="col"></th>
+                                                </th> 
+                                                <th class="col-4 justify-content-center" scope="col">Player</th>
                                                 <th class="col-2 justify-content-center" scope="col">Pts</th>
                                                 <th class="col-2 justify-content-center" scope="col">Rebs</th>
                                                 <th class="col-2 justify-content-center" scope="col">Assts</th>
@@ -97,6 +103,36 @@ const nba = {
                                             </template>
                                          </tbody>
                                     </table>
+                                    <!-- ---------- End Away Team Boxscore ------------------------- -->
+
+                                    <!-- ---------- Home Team Boxscore ------------------------- -->
+                                    <table class="table table-striped table-sm collapse multi-collapse">
+                                        <tbody>
+                                            <thead class="d-flex flex-wrap">
+                                                <th class="col-12">
+                                                    <td class="team" v-if="props_box_game_scores"> {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.Abbreviation }}:</td>
+                                                </th> 
+                                                <th class="col-4 justify-content-center" scope="col">Player</th>
+                                                <th class="col-2 justify-content-center" scope="col">Pts</th>
+                                                <th class="col-2 justify-content-center" scope="col">Rebs</th>
+                                                <th class="col-2 justify-content-center" scope="col">Assts</th>
+                                                <th class="col-2 justify-content-center" scope="col">3-pts</th>
+                                            </thead>
+                                            <template v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                <tr class="d-flex">
+                                                    <td class="col-4 justify-content-center" scope="row">{{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
+                                                    <td class="col-2 justify-content-center" justify-content="center">{{playerStats.stats.Pts['#text']}}</td>
+                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Reb['#text']}}</td>
+                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Ast['#text']}}</td>
+                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Fg3PtMade['#text']}}</td>
+                                                </tr>
+                                            </template>
+                                         </tbody>
+                                    </table>
+                                    
+                                    
+                                    <!-- ---------- End Home Team Boxscore ------------------------- -->
+
                                     <!-- ==================== End Markup for Game Boxscores ============================ -->
                             
                             </div> <!-- End v-for -->
