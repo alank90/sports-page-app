@@ -74,12 +74,12 @@ const nba = {
 
                                     <!-- ==================== Begin Markup for Game Boxscores ============================ -->
                                     <p>
-                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="collapseExample">
+                                    <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false" aria-controls="collapseExample">
                                     Toggle BoxScores
                                     </button>
                                     </p>
                                     
-                                    <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse'">
+                                    <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                         <tbody>
                                             <!-- ---------- Away Team Boxscore ------------------------- -->
                                             <thead class="d-flex flex-wrap">
@@ -106,7 +106,7 @@ const nba = {
                                     <!-- ---------- End Away Team Boxscore ------------------------- -->
 
                                     <!-- ---------- Home Team Boxscore ------------------------- -->
-                                    <table class="table table-striped table-sm collapse multi-collapse">
+                                    <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                         <tbody>
                                             <thead class="d-flex flex-wrap">
                                                 <th class="col-12">
