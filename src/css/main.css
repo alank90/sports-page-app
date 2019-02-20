@@ -155,6 +155,15 @@ th {
   margin-bottom: 0;
 }
 
+.btn-group-sm > .btn, .btn-sm {
+  font-size: .5rem;
+  font-weight: 600;
+  transition: all 0.5s;
+} 
+.btn-group-sm > .btn, .btn-sm:hover {
+  font-size: .7rem;
+}
+
 team-logo {
   display: inline;
 }
