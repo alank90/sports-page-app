@@ -350,7 +350,9 @@ new Vue({
         /* jshint ignore:start */
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=20190201`,
+            `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${
+              date.yesterday
+            }`,
             config
           )
           .then(response => {
@@ -373,7 +375,7 @@ new Vue({
               teamstats: "none",
               playerstats: "PTS,AST,REB,3PM",
               sort: "stats.PTS.D",
-              limit: 3,
+              limit: 5,
               force: true
             };
             // Check if boxscores have been retrieved on previous tab click
