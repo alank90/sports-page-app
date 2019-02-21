@@ -23,7 +23,7 @@ const nba = {
                 </div>
                 <div v-else>
                      <!-- ============== Markup for Divional Regular/Playoff Season Scores =============== -->
-                    <div class="container">
+                    <div class="container" v-if="props_box_game_scores">
                         <div class="row">
                             <div class="col-xs-12 col-md-4 col-lg-3" v-for="(arrayItem, index) in props_league_data">
                                     <table class="table table-striped table-sm">
@@ -75,7 +75,7 @@ const nba = {
                                     <!-- ==================== Begin Markup for Game Boxscores ============================ -->
                                     <p>
                                     <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false" aria-controls="collapseExample">
-                                    Toggle BoxScores
+                                     Game Stats
                                     </button>
                                     </p>
                                     
@@ -84,7 +84,7 @@ const nba = {
                                             <!-- ---------- Away Team Boxscore ------------------------- -->
                                             <thead class="d-flex flex-wrap">
                                                 <th class="col-12">
-                                                    <td class="team" v-if="props_box_game_scores"> {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:</td>
+                                                    <td class="team" > {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:</td>
                                                 </th> 
                                                 <th class="col-4 justify-content-center" scope="col">Player</th>
                                                 <th class="col-2 justify-content-center" scope="col">Pts</th>
@@ -110,7 +110,7 @@ const nba = {
                                         <tbody>
                                             <thead class="d-flex flex-wrap">
                                                 <th class="col-12">
-                                                    <td class="team" v-if="props_box_game_scores"> {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.Abbreviation }}:</td>
+                                                    <td class="team" > {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.Abbreviation }}:</td>
                                                 </th> 
                                                 <th class="col-4 justify-content-center" scope="col">Player</th>
                                                 <th class="col-2 justify-content-center" scope="col">Pts</th>
