@@ -155,7 +155,6 @@ new Vue({
           )
           .then(response => {
             this.sports_feeds_data = response.data.scoreboard.gameScore;
-            this.loading = false;
           })
           .catch(error => {
             console.log(error);
@@ -383,57 +382,59 @@ new Vue({
               this.sports_feeds_boxscores.nba ||
               (await getBoxScores(gameIDs, url, params));
           })
+          // ================================================================================= //
+          // ============================ End Get NBA Scores ================================= //
+          // ================================================================================= //
+
+          // ----------------------------------------------------------------------------------------------------------------------------------- //
+
+          // ================================================================================== //
+          // =========================== Get NBA Standings ==================================== //
+          // ================================================================================== //
+          // Call leagueStandings() now
+          .then(() => {
+            // Check if it's the Regular or Post Season
+            if (
+              date.yesterday > `${league.nba.regularSeasonStartDate}` &&
+              date.yesterday < `${league.nba.regularSeasonEndDate}`
+            ) {
+              seasonName = `${league.nba.startOfRegularSeasonYear()}-${league.nba.startOfRegularSeasonYear() +
+                1}-regular`;
+              teamStats = `W,L,GB,Win %`;
+              typeOfStandings = "division_team_standings";
+            } else if (
+              date.yesterday > `${league.nba.playoffsBeginDate}` &&
+              date.yesterday < `${league.nba.playoffsEndDate}`
+            ) {
+              seasonName = `${date.year}-playoff`;
+              this.basketball_playoffs = true;
+              teamStats = `W,L`;
+              typeOfStandings = "division_team_standings";
+              config.params = "";
+            } else {
+              console.log("End of Basketball Season. See you next year!");
+            }
+
+            url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/${typeOfStandings}.json?teamstats=${teamStats}`;
+
+            // Note: We use the arrow function here because "this" is defined by where
+            // getStandings() is called (the vue instance) not by where it is used.
+            leagueStandings = async () => {
+              this.standings = await getStandings(url);
+            };
+
+            leagueStandings();
+
+            this.loading = false;
+            // =============================================================================== //
+            // =========================== End NBA Standings ================================= //
+            // =============================================================================== //
+          })
           .catch(error => {
             console.log(error);
             this.errored = true;
           });
         /* jshint ignore:end */
-
-        // ================================================================================= //
-        // ============================ End Get NBA Scores ================================= //
-        // ================================================================================= //
-
-        // ----------------------------------------------------------------------------------------------------------------------------------- //
-
-        // ================================================================================== //
-        // =========================== Get NBA Standings ==================================== //
-        // ================================================================================== //
-        // Check if it's the Regular or Post Season
-        if (
-          date.yesterday > `${league.nba.regularSeasonStartDate}` &&
-          date.yesterday < `${league.nba.regularSeasonEndDate}`
-        ) {
-          seasonName = `${league.nba.startOfRegularSeasonYear()}-${league.nba.startOfRegularSeasonYear() +
-            1}-regular`;
-          teamStats = `W,L,GB,Win %`;
-          typeOfStandings = "division_team_standings";
-        } else if (
-          date.yesterday > `${league.nba.playoffsBeginDate}` &&
-          date.yesterday < `${league.nba.playoffsEndDate}`
-        ) {
-          seasonName = `${date.year}-playoff`;
-          this.basketball_playoffs = true;
-          teamStats = `W,L`;
-          typeOfStandings = "division_team_standings";
-          config.params = "";
-        } else {
-          console.log("End of Basketball Season. See you next year!");
-        }
-
-        url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/${typeOfStandings}.json?teamstats=${teamStats}`;
-        /* jshint ignore:start */
-        // Note: We use the arrow function here because "this" is defined by where
-        // getStandings() is called (the vue instance) not by where it is used.
-        leagueStandings = async () => {
-          this.standings = await getStandings(url);
-        };
-        /* jshint ignore:end */
-        leagueStandings();
-
-        this.loading = false;
-        // =============================================================================== //
-        // =========================== End NBA Standings ================================= //
-        // =============================================================================== //
       }
     } // ================ end getSportsData =============================== //
   }

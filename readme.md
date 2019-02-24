@@ -31,6 +31,12 @@ As of now around line 270 in Vue.js you have to change the line:
 
 every new Basketball season to build correct uri for /get to mysportsfeeds api. This needs to be refactored...
 
+## Updating Sports Seasons for app
+1. Goto /src/seasonDates.js
+2. There are objects for all the leagues, where you can update their start/end season dates which are used by our 
+   app to form the correct URI when requesting data. The NBA has an extra object for computing the season name 
+   because it spans over multiple years.
+
 ## Get going
 1. Clone this repo
 2. `cd` into the resultant dir
