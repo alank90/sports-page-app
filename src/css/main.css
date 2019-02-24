@@ -161,7 +161,8 @@ th {
   transition: all 0.5s;
 } 
 .btn-group-sm > .btn, .btn-sm:hover {
-  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
 }
 
 team-logo {
