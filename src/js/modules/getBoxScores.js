@@ -34,6 +34,6 @@ try {
 
   module.exports = getBoxScores;
 } catch (err) {
-  return err;
+  console.log(err);
 }
 /* jshint ignore:end */
