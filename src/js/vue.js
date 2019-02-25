@@ -8,6 +8,7 @@ const date = require("./modules/todayDate");
 const nflDate = require("./modules/nflDate");
 const getStandings = require("./modules/getStandings");
 const getScores = require("./modules/getScores");
+const getBoxScores = require("../js/modules/getBoxScores");
 const mlbComponent = require("./components/mlbComponent");
 const nflComponent = require("./components/nflComponent");
 const nbaComponent = require("./components/nbaComponent");
@@ -58,6 +59,11 @@ new Vue({
   data() {
     return {
       sports_feeds_data: [],
+      sports_feeds_boxscores: {
+        mlb: null,
+        nfl: null,
+        nba: null
+      },
       baseball_playoffs: false,
       basketball_playoffs: false,
       nfl_playoffs: false,
@@ -89,6 +95,8 @@ new Vue({
   },
   methods: {
     getSportsData: function(tab) {
+      // Variable declarations
+      let gameIDs = [];
       let url = "";
       let leagueStandings = [];
       let seasonName = "";
@@ -102,7 +110,7 @@ new Vue({
       if (this.currentTab === "MLB") {
         // If Off-Seson skip AJAX call and just print Off-Season template
         if (date.today <= league.mlb.regularSeasonStartDate) {
-          this.end_of_season.mlb = true; // trouble here !!!!!!!!!
+          this.end_of_season.mlb = true;
           return;
         }
 
@@ -147,7 +155,6 @@ new Vue({
           )
           .then(response => {
             this.sports_feeds_data = response.data.scoreboard.gameScore;
-            this.loading = false;
           })
           .catch(error => {
             console.log(error);
@@ -195,14 +202,7 @@ new Vue({
         );
 
         // Check if it is the Off-Season
-        if (
-          date.today >
-            league.nfl.superbowlDate
-              .toISOString()
-              .substring(0, 10)
-              .replace(/-/g, "") &&
-          date.today < league.nfl.regularSeasonStartDate
-        ) {
+        if (date.today < league.nfl.regularSeasonStartDate) {
           console.log("End of Football Season. See you next year!");
           this.end_of_season.nfl = true;
           return;
@@ -224,6 +224,7 @@ new Vue({
           this.end_of_season.nfl = true;
           return;
         }
+        // End Check for Off-season. Continue on if it is Football Season!
 
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
@@ -345,6 +346,7 @@ new Vue({
           return;
         }
 
+        /* jshint ignore:start */
         axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${
@@ -354,54 +356,85 @@ new Vue({
           )
           .then(response => {
             this.sports_feeds_data = response.data.scoreboard.gameScore;
+            return this.sports_feeds_data;
+          })
+          .then(response => {
+            // Fill up array with all the game ID's for today's games
+            // This will be used to retrieve the Box Scores later
+            response.forEach(function(item, index) {
+              gameIDs[index] = item.game.ID;
+            });
+
+            return gameIDs;
+          })
+          // Now call getBoxScores to retrieve boxscores
+          .then(async gameIDs => {
+            const url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/game_boxscore.json?gameid=`;
+            const params = {
+              teamstats: "none",
+              playerstats: "PTS,AST,REB,3PM",
+              sort: "stats.PTS.D",
+              limit: 5,
+              force: true
+            };
+            // Check if boxscores have been retrieved on previous tab click
+            this.sports_feeds_boxscores.nba =
+              this.sports_feeds_boxscores.nba ||
+              (await getBoxScores(gameIDs, url, params));
+          })
+          // ================================================================================= //
+          // ============================ End Get NBA Scores ================================= //
+          // ================================================================================= //
+
+          // ----------------------------------------------------------------------------------------------------------------------------------- //
+
+          // ================================================================================== //
+          // =========================== Get NBA Standings ==================================== //
+          // ================================================================================== //
+          // Call leagueStandings() now
+          .then(() => {
+            // Check if it's the Regular or Post Season
+            if (
+              date.yesterday > `${league.nba.regularSeasonStartDate}` &&
+              date.yesterday < `${league.nba.regularSeasonEndDate}`
+            ) {
+              seasonName = `${league.nba.startOfRegularSeasonYear()}-${league.nba.startOfRegularSeasonYear() +
+                1}-regular`;
+              teamStats = `W,L,GB,Win %`;
+              typeOfStandings = "division_team_standings";
+            } else if (
+              date.yesterday > `${league.nba.playoffsBeginDate}` &&
+              date.yesterday < `${league.nba.playoffsEndDate}`
+            ) {
+              seasonName = `${date.year}-playoff`;
+              this.basketball_playoffs = true;
+              teamStats = `W,L`;
+              typeOfStandings = "division_team_standings";
+              config.params = "";
+            } else {
+              console.log("End of Basketball Season. See you next year!");
+            }
+
+            url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/${typeOfStandings}.json?teamstats=${teamStats}`;
+
+            // Note: We use the arrow function here because "this" is defined by where
+            // getStandings() is called (the vue instance) not by where it is used.
+            leagueStandings = async () => {
+              this.standings = await getStandings(url);
+            };
+
+            leagueStandings();
+
+            this.loading = false;
+            // =============================================================================== //
+            // =========================== End NBA Standings ================================= //
+            // =============================================================================== //
           })
           .catch(error => {
             console.log(error);
             this.errored = true;
-          })
-          .finally(() => (this.loading = false));
-        // End ==== get.then ====== //
-        // ================================================================================= //
-        // ============================ End Get NBA Scores ================================= //
-        // ================================================================================= //
-
-        // ================================================================================== //
-        // =========================== Get NBA Standings ==================================== //
-        // ================================================================================== //
-        // Check if it's the Regular or Post Season
-        if (
-          date.yesterday > `${league.nba.regularSeasonStartDate}` &&
-          date.yesterday < `${league.nba.regularSeasonEndDate}`
-        ) {
-          seasonName = `${league.nba.startOfRegularSeasonYear()}-${league.nba.startOfRegularSeasonYear() +
-            1}-regular`;
-          teamStats = `W,L,GB,Win %`;
-          typeOfStandings = "division_team_standings";
-        } else if (
-          date.yesterday > `${league.nba.playoffsBeginDate}` &&
-          date.yesterday < `${league.nba.playoffsEndDate}`
-        ) {
-          seasonName = `${date.year}-playoff`;
-          this.basketball_playoffs = true;
-          teamStats = `W,L`;
-          typeOfStandings = "division_team_standings";
-          config.params = "";
-        } else {
-          console.log("End of Basketball Season. See you next year!");
-        }
-
-        url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/${typeOfStandings}.json?teamstats=${teamStats}`;
-        /* jshint ignore:start */
-        // Note: We use the arrow function here because "this" is defined by where
-        // getStandings() is called (the vue instance) not by where it is used.
-        leagueStandings = async () => {
-          this.standings = await getStandings(url);
-        };
+          });
         /* jshint ignore:end */
-        leagueStandings();
-        // =============================================================================== //
-        // =========================== End NBA Standings ================================= //
-        // =============================================================================== //
       }
     } // ================ end getSportsData =============================== //
   }
