@@ -117,7 +117,6 @@ new Vue({
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         config.params = {
-          team: "nyy,nym,bos,hou,lad,atl,chc,cle,atl,col,mil,oak",
           force: true
         };
 
@@ -146,6 +145,7 @@ new Vue({
           return;
         }
 
+        /* jshint ignore:start */
         axios
           .get(
             `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${
@@ -155,6 +155,32 @@ new Vue({
           )
           .then(response => {
             this.sports_feeds_data = response.data.scoreboard.gameScore;
+            return this.sports_feeds_data;
+          })
+          .then(response => {
+            // Fill up array with all the game ID's for today's games
+            // This will be used to retrieve the Box Scores later
+            response.forEach(function(item, index) {
+              gameIDs[index] = item.game.ID;
+            });
+
+            return gameIDs;
+          })
+          // Now call getBoxScores to retrieve MLB boxscores
+          .then(async gameIDs => {
+            const url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/game_boxscore.json?gameid=`;
+            const params = {
+              teamstats: "none",
+              playerstats: "AB,H,R,HR,RBI",
+              sort: "player.position.D",
+              limit: 9,
+              force: true
+            };
+            // Check if boxscores have been retrieved on previous tab click
+            this.sports_feeds_boxscores.mlb =
+              this.sports_feeds_boxscores.mlb ||
+              (await getBoxScores(gameIDs, url, params));
+            console.log(this.sports_feeds_boxscores.mlb);
           })
           .catch(error => {
             console.log(error);
@@ -162,6 +188,7 @@ new Vue({
           })
           .finally(() => (this.loading = false));
         // End ==== get.then ====== //
+        /* jshint ignore:end */
         // ================================================================================= //
         // ============================ End Get MLB Scores ================================= //
         // ================================================================================= //
@@ -367,7 +394,7 @@ new Vue({
 
             return gameIDs;
           })
-          // Now call getBoxScores to retrieve boxscores
+          // Now call getBoxScores to retrieve NBA boxscores
           .then(async gameIDs => {
             const url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/game_boxscore.json?gameid=`;
             const params = {
