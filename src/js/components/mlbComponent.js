@@ -20,11 +20,11 @@ const mlb = {
                     <div v-else-if="props_end_of_season === true">
                         <h2> End of Baseball Season. See Ya in April!!!</h2>
                     </div>
-                    <!-- ============== Markup for Divional Regular/Playoff Season Scores =============== -->
+                    <!-- ============== Markup for Divisional Regular/Playoff Season Scores =============== -->
                     <div v-else>
                         <div class="container">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-4 col-lg-3" v-for="value in props_league_data">
+                                <div class="col-xs-12 col-md-6 col-lg-4" v-for="value in props_league_data">
                                     <table class="table table-striped table-sm">
                                         <thead>
                                             <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
@@ -87,7 +87,7 @@ const mlb = {
                         <div class="container">
                             <div v-if="props_baseball_playoffs === false">
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-4 col-lg-3 division-name" v-for="value in props_league_standings">
+                                    <div class="col-xs-12 col-md-4 division-name" v-for="value in props_league_standings">
                                         {{ value['@name'] }}
                                         <div class="team" v-for="item in value.teamentry">
                                             <table class="table table-striped table-sm">
