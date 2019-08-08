@@ -22,7 +22,7 @@ const nba = {
                     <h3> End of Basketball Season. See Ya in October!!!</h3>
                 </div>
                 <div v-else>
-                    <!-- ============== Markup for Divional Regular/Playoff Season Scores =============== -->
+                    <!-- ============== Markup for Divisional Regular/Playoff Season Scores =============== -->
                     <div class="container" v-if="props_box_game_scores">
                         <div class="row">
                             <div class="col-xs-12 col-md-4 col-lg-3" v-for="(arrayItem, index) in props_league_data">
@@ -85,7 +85,7 @@ const nba = {
                                     </tbody>
                                 </table>
             
-                                <!-- ==================== Begin Markup for Game Boxscores ============================ -->
+                                <!-- ==================== Begin Markup for Game NBA Boxscores ============================ -->
                                 <p>
                                     <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse"
                                         v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"

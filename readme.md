@@ -29,10 +29,10 @@ As of now around line 270 in Vue.js you have to change the line:
 
 **startOfSeasonYear = 2018;**
 
-every new Basketball season to build correct uri for /get to mysportsfeeds api. This needs to be refactored...
+every new Basketball season to build the correct uri for /get to mysportsfeeds api. This needs to be refactored...
 
 ## Updating Sports Seasons for app
-1. Goto /src/seasonDates.js
+1. Goto **/src/seasonDates.js**
 2. There are objects for all the leagues, where you can update their start/end season dates which are used by our 
    app to form the correct URI when requesting data. The NBA has an extra object for computing the season name 
    because it spans over multiple years.
@@ -41,23 +41,24 @@ every new Basketball season to build correct uri for /get to mysportsfeeds api. 
 1. Clone this repo
 2. `cd` into the resultant dir
 3. Run `npm install` to get the dependencies
-4. Run `npm start` to launch the project in your default browser running on a local (`Node`-based) web server with `livereload` - all setup.
+4. Run `npm start` to launch the project in your default browser running on a local (*Node*-based) web server with *livereload - all* setup.
 
 ## Building the project for deployment
-Well, this may be a rapo but we might still want to push this onto a prod environment. A apache server or something of the sort.
+Well, this may be a rapo but we might still want to push this onto a prod environment. An apache server or something of the sort.
 
 To generate a prod output, I've also created a `build.js` file that run's using:
 
-*$ npm run build*
+`$ npm run build`
 
-```
+
 This creates a build dir that includes all you need to push to prod.
-### Testing the build
+## Testing the build
+
 If you want to check the build - Just to make sure:
-```
-*$ npm run testbuild*
-```
-This runs 'budo' on the build
+
+`$ npm run testbuild`
+
+This runs *budo* on the build
 
 ## Using postcss-cli for css-declaration-sorter and autoprefixer
 
@@ -65,6 +66,7 @@ This runs 'budo' on the build
 `npm install -g postcss-cli`
 
 And npx:
+
 `npm install -g npx`
 
 then install postcss plugins locally 
