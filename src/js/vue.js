@@ -158,10 +158,12 @@ new Vue({
             return this.sports_feeds_data;
           })
           .then(response => {
-            // Fill up array with all the game ID's for today's games
-            // This will be used to retrieve the Box Scores later
+            // Fill up array with all the game ID's for today's games that were
+            // completed. This will be used to retrieve the Box Scores later
             response.forEach(function(item, index) {
-              gameIDs[index] = item.game.ID;
+              if (item.isCompleted === "true") {
+                gameIDs[index] = item.game.ID;
+              }
             });
 
             return gameIDs;
@@ -173,14 +175,12 @@ new Vue({
               teamstats: "none",
               playerstats: "AB,H,R,HR,RBI",
               sort: "player.position.D",
-              limit: 9,
               force: true
             };
             // Check if boxscores have been retrieved on previous tab click
             this.sports_feeds_boxscores.mlb =
               this.sports_feeds_boxscores.mlb ||
               (await getBoxScores(gameIDs, url, params));
-            console.log(this.sports_feeds_boxscores.mlb);
           })
           .catch(error => {
             console.log(error);
@@ -386,10 +386,12 @@ new Vue({
             return this.sports_feeds_data;
           })
           .then(response => {
-            // Fill up array with all the game ID's for today's games
+            // Fill up array with all the game ID's for today's completed games.
             // This will be used to retrieve the Box Scores later
             response.forEach(function(item, index) {
-              gameIDs[index] = item.game.ID;
+              if (item.isCompleted === "true") {
+                gameIDs[index] = item.game.ID;
+              }
             });
 
             return gameIDs;

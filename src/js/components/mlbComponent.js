@@ -8,7 +8,8 @@ const mlb = {
       "props_league_data",
       "props_league_standings",
       "props_baseball_playoffs",
-      "props_end_of_season"
+      "props_end_of_season",
+      "props_box_game_scores"
     ],
     template: `
                 <div class="vue-root-element">
@@ -20,11 +21,11 @@ const mlb = {
                     <div v-else-if="props_end_of_season === true">
                         <h2> End of Baseball Season. See Ya in April!!!</h2>
                     </div>
-                    <!-- ============== Markup for Divisional Regular/Playoff Season Scores =============== -->
                     <div v-else>
-                        <div class="container">
+                        <!-- ============== Markup for Divisional Regular/Playoff Season Scores =============== -->
+                        <div class="container" v-if="props_box_game_scores">
                             <div class="row">
-                                <div class="col-xs-12 col-md-6 col-lg-4" v-for="value in props_league_data">
+                                <div class="col-xs-12 col-md-6 col-lg-4" v-for="(value, index) in props_league_data">
                                     <table class="table table-striped table-sm">
                                         <thead>
                                             <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
@@ -74,11 +75,57 @@ const mlb = {
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div> <!-- End v-for -->
-                
+
+                                    <!-- ==================== Begin Markup for Game MLB Boxscores ============================ -->
+                                        <template>
+                                         <div> {{ index }} {{props_box_game_scores.length}} {{props_box_game_scores[8].data.gameboxscore.game.location}}  {{props_league_data[8].game.location}}</div>
+                                            <div v-if="props_box_game_scores.length === props_league_data.length">                
+                                            <p> 
+                                                <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse"
+                                                    v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
+                                                    aria-controls="collapseExample">
+                                                    Game Stats
+                                                </button>
+                                            </p>
+
+                                            <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                <tbody>
+                                                    <!-- ---------- Away Team Boxscore ------------------------- -->
+                                                    <thead class="d-flex flex-wrap">
+                                                        <th class="col-12">
+                                                        <td class="team" >
+                                                        {{ value.isCompleted }} {{ index }}
+                                                            {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:
+                                                        </td>
+                                                        </th>
+                                                        <th class="col-4 justify-content-center" scope="col">Player</th>
+                                                        <th class="col-2 justify-content-center" scope="col">Hits</th>
+                                                        <th class="col-2 justify-content-center" scope="col">HR's</th>
+                                                        <th class="col-2 justify-content-center" scope="col">Run's</th>
+                                                        <th class="col-2 justify-content-center" scope="col">RBI's</th>
+
+                                                    </thead>
+                                                </tbody>
+                                            </table>
+                                            </div>
+
+                                            <div v-else-if="index < props_box_game_scores.length && props_box_game_scores[index].data.gameboxscore.game.location === props_league_data[index].game.location">      
+                                                <p> 
+                                                   
+                                                    <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse"
+                                                        v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
+                                                        aria-controls="collapseExample">
+                                                        Game Stats
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </template>
+                                    <!-- ==================== End Markup for Game Boxscores ============================ -->
+
+                                </div> <!-- End v-for Box Scores-->
                             </div> <!-- End of row -->
                         </div> <!-- End container -->
-                        <!-- ============== End of Markup for Divional Regular Season Daily Scores =============== -->
+                        <!-- ============== End of Markup for Divisional Regular Season Daily Scores =============== -->
                 
                         <hr>
                         <!-- ------------------------------------------------------------------------------------------------------ -->
