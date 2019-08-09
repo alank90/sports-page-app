@@ -77,49 +77,171 @@ const mlb = {
                                     </table>
 
                                     <!-- ==================== Begin Markup for Game MLB Boxscores ============================ -->
-                                        <template>
-                                         <div> {{ index }} {{props_box_game_scores.length}} {{props_box_game_scores[8].data.gameboxscore.game.location}}  {{props_league_data[8].game.location}}</div>
+                                      <!-- First see if any games were not completed. If not, the props_box_game_score.length
+                                           will equal props_league_data.length -->
                                             <div v-if="props_box_game_scores.length === props_league_data.length">                
-                                            <p> 
+                                                <p> 
                                                 <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse"
                                                     v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
                                                     aria-controls="collapseExample">
                                                     Game Stats
                                                 </button>
-                                            </p>
+                                                </p>
 
-                                            <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
-                                                <tbody>
-                                                    <!-- ---------- Away Team Boxscore ------------------------- -->
-                                                    <thead class="d-flex flex-wrap">
-                                                        <th class="col-12">
-                                                        <td class="team" >
-                                                        {{ value.isCompleted }} {{ index }}
-                                                            {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:
-                                                        </td>
-                                                        </th>
-                                                        <th class="col-4 justify-content-center" scope="col">Player</th>
-                                                        <th class="col-2 justify-content-center" scope="col">Hits</th>
-                                                        <th class="col-2 justify-content-center" scope="col">HR's</th>
-                                                        <th class="col-2 justify-content-center" scope="col">Run's</th>
-                                                        <th class="col-2 justify-content-center" scope="col">RBI's</th>
+                                                <!-- ======== Away Team Boxscore =================== -->
+                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                    <tbody>
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-12">
+                                                            <td class="team" >
+                                                                {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:
+                                                            </td>
+                                                            </th>
+                                                            <th class="col-4 justify-content-center" scope="col">Player</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Hits</th>
+                                                            <th class="col-2 justify-content-center" scope="col">HR's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Run's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">RBI's</th>
+                                                        </thead>
 
-                                                    </thead>
-                                                </tbody>
-                                            </table>
+                                                        <div
+                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
+                                                                    </td>
+                                                                    <td class="col-2 justify-content-center" justify-content="center">
+                                                                        {{playerStats.stats.Hits['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Homeruns['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Runs['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
+                                                                    </td>
+                                                                </tr>
+                                                        </div>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- ======== Home Team Boxscore =================== -->
+                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                    <tbody>
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-12">
+                                                            <td class="team" >
+                                                                {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.Abbreviation }}:
+                                                            </td>
+                                                            </th>
+                                                            <th class="col-4 justify-content-center" scope="col">Player</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Hits</th>
+                                                            <th class="col-2 justify-content-center" scope="col">HR's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Run's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">RBI's</th>
+                                                        </thead>
+
+                                                        <div
+                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
+                                                                    </td>
+                                                                    <td class="col-2 justify-content-center" justify-content="center">
+                                                                        {{playerStats.stats.Hits['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Homeruns['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Runs['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
+                                                                    </td>
+                                                                </tr>
+                                                        </div>
+                                                    </tbody>
+                                                </table>
                                             </div>
+                                           <!-- ============ end v-if =============== ->
 
+                                           <!-- ===== Now if arrays are not equal length we must provide logic to handle
+                                                this situation. 
+                                            ============= -->
                                             <div v-else-if="index < props_box_game_scores.length && props_box_game_scores[index].data.gameboxscore.game.location === props_league_data[index].game.location">      
                                                 <p> 
-                                                   
                                                     <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse"
                                                         v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
                                                         aria-controls="collapseExample">
                                                         Game Stats
                                                     </button>
                                                 </p>
+
+                                                <!-- ======== Away Team Boxscore =================== -->
+                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                    <tbody>
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-12">
+                                                            <td class="team" >
+                                                                {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:
+                                                            </td>
+                                                            </th>
+                                                            <th class="col-4 justify-content-center" scope="col">Player</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Hits</th>
+                                                            <th class="col-2 justify-content-center" scope="col">HR's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Run's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">RBI's</th>
+                                                        </thead>
+
+                                                        <div
+                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
+                                                                    </td>
+                                                                    <td class="col-2 justify-content-center" justify-content="center">
+                                                                        {{playerStats.stats.Hits['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Homeruns['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Runs['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
+                                                                    </td>
+                                                                </tr>
+                                                        </div>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- ======== Home Team Boxscore =================== -->
+                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                    <tbody>
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-12">
+                                                            <td class="team" >
+                                                                {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.Abbreviation }}:
+                                                            </td>
+                                                            </th>
+                                                            <th class="col-4 justify-content-center" scope="col">Player</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Hits</th>
+                                                            <th class="col-2 justify-content-center" scope="col">HR's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Run's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">RBI's</th>
+                                                        </thead>
+
+                                                        <div
+                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
+                                                                    </td>
+                                                                    <td class="col-2 justify-content-center" justify-content="center">
+                                                                        {{playerStats.stats.Hits['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Homeruns['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Runs['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
+                                                                    </td>
+                                                                </tr>
+                                                        </div>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        </template>
+                                            <!-- ===== End v-else-if ===== -->
+                                            <!-- index value is higher then props_box_game_scores.length
+                                                 so must be an incomplete game. No boxscore available
+                                             === -->
+                                            <div v-else>
+                                                <p> No Boxscores Available. </p>
+                                            </div>
+                                        
                                     <!-- ==================== End Markup for Game Boxscores ============================ -->
 
                                 </div> <!-- End v-for Box Scores-->
