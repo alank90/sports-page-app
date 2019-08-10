@@ -173,7 +173,7 @@ new Vue({
             const url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/game_boxscore.json?gameid=`;
             const params = {
               teamstats: "none",
-              playerstats: "AB,H,R,HR,RBI",
+              playerstats: "AB,H,R,HR,RBI,AVG,W,L,ERA,SV,SO,IP",
               sort: "player.position.D",
               force: true
             };
@@ -181,6 +181,15 @@ new Vue({
             this.sports_feeds_boxscores.mlb =
               this.sports_feeds_boxscores.mlb ||
               (await getBoxScores(gameIDs, url, params));
+            // Now need to go thru getBoxScores and extract out the PlayerID's
+            // so we can get the players Cumlative Stats
+            this.sports_feeds_boxscores.mlb.forEach(function(cumlativeStats) {
+              cumlativeStats.data.gameboxscore.awayTeam.awayPlayers.playerEntry.forEach(
+                function(playerStats) {
+                  console.log(playerStats.player.ID);
+                }
+              );
+            });
           })
           .catch(error => {
             console.log(error);
