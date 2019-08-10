@@ -142,6 +142,10 @@ th {
   font-size: 0.8rem;
 }
 
+td:not(:first-child) {
+  text-align: center;
+}
+
 .box-score-status {
   font-size: 0.8rem;
   font-weight: 700;

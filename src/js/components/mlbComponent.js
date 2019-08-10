@@ -87,8 +87,9 @@ const mlb = {
                                                     Game Stats
                                                 </button>
                                                 </p>
-
+<!-- =============================================== Begin v-if for MLB Boxscores ====================================================================== -->
                                                 <!-- ======== Away Team Boxscore =================== -->
+                                                <!-- ========= Player Stats ================ -->
                                                 <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
@@ -120,6 +121,40 @@ const mlb = {
                                                         </div>
                                                     </tbody>
                                                 </table>
+
+                                                <!-- ========= Pitcher Stats ============== -->
+                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                    <tbody>
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-4 justify-content-center" scope="col">Pitcher</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Innings Pitched</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Runs Allowed</th>
+                                                            <th class="col-2 justify-content-center" scope="col">SO</th>
+                                                            <th class="col-2 justify-content-center" scope="col">ERA</th>
+                                                        </thead>
+
+                                                        <div
+                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
+                                                                    <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
+                                                                    <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
+                                                                    <span v-else-if="playerStats.stats.Saves['#text'] === '1'">(S)</span>  
+                                                                    </td>
+                                                                    
+                                                                    <td class="col-2 justify-content-center" justify-content="center">
+                                                                        {{playerStats.stats.InningsPitched['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.RunsAllowed['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.PitcherStrikeouts['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.EarnedRunAvg['#text']}}
+                                                                    </td>
+                                                                </tr>
+                                                        </div>
+                                                    </tbody>
+                                                </table>
+                                                <!-- ========= End Pitcher Stats ============== -->
+
 
                                                 <!-- ======== Home Team Boxscore =================== -->
                                                 <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
@@ -153,8 +188,44 @@ const mlb = {
                                                         </div>
                                                     </tbody>
                                                 </table>
+
+                                                <!-- ========= Pitcher Stats ============== -->
+                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                    <tbody>
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-4 justify-content-center" scope="col">Pitcher</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Innings Pitched</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Runs Allowed</th>
+                                                            <th class="col-2 justify-content-center" scope="col">SO</th>
+                                                            <th class="col-2 justify-content-center" scope="col">ERA</th>
+                                                        </thead>
+
+                                                        <div
+                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
+                                                                    <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
+                                                                    <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
+                                                                    <span v-else-if="playerStats.stats.Saves['#text'] === '1'">(S)</span>  
+                                                                    </td>
+                                                                    
+                                                                    <td class="col-2 justify-content-center" justify-content="center">
+                                                                        {{playerStats.stats.InningsPitched['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.RunsAllowed['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.PitcherStrikeouts['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.EarnedRunAvg['#text']}}
+                                                                    </td>
+                                                                </tr>
+                                                        </div>
+                                                    </tbody>
+                                                </table>
+                                                <!-- ========= End Pitcher Stats ============== -->
                                             </div>
-                                           <!-- ============ end v-if =============== ->
+ <!-- =============================================== End v-if for MLB Boxscores =============================================== -->
+
+
+ <!-- =============================================== Begin v-else-if for MLB Boxscores =============================================== -->
 
                                            <!-- ===== Now if arrays are not equal length we must provide logic to handle
                                                 this situation. 
@@ -201,6 +272,39 @@ const mlb = {
                                                     </tbody>
                                                 </table>
 
+                                                <!-- ========= Pitcher Stats ============== -->
+                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                    <tbody>
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-4 justify-content-center" scope="col">Pitcher</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Innings Pitched</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Runs Allowed</th>
+                                                            <th class="col-2 justify-content-center" scope="col">SO</th>
+                                                            <th class="col-2 justify-content-center" scope="col">ERA</th>
+                                                        </thead>
+
+                                                        <div
+                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
+                                                                    <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
+                                                                    <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
+                                                                    <span v-else-if="playerStats.stats.Saves['#text'] === '1'">(S)</span>  
+                                                                    </td>
+                                                                    
+                                                                    <td class="col-2 justify-content-center" justify-content="center">
+                                                                        {{playerStats.stats.InningsPitched['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.RunsAllowed['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.PitcherStrikeouts['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.EarnedRunAvg['#text']}}
+                                                                    </td>
+                                                                </tr>
+                                                        </div>
+                                                    </tbody>
+                                                </table>
+                                                <!-- ========= End Pitcher Stats ============== -->
+
                                                 <!-- ======== Home Team Boxscore =================== -->
                                                 <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
@@ -233,11 +337,42 @@ const mlb = {
                                                         </div>
                                                     </tbody>
                                                 </table>
+
+                                                <!-- ========= Pitcher Stats ============== -->
+                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                    <tbody>
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-4 justify-content-center" scope="col">Pitcher</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Innings Pitched</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Runs Allowed</th>
+                                                            <th class="col-2 justify-content-center" scope="col">SO</th>
+                                                            <th class="col-2 justify-content-center" scope="col">ERA</th>
+                                                        </thead>
+
+                                                        <div
+                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
+                                                                    <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
+                                                                    <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
+                                                                    <span v-else-if="playerStats.stats.Saves['#text'] === '1'">(S)</span>  
+                                                                    </td>
+                                                                    
+                                                                    <td class="col-2 justify-content-center" justify-content="center">
+                                                                        {{playerStats.stats.InningsPitched['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.RunsAllowed['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.PitcherStrikeouts['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.EarnedRunAvg['#text']}}
+                                                                    </td>
+                                                                </tr>
+                                                        </div>
+                                                    </tbody>
+                                                </table>
+                                                <!-- ========= End Pitcher Stats ============== -->
                                             </div>
-                                            <!-- ===== End v-else-if ===== -->
-                                            <!-- index value is higher then props_box_game_scores.length
-                                                 so must be an incomplete game. No boxscore available
-                                             === -->
+<!-- =============================================== End v-else-if for MLB Boxscores ============================================ -->
+         <!-- index value is higher then props_box_game_scores.length so must be an incomplete game. No boxscore available === -->
                                             <div v-else>
                                                 <p> No Boxscores Available. </p>
                                             </div>
