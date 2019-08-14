@@ -13,6 +13,9 @@ const mlbComponent = require("./components/mlbComponent");
 const nflComponent = require("./components/nflComponent");
 const nbaComponent = require("./components/nbaComponent");
 
+// By defining the EventBus globally you avoid having to import the
+// EventBus in every component you would like to use it in.
+Vue.prototype.$eventBus = new Vue();
 Vue.config.productionTip = false;
 
 // Axios config object. Sent with Get request
@@ -28,23 +31,6 @@ const config = {
   params: {}
 };
 
-// ========================================================================== //
-// ========================== Components Here =============================== //
-// ========================================================================== //
-/* jshint ignore:start */
-mlbComponent.mlb;
-
-nflComponent.nfl;
-
-nbaComponent.nba;
-
-helperComponent.toTop;
-
-/* jshint ignore:end */
-// ============================================================================ //
-// ========== End Components ================================================== //
-// ============================================================================ //
-
 // Starting Vue Component. Need this so don't throw Vue error message about
 // no custom element "tab-" on first render.
 Vue.component("tab-", {
@@ -56,6 +42,12 @@ Vue.component("tab-", {
 // ============================================================================ //
 new Vue({
   el: "#app",
+  components: {
+    mlbComponent: mlbComponent,
+    nflComponent: nflComponent,
+    nbaComponent: nbaComponent,
+    helperComponent: helperComponent
+  },
   data() {
     return {
       sports_feeds_data: [],
@@ -347,7 +339,6 @@ new Vue({
       } else if (this.currentTab === "NBA") {
         // first check if Off-Season and skip AJAX call
         if (date.today > league.nba.playoffsEndDate) {
-          console.log("End of Basketball Season. See you next year!");
           this.end_of_season.nba = true;
           return;
         }
