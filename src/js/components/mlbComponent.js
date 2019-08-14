@@ -2,6 +2,9 @@
 
 const Vue = require("vue");
 
+const { EventBus } = require("../modules/event-bus");
+const playerCumlativeStats = require("../components/playerCumlativeStats");
+
 const mlb = {
   mlbComponent: Vue.component("tab-mlb", {
     props: [
@@ -11,6 +14,12 @@ const mlb = {
       "props_end_of_season",
       "props_box_game_scores"
     ],
+    components: {
+      playerCumlativeStats: playerCumlativeStats
+    },
+    mounted: function() {
+      EventBus.$emit("boxGameScores", this.props_box_game_scores);
+    },
     template: `
                 <div class="vue-root-element">
                     <!-- Check if data was returned from get request to mysportsfeeds API -->
@@ -118,10 +127,13 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
                                                                     </td>
                                                                 </tr>
+                                                                <!-- =========== Cumulative Player Stats =========================== -->
+                                                                <mlb-player-stats />
                                                         </div>
                                                     </tbody>
                                                 </table>
-
+                                                
+                                                
                                                 <!-- ========= Pitcher Stats ============== -->
                                                 <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
@@ -268,6 +280,8 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
                                                                     </td>
                                                                 </tr>
+                                                                <!-- =========== Cumulative Player Stats =========================== -->
+                                                                <mlb-player-stats />
                                                         </div>
                                                     </tbody>
                                                 </table>
