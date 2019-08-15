@@ -178,7 +178,7 @@ new Vue({
             this.sports_feeds_boxscores.mlb.forEach(function(cumlativeStats) {
               cumlativeStats.data.gameboxscore.awayTeam.awayPlayers.playerEntry.forEach(
                 function(playerStats) {
-                  console.log(playerStats.player.ID);
+                  //console.log(playerStats.player.ID);
                 }
               );
             });

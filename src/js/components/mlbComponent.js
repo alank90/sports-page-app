@@ -17,8 +17,17 @@ const mlb = {
     components: {
       playerCumlativeStats: playerCumlativeStats
     },
-    mounted: function() {
-      EventBus.$emit("boxGameScores", this.props_box_game_scores);
+    data() {
+      return {};
+    },
+    methods: {
+      sendBoxScoresData: function() {
+        // Let's grab the data-index value on the buuton clicked and send that gprops_box_game_scores array
+        // element on the Eventbus to the event listener on playerCumulativeStats component
+        let el = event.currentTarget;
+        let index = el.getAttribute("data-index");
+        EventBus.$emit("boxGameScoreObject", this.props_box_game_scores[index]);
+      }
     },
     template: `
                 <div class="vue-root-element">
@@ -90,8 +99,8 @@ const mlb = {
                                            will equal props_league_data.length -->
                                             <div v-if="props_box_game_scores.length === props_league_data.length">                
                                                 <p> 
-                                                <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse"
-                                                    v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
+                                                <button @click="sendBoxScoresData()" class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
+                                                    v-bind:data-index="index" v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
                                                     aria-controls="collapseExample">
                                                     Game Stats
                                                 </button>

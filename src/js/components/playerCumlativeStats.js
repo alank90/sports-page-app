@@ -5,17 +5,17 @@ const playerCumlativeStats = {
   playerCumlativeStats: Vue.component("mlb-player-stats", {
     data() {
       return {
-        boxGameScores: []
+        boxGameScore: null
       };
     },
     mounted() {
-      EventBus.$on("boxGameScores", data => {
-        // Assign data on eventBus to this component
-        this.boxGameScores = data;
+      EventBus.$on("boxGameScoreObject", data => {
+        // Assign data on eventBus to this component object
+        this.boxGameScore = data;
       });
     },
     template: `
-    <tr class="d-flex">
+    <tr class="d-flex" v-if="this.boxGameScore">
     <td class="col-4 justify-content-center" scope="row">
         Test Name</td>
     </td>
