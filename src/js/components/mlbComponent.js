@@ -21,12 +21,10 @@ const mlb = {
       return {};
     },
     methods: {
-      sendBoxScoresData: function() {
-        // Let's grab the data-index value on the buuton clicked and send that gprops_box_game_scores array
-        // element on the Eventbus to the event listener on playerCumulativeStats component
-        let el = event.currentTarget;
-        let index = el.getAttribute("data-index");
-        EventBus.$emit("boxGameScoreObject", this.props_box_game_scores[index]);
+      getCumlativeStats: function(playerId) {
+        // Let's grab the playeriD value on the button clicked and send that value on the
+        // Eventbus to the event listener on playerCumulativeStats component
+        EventBus.$emit("get-cumlative-stats", playerId);
       }
     },
     template: `
@@ -99,7 +97,7 @@ const mlb = {
                                            will equal props_league_data.length -->
                                             <div v-if="props_box_game_scores.length === props_league_data.length">                
                                                 <p> 
-                                                <button @click="sendBoxScoresData()" class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
+                                                <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
                                                     v-bind:data-index="index" v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
                                                     aria-controls="collapseExample">
                                                     Game Stats
@@ -125,8 +123,8 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
-                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
-                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
+                                                                    <td @click="getCumlativeStats(playerStats.player.ID)" class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
@@ -156,9 +154,9 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
-                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex">
-                                                                    <td class="col-4 justify-content-center" scope="row">
-                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
+                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
+                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} 
                                                                     <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
                                                                     <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
                                                                     <span v-else-if="playerStats.stats.Saves['#text'] === '1'">(S)</span>  
@@ -195,9 +193,9 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
-                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
-                                                                    <td class="col-4 justify-content-center" scope="row">
-                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
+                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
                                                                         {{playerStats.stats.Hits['#text']}}</td>
@@ -223,9 +221,9 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
-                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex">
-                                                                    <td class="col-4 justify-content-center" scope="row">
-                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
+                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
+                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}"
                                                                     <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
                                                                     <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
                                                                     <span v-else-if="playerStats.stats.Saves['#text'] === '1'">(S)</span>  
@@ -278,9 +276,9 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
-                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
-                                                                    <td class="col-4 justify-content-center" scope="row">
-                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
+                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
                                                                         {{playerStats.stats.Hits['#text']}}</td>
@@ -308,12 +306,12 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
-                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex">
-                                                                    <td class="col-4 justify-content-center" scope="row">
-                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
-                                                                    <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
-                                                                    <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
-                                                                    <span v-else-if="playerStats.stats.Saves['#text'] === '1'">(S)</span>  
+                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
+                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} 
+                                                                        <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
+                                                                        <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
+                                                                        <span v-else-if="playerStats.stats.Saves['#text'] === '1'">(S)</span>  
                                                                     </td>
                                                                     
                                                                     <td class="col-2 justify-content-center" justify-content="center">
@@ -346,9 +344,9 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
-                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
-                                                                    <td class="col-4 justify-content-center" scope="row">
-                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
+                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
                                                                         {{playerStats.stats.Hits['#text']}}</td>
@@ -374,8 +372,8 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
-                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex">
-                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
+                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
                                                                     <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
                                                                     <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
