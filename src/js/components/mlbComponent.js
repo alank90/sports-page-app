@@ -18,11 +18,15 @@ const mlb = {
       playerCumlativeStats: playerCumlativeStats
     },
     data() {
-      return {};
+      return {
+        displayCumlativeStats: false
+      };
     },
     methods: {
-      getCumlativeStats: function(playerId) {
-        // Let's grab the playeriD value on the button clicked and send that value on the
+      getCumlativeStats: function(event, playerId) {
+        this.displayCumlativeStats = !this.displayCumlativeStats;
+        console.log(event.target);
+         // Let's grab the playeriD value on the button clicked and send that value on the
         // Eventbus to the event listener on playerCumulativeStats component
         EventBus.$emit("get-cumlative-stats", playerId);
       }
@@ -41,7 +45,7 @@ const mlb = {
                         <!-- ============== Markup for Divisional Regular/Playoff Season Scores =============== -->
                         <div class="container" v-if="props_box_game_scores">
                             <div class="row">
-                                <div class="col-xs-12 col-md-6 col-lg-4" v-for="(value, index) in props_league_data">
+                                <div class="col-xs-12 col-md-6 col-lg-4 display-boxscores" v-for="(value, index) in props_league_data" >
                                     <table class="table table-striped table-sm">
                                         <thead>
                                             <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
@@ -97,11 +101,11 @@ const mlb = {
                                            will equal props_league_data.length -->
                                             <div v-if="props_box_game_scores.length === props_league_data.length">                
                                                 <p> 
-                                                <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
-                                                    v-bind:data-index="index" v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
-                                                    aria-controls="collapseExample">
-                                                    Game Stats
-                                                </button>
+                                                    <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
+                                                        v-bind:data-index="index" v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
+                                                        aria-controls="collapseExample">
+                                                        Game Stats
+                                                    </button>
                                                 </p>
 <!-- =============================================== Begin v-if for MLB Boxscores ====================================================================== -->
                                                 <!-- ======== Away Team Boxscore =================== -->
@@ -124,7 +128,7 @@ const mlb = {
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
-                                                                    <td @click="getCumlativeStats(playerStats.player.ID)" class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                    <td @click="getCumlativeStats($event,playerStats.player.ID)" class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
@@ -134,8 +138,20 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
                                                                     </td>
                                                                 </tr>
+                                                                <!-- ============ Cumlative Player Stats ================= -->
+                                                                <tr :id="playerStats.player.ID" v-if="displayCumlativeStats">
+                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                        Season Stats</td>
+                                                                    </td>
+                                                                    <td class="col-2 justify-content-center" justify-content="center">
+                                                                        {{playerStats.stats.Hits['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Homeruns['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.Runs['#text']}}</td>
+                                                                    <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
+                                                                    </td>
+                                                                </tr>
                                                                 <!-- =========== Cumulative Player Stats =========================== -->
-                                                                <mlb-player-stats />
+                                                                <!-- === <mlb-player-stats v-if="displayCumlativeStats"/> ===-->
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -240,7 +256,7 @@ const mlb = {
                                                     </tbody>
                                                 </table>
                                                 <!-- ========= End Pitcher Stats ============== -->
-                                            </div>
+                                            </div> <!-- End div v-if -->
  <!-- =============================================== End v-if for MLB Boxscores =============================================== -->
 
 
@@ -288,7 +304,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
                                                                 <!-- =========== Cumulative Player Stats =========================== -->
-                                                                <mlb-player-stats />
+                                                                
                                                         </div>
                                                     </tbody>
                                                 </table>
