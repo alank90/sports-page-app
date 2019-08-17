@@ -1,4 +1,5 @@
 const Vue = require("vue");
+const axios = require("axios");
 const { EventBus } = require("../modules/event-bus");
 
 const playerCumlativeStats = {
@@ -8,12 +9,34 @@ const playerCumlativeStats = {
         currentPlayerId: ""
       };
     },
-    mounted() {
+    
+    template: `
+    <tr class="d-flex">
+    <td class="col-4 justify-content-center" scope="row">
+        Test Name</td>
+    </td>
+    <td class="col-2 justify-content-center" justify-content="center">
+        166</td>
+    <td class="col-2 justify-content-center">22</td>
+    <td class="col-2 justify-content-center">55</td>
+    <td class="col-2 justify-content-center">88
+    </td>
+</tr>
+
+    `
+  })
+};
+
+
+module.exports = { playerCumlativeStats };
+/*
+
+mounted() {
       EventBus.$on("get-cumlative-stats", data => {
         // Assign playerid on eventBus to this component object
         // and have axios get player cumlative stats
         this.currentPlayerId = data;
-        retrievePlayerStats(this.currentPlayerId);
+        this.retrievePlayerStats(this.currentPlayerId);
       });
     },
     methods: {
@@ -36,21 +59,4 @@ const playerCumlativeStats = {
         });
       }
     },
-    template: `
-    <tr class="d-flex" v-if="this.boxGameScore">
-    <td class="col-4 justify-content-center" scope="row">
-        Test Name</td>
-    </td>
-    <td class="col-2 justify-content-center" justify-content="center">
-        166</td>
-    <td class="col-2 justify-content-center">22</td>
-    <td class="col-2 justify-content-center">55</td>
-    <td class="col-2 justify-content-center">88
-    </td>
-</tr>
-
-    `
-  })
-};
-
-module.exports = { playerCumlativeStats };
+*/
