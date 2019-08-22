@@ -1,6 +1,7 @@
 // src/js/components/mlbComponent.js
 
 const Vue = require("vue");
+const cumlativeStats = require("../components/cumlativeStatsComponent");
 
 const mlb = {
   mlbComponent: Vue.component("tab-mlb", {
@@ -11,6 +12,9 @@ const mlb = {
       "props_end_of_season",
       "props_box_game_scores"
     ],
+    components: {
+      cumlativeStats: cumlativeStats
+    },
     template: `
                 <div class="vue-root-element">
                     <!-- Check if data was returned from get request to mysportsfeeds API -->
@@ -118,6 +122,8 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
                                                                     </td>
                                                                 </tr>
+
+                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
                                                                 
                                                         </div>
                                                     </tbody>
