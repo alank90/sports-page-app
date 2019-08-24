@@ -1,7 +1,7 @@
 // src/js/components/mlbComponent.js
 
 const Vue = require("vue");
-const cumlativeStats = require("../components/cumlativeStatsComponent");
+const cumulativeStats = require("../components/cumulativeStatsComponent");
 
 const mlb = {
   mlbComponent: Vue.component("tab-mlb", {
@@ -13,7 +13,7 @@ const mlb = {
       "props_box_game_scores"
     ],
     components: {
-      cumlativeStats: cumlativeStats
+      cumulativeStats: cumulativeStats
     },
     template: `
                 <div class="vue-root-element">
@@ -105,7 +105,7 @@ const mlb = {
                                                             <th class="col-4 justify-content-center" scope="col">Player</th>
                                                             <th class="col-2 justify-content-center" scope="col">Hits</th>
                                                             <th class="col-2 justify-content-center" scope="col">HR's</th>
-                                                            <th class="col-2 justify-content-center" scope="col">Run's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">R/Avg</th>
                                                             <th class="col-2 justify-content-center" scope="col">RBI's</th>
                                                         </thead>
 
@@ -157,6 +157,9 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.EarnedRunAvg['#text']}}
                                                                     </td>
                                                                 </tr>
+
+                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
+                                                                
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -175,7 +178,7 @@ const mlb = {
                                                             <th class="col-4 justify-content-center" scope="col">Player</th>
                                                             <th class="col-2 justify-content-center" scope="col">Hits</th>
                                                             <th class="col-2 justify-content-center" scope="col">HR's</th>
-                                                            <th class="col-2 justify-content-center" scope="col">Run's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">R/Avg</th>
                                                             <th class="col-2 justify-content-center" scope="col">RBI's</th>
                                                         </thead>
 
@@ -192,6 +195,8 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
                                                                     </td>
                                                                 </tr>
+
+                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -224,6 +229,8 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.EarnedRunAvg['#text']}}
                                                                     </td>
                                                                 </tr>
+
+                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -258,7 +265,7 @@ const mlb = {
                                                             <th class="col-4 justify-content-center" scope="col">Player</th>
                                                             <th class="col-2 justify-content-center" scope="col">Hits</th>
                                                             <th class="col-2 justify-content-center" scope="col">HR's</th>
-                                                            <th class="col-2 justify-content-center" scope="col">Run's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">R/Avg</th>
                                                             <th class="col-2 justify-content-center" scope="col">RBI's</th>
                                                         </thead>
 
@@ -275,6 +282,8 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
                                                                     </td>
                                                                 </tr>
+
+                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -307,6 +316,8 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.EarnedRunAvg['#text']}}
                                                                     </td>
                                                                 </tr>
+
+                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -324,7 +335,7 @@ const mlb = {
                                                             <th class="col-4 justify-content-center" scope="col">Player</th>
                                                             <th class="col-2 justify-content-center" scope="col">Hits</th>
                                                             <th class="col-2 justify-content-center" scope="col">HR's</th>
-                                                            <th class="col-2 justify-content-center" scope="col">Run's</th>
+                                                            <th class="col-2 justify-content-center" scope="col">R/Avg</th>
                                                             <th class="col-2 justify-content-center" scope="col">RBI's</th>
                                                         </thead>
 
@@ -341,6 +352,8 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.RunsBattedIn['#text']}}
                                                                     </td>
                                                                 </tr>
+
+                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -373,6 +386,8 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.EarnedRunAvg['#text']}}
                                                                     </td>
                                                                 </tr>
+
+                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
