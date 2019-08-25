@@ -1,16 +1,24 @@
 const Vue = require("vue");
 const axios = require("axios");
 
+const { EventBus } = require("../modules/event-bus");
+
 const playerCumulativeStats = {
-  cumlativeStats: Vue.component("season-stats", {
+  cumlativeStats: Vue.component("player-season-stats", {
     props: ["props_player_id"],
     data: function() {
       return {
         Hits: "",
         HR: "",
         RBI: "",
-        BattingAvg: ""
+        BattingAvg: "",
+        showPlayerSeasonStats: false
       };
+    },
+    mounted: function() {
+      EventBus.$on("showPlayerTemplateClicked", () => {
+        this.showPlayerSeasonStats = !this.showPlayerSeasonStats;
+      });
     },
     methods: {
       retrievePlayerStats: function(playerId) {
@@ -48,10 +56,13 @@ const playerCumulativeStats = {
               "#text"
             ];
         });
+      },
+      showTemplate: function() {
+        this.showPlayerSeasonStats = !this.showPlayerSeasonStats;
       }
     },
     template: `
-      <tr class="d-flex">
+      <tr v-if="showPlayerSeasonStats" class="d-flex">
         <td @click="retrievePlayerStats(props_player_id)" class="col-4 justify-content-center" scope="row">
             Season Stats</td>
         </td>

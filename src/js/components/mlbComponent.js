@@ -1,7 +1,10 @@
 // src/js/components/mlbComponent.js
 
 const Vue = require("vue");
-const cumulativeStats = require("../components/cumulativeStatsComponent");
+const cumulativePlayerStats = require("../components/cumulativePlayerStatsComponent");
+const cumulativePitcherStats = require("../components/cumulativePitcherStatsComponent");
+
+const { EventBus } = require("../modules/event-bus");
 
 const mlb = {
   mlbComponent: Vue.component("tab-mlb", {
@@ -13,7 +16,13 @@ const mlb = {
       "props_box_game_scores"
     ],
     components: {
-      cumulativeStats: cumulativeStats
+      cumulativePlayerStats: cumulativePlayerStats,
+      cumulativePitcherStats: cumulativePitcherStats
+    },
+    methods: {
+      showPlayerStatsEvent: function() {
+        EventBus.$emit("showPlayerTemplateClicked");
+      }
     },
     template: `
                 <div class="vue-root-element">
@@ -112,7 +121,7 @@ const mlb = {
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
-                                                                    <td class="col-4 justify-content-center" scope="row">
+                                                                    <td v-on:click="showPlayerStatsEvent" class="col-4 justify-content-center" scope="row">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
@@ -123,7 +132,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
+                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
                                                                 
                                                         </div>
                                                     </tbody>
@@ -158,7 +167,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
+                                                                <pitcher-season-stats v-bind:props_player_id="playerStats.player.ID"></pitcher-season-stats>
                                                                 
                                                         </div>
                                                     </tbody>
@@ -196,7 +205,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
+                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -230,7 +239,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
+                                                                
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -283,7 +292,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
+                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -317,7 +326,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
+                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -353,7 +362,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
+                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -387,7 +396,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <season-stats v-bind:props_player_id="playerStats.player.ID"></season-stats>
+                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
