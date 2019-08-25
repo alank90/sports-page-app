@@ -15,6 +15,11 @@ const nbaComponent = require("./components/nbaComponent");
 
 Vue.config.productionTip = false;
 
+// By defining the EventBus globally you avoid having to import the
+// EventBus in every component you would like to use it in.
+Vue.prototype.$eventBus = new Vue();
+
+
 // Axios config object. Sent with Get request
 const config = {
   // `headers` are custom headers to be sent
