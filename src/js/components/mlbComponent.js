@@ -120,7 +120,7 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
-                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
                                                                     <td v-on:click="showPlayerStatsEvent" class="col-4 justify-content-center" scope="row">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
                                                                     </td>
@@ -133,7 +133,6 @@ const mlb = {
                                                                 </tr>
 
                                                                 <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
-                                                                
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -149,8 +148,7 @@ const mlb = {
                                                             <th class="col-2 justify-content-center" scope="col">ERA</th>
                                                         </thead>
 
-                                                        <div
-                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                        <div v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
                                                                     <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} 
@@ -191,8 +189,7 @@ const mlb = {
                                                             <th class="col-2 justify-content-center" scope="col">RBI's</th>
                                                         </thead>
 
-                                                        <div
-                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                        <div v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
                                                                 <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
                                                                     <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
