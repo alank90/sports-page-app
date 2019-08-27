@@ -37,9 +37,6 @@ const playerCumulativeStats = {
           url: url + playerId,
           params: params
         }).then(response => {
-          console.log(
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats
-          );
           this.Hits =
             response.data.cumulativeplayerstats.playerstatsentry[0].stats.Hits[
               "#text"
