@@ -11,15 +11,15 @@ const playerCumulativeStats = {
         Hits: "",
         HR: "",
         RBI: "",
-        BattingAvg: "",
-        showPlayerSeasonStats: false
+        BattingAvg: ""
       };
     },
-    mounted: function() {
-      EventBus.$on("showPlayerTemplateClicked", () => {
+    /* mounted: function() {
+      EventBus.$on("showPlayerTemplateClicked", function(data) {
+        console.log(data);
         this.showPlayerSeasonStats = !this.showPlayerSeasonStats;
       });
-    },
+    }, */
     methods: {
       retrievePlayerStats: function(playerId) {
         const url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2019-regular/cumulative_player_stats.json?player=`;
@@ -53,13 +53,10 @@ const playerCumulativeStats = {
               "#text"
             ];
         });
-      },
-      showTemplate: function() {
-        this.showPlayerSeasonStats = !this.showPlayerSeasonStats;
       }
     },
     template: `
-      <tr v-if="showPlayerSeasonStats" class="d-flex">
+      <tr class="d-flex">
         <td @click="retrievePlayerStats(props_player_id)" class="col-4 justify-content-center" scope="row">
             Season Stats</td>
         </td>
