@@ -15,15 +15,21 @@ const mlb = {
       "props_end_of_season",
       "props_box_game_scores"
     ],
+    data: function() {
+      return {
+        showPlayerSeasonStats: false
+      };
+    },
     components: {
       cumulativePlayerStats: cumulativePlayerStats,
       cumulativePitcherStats: cumulativePitcherStats
     },
-    methods: {
-      showPlayerStatsEvent: function() {
-        EventBus.$emit("showPlayerTemplateClicked");
+    /* methods: {
+      showPlayerStatsEvent: function(event) {
+        const target = event.target;
+        EventBus.$emit("showPlayerTemplateClicked", target);
       }
-    },
+    }, */
     template: `
                 <div class="vue-root-element">
                     <!-- Check if data was returned from get request to mysportsfeeds API -->
@@ -121,7 +127,7 @@ const mlb = {
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
-                                                                    <td v-on:click="showPlayerStatsEvent" class="col-4 justify-content-center" scope="row">
+                                                                    <td v-on:click="showPlayerSeasonStats=!showPlayerSeasonStats" class="col-4 justify-content-center" :data-player-id='playerStats.player.ID' scope="row">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
@@ -132,7 +138,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
+                                                                <player-season-stats v-if="showPlayerSeasonStats" v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
