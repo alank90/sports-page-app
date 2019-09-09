@@ -1,6 +1,8 @@
 const Vue = require("vue");
 const axios = require("axios");
 
+const { EventBus } = require("../modules/event-bus");
+
 const pitcherCumulativeStats = {
   cumlativeStats: Vue.component("pitcher-season-stats", {
     props: ["props_player_id"],
@@ -10,10 +12,23 @@ const pitcherCumulativeStats = {
         Losses: "",
         IP: "",
         SO: "",
-        ERA: ""
+        ERA: "",
+        showComponent: false
       };
     },
+    mounted: function() {
+      EventBus.$on(
+        "showPitcherTemplateClicked",
+        this.onShowPitcherTemplateClicked
+      );
+    },
     methods: {
+      onShowPitcherTemplateClicked: function(playerId) {
+        if (playerId === this.props_player_id) {
+          console.log(playerId);
+          this.showComponent = !this.showComponent;
+        }
+      },
       retrievePitcherStats: function(playerId) {
         const url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2019-regular/cumulative_player_stats.json?player=`;
         const params = {
@@ -30,9 +45,6 @@ const pitcherCumulativeStats = {
           url: url + playerId,
           params: params
         }).then(response => {
-          console.log(
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats
-          );
           this.Wins =
             response.data.cumulativeplayerstats.playerstatsentry[0].stats.Wins[
               "#text"
@@ -57,9 +69,9 @@ const pitcherCumulativeStats = {
       }
     },
     template: `
-        <tr class="d-flex">
+        <tr class="d-flex" v-if="showComponent">
             <td @click="retrievePitcherStats(props_player_id)" class="col-2 justify-content-center" scope="row">
-            Click</td>
+            Season Stats</td>
             </td>
             <td class="col-2 justify-content-center" justify-content="center">
             {{ Wins }}</td>
