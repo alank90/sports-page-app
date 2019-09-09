@@ -24,12 +24,16 @@ const mlb = {
       cumulativePlayerStats: cumulativePlayerStats,
       cumulativePitcherStats: cumulativePitcherStats
     },
-    /* methods: {
-      showPlayerStatsEvent: function(event) {
-        const target = event.target;
-        EventBus.$emit("showPlayerTemplateClicked", target);
+    methods: {
+      emitPlayerSeasonStatsClicked: function($event) {
+        let playerId = $event.target.dataset.playerId;
+        EventBus.$emit("showPlayerTemplateClicked", playerId);
+      },
+      emitPitcherSeasonStatsClicked: function($event) {
+        let playerId = $event.target.dataset.playerId;
+        EventBus.$emit("showPitcherTemplateClicked", playerId);
       }
-    }, */
+    },
     template: `
                 <div class="vue-root-element">
                     <!-- Check if data was returned from get request to mysportsfeeds API -->
@@ -109,7 +113,7 @@ const mlb = {
 <!-- =============================================== Begin v-if for MLB Boxscores ====================================================================== -->
                                                 <!-- ======== Away Team Boxscore =================== -->
                                                 <!-- ========= Player Stats ================ -->
-                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                <table @click="emitPlayerSeasonStatsClicked($event)" class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-12">
@@ -127,7 +131,7 @@ const mlb = {
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
-                                                                    <td v-on:click="showPlayerSeasonStats=!showPlayerSeasonStats" class="col-4 justify-content-center" :data-player-id='playerStats.player.ID' scope="row">
+                                                                    <td class="col-4 justify-content-center" :data-player-id='playerStats.player.ID' scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
@@ -138,13 +142,13 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <player-season-stats v-if="showPlayerSeasonStats" v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
+                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
                                                                                                 
                                                 <!-- ========= Pitcher Stats ============== -->
-                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                <table @click="emitPitcherSeasonStatsClicked($event)" class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-4 justify-content-center" scope="col">Pitcher</th>
@@ -156,7 +160,7 @@ const mlb = {
 
                                                         <div v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
-                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                    <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} 
                                                                     <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
                                                                     <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
@@ -180,7 +184,7 @@ const mlb = {
 
 
                                                 <!-- ======== Home Team Boxscore =================== -->
-                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                <table @click="emitPlayerSeasonStatsClicked($event)" class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-12">
@@ -196,8 +200,8 @@ const mlb = {
                                                         </thead>
 
                                                         <div v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
-                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
-                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" >
+                                                                    <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
@@ -266,7 +270,7 @@ const mlb = {
                                                 </p>
 
                                                 <!-- ======== Away Team Boxscore =================== -->
-                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                <table @click="emitPlayerSeasonStatsClicked($event)" class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-12">
@@ -283,8 +287,8 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
-                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
-                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" :data-player-id='playerStats.player.ID' scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
@@ -336,7 +340,7 @@ const mlb = {
                                                 <!-- ========= End Pitcher Stats ============== -->
 
                                                 <!-- ======== Home Team Boxscore =================== -->
-                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                <table @click="emitPlayerSeasonStatsClicked($event)" class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-12">
@@ -353,8 +357,8 @@ const mlb = {
 
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
-                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
-                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
+                                                                    <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                                                     </td>
                                                                     <td class="col-2 justify-content-center" justify-content="center">
