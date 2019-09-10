@@ -25,7 +25,6 @@ const pitcherCumulativeStats = {
     methods: {
       onShowPitcherTemplateClicked: function(playerId) {
         if (playerId === this.props_player_id) {
-          console.log(playerId);
           this.showComponent = !this.showComponent;
         }
       },
@@ -69,17 +68,26 @@ const pitcherCumulativeStats = {
       }
     },
     template: `
-        <tr class="d-flex" v-if="showComponent">
-            <td @click="retrievePitcherStats(props_player_id)" class="col-2 justify-content-center" scope="row">
-            Season Stats</td>
-            </td>
-            <td class="col-2 justify-content-center" justify-content="center">
-            {{ Wins }}</td>
-            <td class="col-2 justify-content-center">{{ Losses }}</td>
-            <td class="col-2 justify-content-center"> {{ SO }}</td>
-            <td class="col-2 justify-content-center"> {{ IP }}</td>
-            <td class="col-2 justify-content-center">{{ ERA }}</td>
-        </tr>
+        <div>
+          <tr class="d-flex header-row" v-if="showComponent">
+              <th class="col-2 justify-content-center season-stats-headers"  scope="col" @click="retrievePitcherStats(props_player_id)">
+              Season</th>
+              <th class="col-2 justify-content-center season-stats-headers" scope="col">Wins</th>
+              <th class="col-2 justify-content-center season-stats-headers" scope="col">Losses</th>
+              <th class="col-2 justify-content-center season-stats-headers" scope="col">SO</th>
+              <th class="col-2 justify-content-center season-stats-headers" scope="col">IP</th>
+              <th class="col-2 justify-content-right season-stats-headers" scope="col">ERA</th>
+          </tr>
+          <tr class="d-flex" v-if="showComponent">
+              <td class="col-2 justify-content-center season-stats" justify-content="center"></td>
+              <td class="col-2 justify-content-center season-stats" justify-content="center">
+              {{ Wins }}</td>
+              <td class="col-2 justify-content-center season-stats">{{ Losses }}</td>
+              <td class="col-2 justify-content-center season-stats"> {{ SO }}</td>
+              <td class="col-2 justify-content-center season-stats"> {{ IP }}</td>
+              <td class="col-2 justify-content-center season-stats">{{ ERA }}</td>
+          </tr>
+        </div>
     ` // End template
   })
 };
