@@ -144,12 +144,19 @@ a.nav-link {
 
 th {
   font-size: 0.8rem;
+  text-align: center;
 }
 th.season-stats-headers {
   font-size: 0.7rem;
   font-weight: 600;
 }
+th.col-12 {
+  background-color: #cfdcf8;
+}
 
+tr {
+  margin-bottom: 2px;
+}
 tr.header-row {
   margin-top: 2px;
 }
