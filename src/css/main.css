@@ -16,10 +16,14 @@ h1 {
   color: #fff;
   font: 2.7rem "MisoRegular";
   letter-spacing: 5px;
-  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(4, 4, 4, 0.8), 0 0 30px rgba(4, 4, 4, 0.8), 0 0 40px rgba(4, 4, 4, 0.8), 0 0 50px rgba(4, 4, 4, 0.8), 0 0 75px rgba(4, 4, 4, 0.8);
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff,
+    0 0 20px rgba(4, 4, 4, 0.8), 0 0 30px rgba(4, 4, 4, 0.8),
+    0 0 40px rgba(4, 4, 4, 0.8), 0 0 50px rgba(4, 4, 4, 0.8),
+    0 0 75px rgba(4, 4, 4, 0.8);
 }
 
-h2, h3 {
+h2,
+h3 {
   color: rgba(0, 0, 0, 0.8);
   font-family: "Abril Fatface", cursive;
   font-size: 1.5rem;
@@ -141,9 +145,22 @@ a.nav-link {
 th {
   font-size: 0.8rem;
 }
+th.season-stats-headers {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+tr.header-row {
+  margin-top: 2px;
+}
 
 td:not(:first-child) {
   text-align: center;
+}
+
+td[title="Click for Season Stats"] {
+  cursor: pointer;
+  font-weight: 700;
 }
 
 .box-score-status {
@@ -159,14 +176,16 @@ td:not(:first-child) {
   margin-bottom: 0;
 }
 
-.btn-group-sm > .btn, .btn-sm {
-  font-size: .5rem;
+.btn-group-sm > .btn,
+.btn-sm {
+  font-size: 0.5rem;
   font-weight: 600;
   transition: all 0.5s;
-} 
-.btn-group-sm > .btn, .btn-sm:hover {
+}
+.btn-group-sm > .btn,
+.btn-sm:hover {
   -webkit-transform: scale(1.2);
-          transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 team-logo {

@@ -218,7 +218,7 @@ const mlb = {
                                                 </table>
 
                                                 <!-- ========= Pitcher Stats ============== -->
-                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                <table @click="emitPitcherSeasonStatsClicked($event)" class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-4 justify-content-center" scope="col">Pitcher</th>
@@ -231,8 +231,8 @@ const mlb = {
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
                                                                 <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
-                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
-                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}"
+                                                                    <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
+                                                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
                                                                     <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
                                                                     <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
                                                                     <span v-else-if="playerStats.stats.Saves['#text'] === '1'">(S)</span>  
@@ -245,7 +245,8 @@ const mlb = {
                                                                     <td class="col-2 justify-content-center">{{playerStats.stats.EarnedRunAvg['#text']}}
                                                                     </td>
                                                                 </tr>
-
+                                                            
+                                                                <pitcher-season-stats v-bind:props_player_id="playerStats.player.ID"></pitcher-season-stats>
                                                                 
                                                         </div>
                                                     </tbody>
@@ -305,7 +306,7 @@ const mlb = {
                                                 </table>
 
                                                 <!-- ========= Pitcher Stats ============== -->
-                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                <table  @click="emitPitcherSeasonStatsClicked($event)" class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-4 justify-content-center" scope="col">Pitcher</th>
@@ -318,7 +319,7 @@ const mlb = {
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
-                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                    <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} 
                                                                         <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
                                                                         <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
@@ -333,7 +334,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
+                                                                <pitcher-season-stats v-bind:props_player_id="playerStats.player.ID"></pitcher-season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
@@ -375,7 +376,7 @@ const mlb = {
                                                 </table>
 
                                                 <!-- ========= Pitcher Stats ============== -->
-                                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                                <table @click="emitPitcherSeasonStatsClicked($event)" class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-4 justify-content-center" scope="col">Pitcher</th>
@@ -388,7 +389,7 @@ const mlb = {
                                                         <div
                                                             v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
                                                                 <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
-                                                                    <td class="col-4 justify-content-center" scope="row" title="Click for Season Stats">
+                                                                    <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
                                                                     <span v-if="playerStats.stats.Wins['#text'] === '1'">(W)</span> 
                                                                     <span v-else-if="playerStats.stats.Losses['#text'] === '1'">(L)</span> 
@@ -403,7 +404,7 @@ const mlb = {
                                                                     </td>
                                                                 </tr>
 
-                                                                <player-season-stats v-bind:props_player_id="playerStats.player.ID"></player-season-stats>
+                                                                <pitcher-season-stats v-bind:props_player_id="playerStats.player.ID"></pitcher-season-stats>
                                                         </div>
                                                     </tbody>
                                                 </table>
