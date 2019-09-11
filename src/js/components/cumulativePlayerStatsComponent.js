@@ -12,7 +12,8 @@ const playerCumulativeStats = {
         HR: "",
         RBI: "",
         BattingAvg: "",
-        showComponent: false
+        showComponent: false,
+        loading: false
       };
     },
     mounted: function() {
@@ -24,7 +25,9 @@ const playerCumulativeStats = {
     methods: {
       onShowPlayerTemplateClicked: function(playerId) {
         if (playerId === this.props_player_id) {
+          this.loading = true;
           this.showComponent = !this.showComponent;
+          this.retrievePlayerStats(playerId);
         }
       },
       retrievePlayerStats: function(playerId) {
@@ -58,20 +61,31 @@ const playerCumulativeStats = {
             response.data.cumulativeplayerstats.playerstatsentry[0].stats.RunsBattedIn[
               "#text"
             ];
+
+          this.loading = false;
         });
       }
     },
     template: `
-      <tr class="d-flex" v-if="showComponent">
-        <td @click="retrievePlayerStats(props_player_id)" class="col-4 justify-content-center" scope="row">
-            Season Stats</td>
-        </td>
-        <td class="col-2 justify-content-center" justify-content="center">
-          {{ Hits }}</td>
-        <td class="col-2 justify-content-center">{{ HR }}</td>
-        <td class="col-2 justify-content-center"> {{ BattingAvg }}</td>
-        <td class="col-2 justify-content-center">{{ RBI }}</td>
-      </tr>
+      <transition name="fade">
+        <tr class="d-flex" v-if="showComponent">
+          <span class="cumlativeStatsLoading" v-if="loading">
+          Loading
+          <!-- below is our font awesome icon with the class “spin-it” where 
+              we have set the infinite animation:                        -->
+            <i class="fas fa-cog spin-it fa-sm" aria-hidden="true"></i>
+          </span>
+          <td  v-if="!loading" class="col-4 justify-content-center" scope="row">
+              Season Stats</td>
+          </td>
+          <td class="col-2 justify-content-center" justify-content="center">
+            {{ Hits }}</td>
+          <td class="col-2 justify-content-center">{{ HR }}</td>
+          <td class="col-2 justify-content-center"> {{ BattingAvg }}</td>
+          <td class="col-2 justify-content-center">{{ RBI }}</td>
+        </tr>
+      </transition>
+      
     ` // End template
   })
 };

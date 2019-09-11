@@ -151,7 +151,7 @@ th.season-stats-headers {
   font-weight: 600;
 }
 th.col-12 {
-  background-color: #cfdcf8;
+  background-color: #cfdcf8af;
 }
 
 tr {
@@ -169,6 +169,16 @@ td[title="Click for Season Stats"] {
   cursor: pointer;
   font-weight: 700;
 }
+
+/* Vue Transition CSS Rules */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.6s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+/* End Vue Transition Rules */
 
 .box-score-status {
   font-size: 0.8rem;
@@ -207,6 +217,11 @@ team-logo {
 .loading {
   font-size: 1.5rem;
   margin-right: 7px;
+}
+
+.cumlativeStatsLoading {
+  font-size: 0.7rem;
+  margin-right: 2px;
 }
 
 .inning-or-quarter-score {
