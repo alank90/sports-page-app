@@ -13,7 +13,8 @@ const pitcherCumulativeStats = {
         IP: "",
         SO: "",
         ERA: "",
-        showComponent: false
+        showComponent: false,
+        loading: false
       };
     },
     mounted: function() {
@@ -25,7 +26,9 @@ const pitcherCumulativeStats = {
     methods: {
       onShowPitcherTemplateClicked: function(playerId) {
         if (playerId === this.props_player_id) {
+          this.loading = true;
           this.showComponent = !this.showComponent;
+          this.retrievePitcherStats(playerId);
         }
       },
       retrievePitcherStats: function(playerId) {
@@ -64,29 +67,42 @@ const pitcherCumulativeStats = {
             response.data.cumulativeplayerstats.playerstatsentry[0].stats.PitcherStrikeouts[
               "#text"
             ];
+
+          this.loading = false;
         });
       }
     },
     template: `
         <div>
-          <tr class="d-flex header-row" v-if="showComponent">
-              <th class="col-2 justify-content-center season-stats-headers"  scope="col" @click="retrievePitcherStats(props_player_id)">
-              Season</th>
-              <th class="col-2 justify-content-center season-stats-headers" scope="col">Wins</th>
-              <th class="col-2 justify-content-center season-stats-headers" scope="col">Losses</th>
-              <th class="col-2 justify-content-center season-stats-headers" scope="col">SO</th>
-              <th class="col-2 justify-content-center season-stats-headers" scope="col">IP</th>
-              <th class="col-2 justify-content-right season-stats-headers" scope="col">ERA</th>
-          </tr>
-          <tr class="d-flex" v-if="showComponent">
-              <td class="col-2 justify-content-center season-stats" justify-content="center"></td>
-              <td class="col-2 justify-content-center season-stats" justify-content="center">
-              {{ Wins }}</td>
-              <td class="col-2 justify-content-center season-stats">{{ Losses }}</td>
-              <td class="col-2 justify-content-center season-stats"> {{ SO }}</td>
-              <td class="col-2 justify-content-center season-stats"> {{ IP }}</td>
-              <td class="col-2 justify-content-center season-stats">{{ ERA }}</td>
-          </tr>
+          <transition name="fade">
+            <tr class="d-flex header-row" v-if="showComponent">
+                <th class="col-2 justify-content-center season-stats-headers"  scope="col" @click="retrievePitcherStats(props_player_id)">
+                Season</th>
+                <th class="col-2 justify-content-center season-stats-headers" scope="col">Wins</th>
+                <th class="col-2 justify-content-center season-stats-headers" scope="col">Losses</th>
+                <th class="col-2 justify-content-center season-stats-headers" scope="col">SO</th>
+                <th class="col-2 justify-content-center season-stats-headers" scope="col">IP</th>
+                <th class="col-2 justify-content-right season-stats-headers" scope="col">ERA</th>
+            </tr>
+          </transition>
+
+          <transition name="fade">
+            <tr class="d-flex" v-if="showComponent">
+                <span class="cumlativeStatsLoading" v-if="loading">
+                Loading
+                <!-- below is our font awesome icon with the class “spin-it” where 
+                    we have set the infinite animation:                        -->
+                  <i class="fas fa-cog spin-it fa-sm" aria-hidden="true"></i>
+                </span>
+                <td class="col-2 justify-content-center season-stats" justify-content="center"></td>
+                <td class="col-2 justify-content-center season-stats" justify-content="center">
+                {{ Wins }}</td>
+                <td class="col-2 justify-content-center season-stats">{{ Losses }}</td>
+                <td class="col-2 justify-content-center season-stats"> {{ SO }}</td>
+                <td class="col-2 justify-content-center season-stats"> {{ IP }}</td>
+                <td class="col-2 justify-content-center season-stats">{{ ERA }}</td>
+            </tr>
+          </transition>
         </div>
     ` // End template
   })
