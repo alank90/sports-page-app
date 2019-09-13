@@ -1,25 +1,23 @@
 // /src/js/minimizeTitleBarOnScroll.js
 
 $(document).on("scroll", function() {
+  console.log($(document).scrollTop());
   if ($(document).scrollTop() > 250) {
-    $(".title-images").animate(
+    $("#sportsImages").animate(
       {
         opacity: 0.25
       },
-      2000,
-      function() {
-        console.log("Animation Complete");
-      }
+      2000
     );
-  } else if ($(document).scrollTop() < 250) {
-    $(".title-images")
-      .stop()
-      .animate(
+  } else {
+    if ($(document).scrollTop() < 250) {
+      $("#sportsImages").animate(
         {
-          opacity: 0.98
+          opacity: 0.99
         },
-        "slow",
-        "swing"
+        2000
       );
+    }
+    console.log("Animation Complete");
   }
 });
