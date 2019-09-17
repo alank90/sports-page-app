@@ -98,9 +98,11 @@ img[src="./src/img/NBA.png"] {
   cursor: pointer;
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: -1px;
-  margin-right: -1px;
+  margin: 5px 10px;
   padding: 6px 10px;
+}
+.tab-button:first-child {
+  margin-left: 45px;
 }
 
 .tab-button:hover {
@@ -118,6 +120,11 @@ img[src="./src/img/NBA.png"] {
 
 span.tab {
   border: 0;
+}
+
+img.tab-image {
+  max-height: 75px;
+  max-width: 100px;
 }
 
 /* End Tab Stylings */
@@ -168,6 +175,9 @@ td:not(:first-child) {
 td[title="Click for Season Stats"] {
   cursor: pointer;
   font-weight: 700;
+}
+td[title="Click for Season Stats"]:hover {
+  background-color: lightgrey;
 }
 
 /* Vue Transition CSS Rules */
@@ -359,12 +369,26 @@ div .footer a img {
   #app {
     margin-top: 25px;
   }
+
+  .tab-button {
+    margin: 2px 5px;
+  }
+  .tab-button:first-child {
+    margin-left: 20px;
+  }
 }
 
 @media only screen and (min-width: 401px) and (max-width: 700px) {
-  /* For mobile phones: */
+  /* For tablets: */
   #app {
     margin-top: 50px;
+  }
+
+  .tab-button {
+    margin: 2px 5px;
+  }
+  .tab-button:first-child {
+    margin-left: 20px;
   }
 }
 

@@ -62,14 +62,19 @@
         </section>
         <!-- End API Error Markup -->
 
-        <button
-          v-for="tab in tabs"
-          v-bind:key="tab"
-          v-bind:class="['tab-button', {active: currentTab === tab }]"
-          v-on:click="getSportsData( tab )"
-        >
-          {{ tab }}
-        </button>
+        <div class="row">
+          <button
+            class="col-xs-3"
+            v-for="tab in tabs"
+            v-bind:key="tab"
+            v-bind:class="['tab-button', {active: currentTab === tab }]"
+            v-on:click="getSportsData( tab )"
+          >       
+            {{ tab }}
+            <img v-bind:src="'./src/img/' + tab + '.png'" class="tab-image">
+          </button>
+        </div>
+
         <!--  ==== v-bind:is tells us what component to use i.e. mlb-tab  
                         Important. Must use kebab case for v-bind baseballData attribute
                         because html is case insensitive and we used camelCase for
