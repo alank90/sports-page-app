@@ -19,7 +19,6 @@ Vue.config.productionTip = false;
 // EventBus in every component you would like to use it in.
 Vue.prototype.$eventBus = new Vue();
 
-
 // Axios config object. Sent with Get request
 const config = {
   // `headers` are custom headers to be sent
@@ -142,9 +141,7 @@ new Vue({
         /* jshint ignore:start */
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${
-              date.yesterday
-            }`,
+            `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${date.yesterday}`,
             config
           )
           .then(response => {
@@ -313,7 +310,7 @@ new Vue({
 
         // ============================================================== //
         // =================== Get NFL Standings ======================== //
-        url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/2018-regular/division_team_standings.json`;
+        url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${date.year}-regular/division_team_standings.json`;
         /* jshint ignore:start */
         leagueStandings = async () => {
           this.standings = await getStandings(url);
@@ -369,9 +366,7 @@ new Vue({
         /* jshint ignore:start */
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${
-              date.yesterday
-            }`,
+            `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${date.yesterday}`,
             config
           )
           .then(response => {
