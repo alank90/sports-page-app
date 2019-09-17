@@ -1,7 +1,7 @@
 // /src/js/modules/getScores.js
 
 const axios = require("axios");
-const today = require("../modules/todayDate")
+const today = require("../modules/todayDate");
 /* jshint ignore:start */
 
 module.exports = async function(gameday, config) {
