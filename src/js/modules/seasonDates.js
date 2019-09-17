@@ -29,10 +29,10 @@ const nbaStartOfRegularSeasonYear = function(offset = 1) {
 
 const nba = {
   startOfRegularSeasonYear: nbaStartOfRegularSeasonYear,
-  regularSeasonStartDate: "20181016",
-  regularSeasonEndDate: "20190410",
-  playoffsBeginDate: "20190413",
-  playoffsEndDate: "20190608"
+  regularSeasonStartDate: "20191022",
+  regularSeasonEndDate: "20200415",
+  playoffsBeginDate: "20200418",
+  playoffsEndDate: "20200612"
 };
 
 module.exports = {
