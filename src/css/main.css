@@ -178,6 +178,7 @@ td[title="Click for Season Stats"] {
 }
 td[title="Click for Season Stats"]:hover {
   background-color: lightgrey;
+  text-decoration: underline solid blue;
 }
 
 /* Vue Transition CSS Rules */

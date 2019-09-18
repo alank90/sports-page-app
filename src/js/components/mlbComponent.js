@@ -91,7 +91,7 @@ const mlb = {
                                                     </td>
                                                 </template>
                 
-                                                <td v-if="value.game.awayTeam.Abbreviation === 'NYM'"><img scope="row"
+                                                <td v-if="value.game.homeTeam.Abbreviation === 'NYM'"><img scope="row"
                                                         src="./src/img/nym.png"></td>
                                                 <td v-if="value.game.homeTeam.Abbreviation === 'NYY'"><img scope="row"
                                                         src="./src/img/nyy.png"></td>
