@@ -328,7 +328,10 @@ new Vue({
         // ============================================================== //
       } else if (this.currentTab === "NBA") {
         // first check if Off-Season and skip AJAX call
-        if (date.today > league.nba.playoffsEndDate) {
+        if (
+          date.today < `${league.nba.regularSeasonStartDate}` ||
+          date.today > `${league.nba.playoffsEndDate}`
+        ) {
           this.end_of_season.nba = true;
           return;
         }
@@ -345,6 +348,7 @@ new Vue({
         // ========================================================================= //
 
         // Check if it's the Regular or Post Season ================= //
+
         if (
           date.today > `${league.nba.regularSeasonStartDate}` &&
           date.today < `${league.nba.regularSeasonEndDate}`
