@@ -8,6 +8,7 @@ const writeFile = promisify(fs.writeFile);
 // End promise conversions
 
 const checkMark = "\u2714";
+const warning = "\u2757";
 
 /* jshint ignore:start */
 const updateLinks = async function(file) {
@@ -26,20 +27,27 @@ const updateLinks = async function(file) {
     const regEx3 = /href\s*=\s*"\.\/src\//gi;
     const regEx4 = /href\s*=\s*'\.\/src\//gi;
     const regEx5 = /".\/src\/img\/"/gi;
+    const regEx6 = /:src="'.\/src\/img/gi;
+
+    if(regEx6.test(fileContents)) {
+      console.log(`Vue Directive :src found. Will try updating link. ${warning}`);
+    }
 
     if (
       regEx1.test(fileContents) ||
       regEx2.test(fileContents) ||
       regEx3.test(fileContents) ||
       regEx4.test(fileContents) ||
-      regEx5.test(fileContents)
+      regEx5.test(fileContents) ||
+      regEx6.test(fileContents)
     ) {
       let distFile = fileContents
         .replace(regEx1, 'src="./')
         .replace(regEx2, "src='./")
         .replace(regEx3, 'href="./')
         .replace(regEx4, "href='./")
-        .replace(regEx5, '"./img/"');
+        .replace(regEx5, '"./img/"')
+        .replace(regEx6, `:src="'./img`);
 
       // Write updated links to ./dist/${file}
       await writeFile(`dist/${file}`, distFile, "utf8");
