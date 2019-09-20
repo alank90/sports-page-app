@@ -90,6 +90,7 @@ new Vue({
     getSportsData: function(tab) {
       // Variable declarations
       let gameIDs = [];
+      let nflGameIDs = [];
       let url = "";
       let leagueStandings = [];
       let seasonName = "";
@@ -273,6 +274,14 @@ new Vue({
             nflDate.sundayDate,
             config
           );
+
+          this.nfl_feeds.sunday_data.forEach(function(item, index) {
+            if (item.isCompleted === "true") {
+              nflGameIDs[index] = item.game.ID;
+            }
+          });
+
+          console.log(nflGameIDs);
           this.loading = false;
         };
         /* jshint ignore:end */
