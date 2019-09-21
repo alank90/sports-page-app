@@ -281,9 +281,21 @@ new Vue({
             }
           });
 
-          console.log(nflGameIDs);
+          const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/game_boxscore.json?gameid=`;
+          const params = {
+            teamstats: "none",
+            playerstats: "Att,Comp,Yds,Rec,TD",
+            sort: "player.position.D",
+            force: true
+          };
+          // Check if boxscores have been retrieved on previous tab click
+          this.sports_feeds_boxscores.nfl =
+            this.sports_feeds_boxscores.nfl ||
+            (await getBoxScores(nflGameIDs, url, params));
+
+          console.log(this.sports_feeds_boxscores.nfl);
           this.loading = false;
-        };
+        }; /* End SundayNFLScores Async function */
         /* jshint ignore:end */
 
         if (date.today <= league.nfl.superbowlDate) {
