@@ -8,7 +8,8 @@ const nfl = {
       "props_league_data_nfl",
       "props_league_standings",
       "props_nfl_playoffs",
-      "props_end_of_season"
+      "props_end_of_season",
+      "props_box_game_scores"
     ],
     data: function() {
       return {
@@ -92,7 +93,25 @@ const nfl = {
                                             </tr>
                                         </tbody>
                                     </table>
-            
+
+                                    <!-- ===================================================================================== -->                                
+                                    <!-- ==================== Begin Markup for Game NFL Boxscores ============================ -->
+                                    <!-- ===================================================================================== -->
+                                    <!-- First see if any games were not completed. If not, the props_box_game_score.length
+                                         will equal props_league_data.length -->
+                                        <div>                
+                                            <p> 
+                                                <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
+                                                    v-bind:data-index="index" v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
+                                                    aria-controls="collapseExample">
+                                                    Game Stats
+                                                </button> 
+                                                <!-- Use v-if to prevent Vue from throwing errors in console before async 
+                                                     call for box scores complete -->
+                                                <p v-if="props_box_game_scores"> {{ props_box_game_scores.length }} </p>  
+                                            </p>
+                                        </div>
+
                                 </div> <!-- End v-for dayDataArray -->
                             </div> <!-- End row -->
                         </div> <!-- End v-for props_league_data_nfl -->
