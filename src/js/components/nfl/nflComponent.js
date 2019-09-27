@@ -1,6 +1,7 @@
 // src/js/components/nflComponent.js
 
 const Vue = require("vue");
+const boxScoreStats = require("./nflBoxScores");
 
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
@@ -16,6 +17,9 @@ const nfl = {
         nfl_days: ["Sunday", "Thursday Night", "Monday Night"]
       };
     },
+    components: {
+        boxScoreStats: boxScoreStats
+    },
     template: `
             <div class="vue-root-element">
                 <!-- Check if data was returned from Get request to mysportsfeeds API -->
@@ -26,7 +30,7 @@ const nfl = {
                 <div v-else-if="props_end_of_season === true" class="container">
                     <h3> End of Football Season. See you in the Fall </h3>
                 </div>
-                <!-- ========== Markup for Divional/Regular Season Dailey Scores ====== -->
+                <!-- ========== Markup for Divional/Regular Season Daily Scores ====== -->
                 <div v-else>
                     <div class="container">
                         <div v-for="(dayDataArray, key, index) in props_league_data_nfl">
@@ -35,7 +39,7 @@ const nfl = {
                                     {{ dayDataArray[0].game.week }})</span></h2>
             
                             <div class="row">
-                                <div class="col-xs-12 col-sm-4 col-lg-3" v-for="arrayItem in dayDataArray">
+                                <div v-for="arrayItem in dayDataArray" class="col-xs-12 col-sm-4 col-lg-3">
             
                                     <table class="table table-striped table-sm">
                                         <thead>
@@ -93,60 +97,8 @@ const nfl = {
                                             </tr>
                                         </tbody>
                                     </table>
-
-                                    <!-- ===================================================================================== -->                                
-                                    <!-- ==================== Begin Markup for NFL Game Boxscores ============================ -->
-                                    <!-- ===================================================================================== -->
-                                    <!-- First see if any games were not completed. If not, the props_box_game_score.length
-                                         will equal props_league_data.length -->
-                                        <div v-for="(playerStats, index) in props_box_game_scores">                
-                                            <p> {{ index }}
-                                                <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
-                                                    v-bind:data-index="index" v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
-                                                    aria-controls="collapseExample">
-                                                    Game Stats
-                                                </button> 
-                                                <!-- Use v-if to prevent Vue from throwing errors in console before async 
-                                                     call for box scores complete -->
-                                                
-                                            </p>
-
-                                            <!-- ======== Away Team Offense Stats ============= -->
-                                                <div >
-                                                    <table class="table table-striped table-bordered table-hover table-sm collapse" v-bind:class="'multi-collapse-' + index">
-                                                        <tbody>
-                                                            <thead class="d-flex flex-wrap">
-                                                                <th class="col-4 justify-content-center" scope="col">Player</th>
-                                                                <th class="col-2 justify-content-center" scope="col">Comp/Att</th>
-                                                                <th class="col-2 justify-content-center" scope="col">Yds</th>
-                                                                <th class="col-2 justify-content-center" scope="col">TD</th>
-                                                                <th class="col-2 justify-content-center" scope="col">Int</th>
-                                                            </thead>
-
-                                                            <div v-if="props_box_game_scores">
-                                                                    <p v-if="props_box_game_scores"> {{ index }} </p>  
-                                                                    <tr v-if="playerStats.player.Position === 'QB'" class="d-flex">
-                                                                        <td class="col-4 justify-content-center" :data-player-id='playerStats.player.ID' scope="row">
-                                                                            {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
-                                                                        </td>
-                                                                        <td class="col-2 justify-content-center" justify-content="center">
-                                                                            {{playerStats.stats.PassCompletions['#text']}}/{{playerStats.stats.PassAttempts['#text']</td>
-                                                                        <td class="col-2 justify-content-center">{{playerStats.stats.PassYards['#text']}}</td>
-                                                                        <td class="col-2 justify-content-center">{{playerStats.stats.PassTD['#text']}}</td>
-                                                                        <td class="col-2 justify-content-center">{{playerStats.stats.IntTD['#text']}}
-                                                                        </td>
-                                                                    </tr>
-
-                                                            </div>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                                <!-- ======== Away Team Offense Stats End ============= -->
-
-
-                                        </div> <!-- ============ End Markup for NFL BoxScores ============ -->
-                                
+                                    
+                                    <boxScores></boxScores>
                                 </div> <!-- End v-for dayDataArray -->
                             </div> <!-- End row -->
                         </div> <!-- End v-for props_league_data_nfl -->

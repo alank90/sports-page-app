@@ -9,9 +9,9 @@ const nflDate = require("./modules/nflDate");
 const getStandings = require("./modules/getStandings");
 const getScores = require("./modules/getScores");
 const getBoxScores = require("../js/modules/getBoxScores");
-const mlbComponent = require("./components/mlbComponent");
-const nflComponent = require("./components/nflComponent");
-const nbaComponent = require("./components/nbaComponent");
+const mlbComponent = require("./components/mlb/mlbComponent");
+const nflComponent = require("./components/nfl/nflComponent");
+const nbaComponent = require("./components/nba/nbaComponent");
 
 Vue.config.productionTip = false;
 
