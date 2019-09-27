@@ -1,10 +1,10 @@
 // src/js/components/mlbComponent.js
 
 const Vue = require("vue");
-const cumulativePlayerStats = require("../components/cumulativePlayerStatsComponent");
-const cumulativePitcherStats = require("../components/cumulativePitcherStatsComponent");
+const cumulativePlayerStats = require("./cumulativePlayerStatsComponent");
+const cumulativePitcherStats = require("./cumulativePitcherStatsComponent");
 
-const { EventBus } = require("../modules/event-bus");
+const { EventBus } = require("../../modules/event-bus");
 
 const mlb = {
   mlbComponent: Vue.component("tab-mlb", {

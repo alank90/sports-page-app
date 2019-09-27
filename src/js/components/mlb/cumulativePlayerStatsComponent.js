@@ -1,7 +1,7 @@
 const Vue = require("vue");
 const axios = require("axios");
 
-const { EventBus } = require("../modules/event-bus");
+const { EventBus } = require("../../modules/event-bus");
 
 const playerCumulativeStats = {
   cumlativeStats: Vue.component("player-season-stats", {
