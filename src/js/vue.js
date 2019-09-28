@@ -54,8 +54,12 @@ new Vue({
       sports_feeds_data: [],
       sports_feeds_boxscores: {
         mlb: null,
-        nfl: null,
         nba: null
+      },
+      sports_feeds_boxscores_nfl: {
+        sunday: null,
+        thursday: null,
+        monday: null
       },
       baseball_playoffs: false,
       basketball_playoffs: false,
@@ -69,6 +73,11 @@ new Vue({
         sunday_data: [],
         thurs_data: [],
         mon_data: []
+      },
+      nfl_boxscores: {
+        sunday: [],
+        thursday: [],
+        monday: []
       },
       standings: [],
       currentTab: "",
@@ -90,7 +99,11 @@ new Vue({
     getSportsData: function(tab) {
       // Variable declarations
       let gameIDs = [];
-      let nflGameIDs = [];
+      let nflGameIDs = {
+        sunday: [],
+        thursday: [],
+        monday: []
+      };
       let url = "";
       let leagueStandings = [];
       let seasonName = "";
@@ -252,7 +265,7 @@ new Vue({
           force: true
         };
 
-        // ===================== Get Sunday NFL Scores ======================= //
+        // ===================== Get Sunday NFL Scores and Game Boxscores ======================= //
         // Check if it's the Regular or Post Season ===================== //
         if (
           date.yesterday >= `${league.nfl.regularSeasonStartDate}` &&
@@ -269,18 +282,23 @@ new Vue({
         }
 
         /* jshint ignore:start */
+        // First let's get the Game Scores
         const sundayNFLScores = async () => {
           this.nfl_feeds.sunday_data = await getScores(
             nflDate.sundayDate,
             config
           );
 
+          // Next we need the gameid's to retrieve the game boxscores
           this.nfl_feeds.sunday_data.forEach(function(item, index) {
             if (item.isCompleted === "true") {
-              nflGameIDs[index] = item.game.ID;
+              nflGameIDs.sunday[index] = item.game.ID;
             }
           });
 
+          // Let's retrieve the boxscore's for the day's game
+          // and put them in this.sports_feeds_boxscores_nfl.sunday for
+          // use in the nflComponent component
           const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/game_boxscore.json?gameid=`;
           const params = {
             teamstats: "none",
@@ -288,10 +306,11 @@ new Vue({
             sort: "player.position.D",
             force: true
           };
+
           // Check if boxscores have been retrieved on previous tab click
-          this.sports_feeds_boxscores.nfl =
-            this.sports_feeds_boxscores.nfl ||
-            (await getBoxScores(nflGameIDs, url, params));
+          this.sports_feeds_boxscores_nfl.sunday =
+            this.sports_feeds_boxscores_nfl.sunday ||
+            (await getBoxScores(nflGameIDs.sunday, url, params));
 
           this.loading = false;
         }; /* End SundayNFLScores Async function */
