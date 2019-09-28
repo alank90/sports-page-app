@@ -24,7 +24,6 @@ let sundayDate = new Date(easternTime);
 let mondayDate = new Date(easternTime);
 
 // Get Day of Week (0-6)
-console.log(nflDay.getDay());
 let dayOfWeek = nflDay.getDay();
 
 // Calculate back to appropriate Thursday
