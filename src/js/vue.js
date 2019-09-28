@@ -74,11 +74,6 @@ new Vue({
         thurs_data: [],
         mon_data: []
       },
-      nfl_boxscores: {
-        sunday: [],
-        thursday: [],
-        monday: []
-      },
       standings: [],
       currentTab: "",
       sport_logo_image: "",
@@ -311,7 +306,9 @@ new Vue({
           this.sports_feeds_boxscores_nfl.sunday =
             this.sports_feeds_boxscores_nfl.sunday ||
             (await getBoxScores(nflGameIDs.sunday, url, params));
-
+          console.log(
+            `Sunday Boxscores ${this.sports_feeds_boxscores_nfl.sunday}`
+          );
           this.loading = false;
         }; /* End SundayNFLScores Async function */
         /* jshint ignore:end */
@@ -327,7 +324,32 @@ new Vue({
             nflDate.thursdayDate,
             config
           );
-        };
+
+          // Next we need the gameid's to retrieve the game boxscores
+          this.nfl_feeds.thurs_data.forEach(function(item, index) {
+            if (item.isCompleted === "true") {
+              nflGameIDs.thursday[index] = item.game.ID;
+            }
+          });
+
+          // Let's retrieve the boxscore's for the day's game
+          // and put them in this.sports_feeds_boxscores_nfl.sunday for
+          // use in the nflComponent component
+          const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/game_boxscore.json?gameid=`;
+          const params = {
+            teamstats: "none",
+            playerstats: "Att,Comp,Yds,Rec,TD",
+            sort: "player.position.D",
+            force: true
+          };
+
+          // Check if boxscores have been retrieved on previous tab click
+          this.sports_feeds_boxscores_nfl.thursday =
+            this.sports_feeds_boxscores_nfl.thursday ||
+            (await getBoxScores(nflGameIDs.thursday, url, params));
+
+          this.loading = false;
+        }; /* End ThursdayNFLScores Async function */
         /* jshint ignore:end */
 
         if (this.nfl_playoffs === false) {
@@ -337,7 +359,32 @@ new Vue({
         /* jshint ignore:start */
         const mondayNFLScores = async () => {
           this.nfl_feeds.mon_data = await getScores(nflDate.mondayDate, config);
-        };
+
+          // Next we need the gameid's to retrieve the game boxscores
+          this.nfl_feeds.mon_data.forEach(function(item, index) {
+            if (item.isCompleted === "true") {
+              nflGameIDs.monday[index] = item.game.ID;
+            }
+          });
+
+          // Let's retrieve the boxscore's for the day's game
+          // and put them in this.sports_feeds_boxscores_nfl.monday for
+          // use in the nflComponent component
+          const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/game_boxscore.json?gameid=`;
+          const params = {
+            teamstats: "none",
+            playerstats: "Att,Comp,Yds,Rec,TD",
+            sort: "player.position.D",
+            force: true
+          };
+
+          // Check if boxscores have been retrieved on previous tab click
+          this.sports_feeds_boxscores_nfl.monday =
+            this.sports_feeds_boxscores_nfl.monday ||
+            (await getBoxScores(nflGameIDs.monday, url, params));
+
+          this.loading = false;
+        }; /* End MondayNFLScores Async function */
         /* jshint ignore:end */
 
         if (this.nfl_playoffs === false) {
