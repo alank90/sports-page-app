@@ -10,7 +10,7 @@ const nfl = {
       "props_league_standings",
       "props_nfl_playoffs",
       "props_end_of_season",
-      "props_box_game_scores"
+      "props_box_game_scores_nfl"
     ],
     data: function() {
       return {
