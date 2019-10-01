@@ -1,7 +1,7 @@
 // src/js/components/nflComponent.js
 
 const Vue = require("vue");
-const boxScoreStats = require("./nflBoxScores");
+const boxScores = require("./nflBoxScores");
 
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
@@ -18,7 +18,7 @@ const nfl = {
       };
     },
     components: {
-        boxScoreStats: boxScoreStats
+        boxScores: boxScores
     },
     template: `
             <div class="vue-root-element">

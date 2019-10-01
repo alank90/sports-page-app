@@ -306,9 +306,7 @@ new Vue({
           this.sports_feeds_boxscores_nfl.sunday =
             this.sports_feeds_boxscores_nfl.sunday ||
             (await getBoxScores(nflGameIDs.sunday, url, params));
-          console.log(
-            `Sunday Boxscores ${this.sports_feeds_boxscores_nfl.sunday}`
-          );
+          console.log(this.sports_feeds_boxscores_nfl.sunday);
           this.loading = false;
         }; /* End SundayNFLScores Async function */
         /* jshint ignore:end */
@@ -317,7 +315,7 @@ new Vue({
           sundayNFLScores(); // Always call Sunday Scores Regular or Playoffs.
         }
 
-        // ================= Get Thursday NFL Scores ========================= //
+        // ================= Get Thursday NFL Scores and Game Boxscores ========================= //
         /* jshint ignore:start */
         const thursdayNFLScores = async () => {
           this.nfl_feeds.thurs_data = await getScores(
@@ -355,7 +353,7 @@ new Vue({
         if (this.nfl_playoffs === false) {
           thursdayNFLScores();
         }
-        // ================== Get Monday Night NFL Scores ============================= //
+        // ================== Get Monday Night NFL Scores and Game Boxscores ============================= //
         /* jshint ignore:start */
         const mondayNFLScores = async () => {
           this.nfl_feeds.mon_data = await getScores(nflDate.mondayDate, config);
