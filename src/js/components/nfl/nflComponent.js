@@ -39,8 +39,7 @@ const nfl = {
                                     {{ dayDataArray[0].game.week }})</span></h2>
             
                             <div class="row">
-                                <div v-for="arrayItem in dayDataArray" class="col-xs-12 col-sm-4 col-lg-3">
-            
+                                <div v-for="(arrayItem, arrayItemIndex) in dayDataArray" class="col-xs-12 col-sm-4 col-lg-3">
                                     <table class="table table-striped table-sm">
                                         <thead>
                                             <th scope="col" class="box-score-status is-completed" v-if="arrayItem.isCompleted">Final
@@ -98,7 +97,12 @@ const nfl = {
                                         </tbody>
                                     </table>
                                     
-                                    <boxScores></boxScores>
+                                    <!-- ======== Start BoxScores Template Markup ============== -->
+                                    <div v-if="props_box_game_scores_nfl[nfl_days[index].split(' ')[0].toLowerCase()] != null">  {{ props_box_game_scores_nfl[nfl_days[index].split(' ')[0].toLowerCase()][arrayItemIndex] }} </div>
+
+                                    
+
+                                    <!-- ======== End BoxScores Template markup =============== -->
                                 </div> <!-- End v-for dayDataArray -->
                             </div> <!-- End row -->
                         </div> <!-- End v-for props_league_data_nfl -->

@@ -306,7 +306,7 @@ new Vue({
           this.sports_feeds_boxscores_nfl.sunday =
             this.sports_feeds_boxscores_nfl.sunday ||
             (await getBoxScores(nflGameIDs.sunday, url, params));
-          console.log(this.sports_feeds_boxscores_nfl.sunday);
+          
           this.loading = false;
         }; /* End SundayNFLScores Async function */
         /* jshint ignore:end */
