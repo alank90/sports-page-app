@@ -97,9 +97,9 @@ const nfl = {
                                         </tbody>
                                     </table>
                                     
-                                    <!-- ======== Start BoxScores Template Markup ============== -->
+                                    <!-- ======== Start BoxScores Template Markup ============== 
                                     <div v-if="props_box_game_scores_nfl[nfl_days[index].split(' ')[0].toLowerCase()] != null">  {{ props_box_game_scores_nfl[nfl_days[index].split(' ')[0].toLowerCase()][arrayItemIndex] }} </div>
-
+                                    -->
                                     
 
                                     <!-- ======== End BoxScores Template markup =============== -->
