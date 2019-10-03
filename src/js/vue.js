@@ -260,7 +260,7 @@ new Vue({
           force: true
         };
 
-        // ===================== Get Sunday NFL Scores and Game Boxscores ======================= //
+        // ===================== Get NFL Scores and Game Boxscores ======================= //
         // Check if it's the Regular or Post Season ===================== //
         if (
           date.yesterday >= `${league.nfl.regularSeasonStartDate}` &&
@@ -277,96 +277,48 @@ new Vue({
         }
 
         /* jshint ignore:start */
-        // First let's get the Game Scores
-        const sundayNFLScores = async () => {
+        // First let's get the Game and BoxScores Data
+        const nflScores = async () => {
           this.nfl_feeds.sunday_data = await getScores(
             nflDate.sundayDate,
             config
           );
+          console.log(`Sun Scores ${this.nfl_feeds.sunday_data.length}`);
 
-          // Next we need the gameid's to retrieve the game boxscores
+          this.nfl_feeds.thurs_data = await getScores(
+            nflDate.thursdayDate,
+            config
+          );
+          console.log(`Thurs Scores ${this.nfl_feeds.thurs_data.length}`);
+
+          this.nfl_feeds.mon_data = await getScores(nflDate.mondayDate, config);
+          console.log(`Mon Scores ${this.nfl_feeds.mon_data.length}`);
+
+          // Next we need the gameid's to retrieve the game boxscores for each day
           this.nfl_feeds.sunday_data.forEach(function(item, index) {
             if (item.isCompleted === "true") {
               nflGameIDs.sunday[index] = item.game.ID;
             }
           });
 
-          // Let's retrieve the boxscore's for the day's game
-          // and put them in this.sports_feeds_boxscores_nfl.sunday for
-          // use in the nflComponent component
-          const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/game_boxscore.json?gameid=`;
-          const params = {
-            teamstats: "none",
-            playerstats: "Att,Comp,Yds,Rec,TD",
-            sort: "player.position.D",
-            force: true
-          };
-
-          // Check if boxscores have been retrieved on previous tab click
-          this.sports_feeds_boxscores_nfl.sunday =
-            this.sports_feeds_boxscores_nfl.sunday ||
-            (await getBoxScores(nflGameIDs.sunday, url, params));
-          
-          this.loading = false;
-        }; /* End SundayNFLScores Async function */
-        /* jshint ignore:end */
-
-        if (date.today <= league.nfl.superbowlDate) {
-          sundayNFLScores(); // Always call Sunday Scores Regular or Playoffs.
-        }
-
-        // ================= Get Thursday NFL Scores and Game Boxscores ========================= //
-        /* jshint ignore:start */
-        const thursdayNFLScores = async () => {
-          this.nfl_feeds.thurs_data = await getScores(
-            nflDate.thursdayDate,
-            config
-          );
-
-          // Next we need the gameid's to retrieve the game boxscores
           this.nfl_feeds.thurs_data.forEach(function(item, index) {
             if (item.isCompleted === "true") {
               nflGameIDs.thursday[index] = item.game.ID;
             }
           });
 
-          // Let's retrieve the boxscore's for the day's game
-          // and put them in this.sports_feeds_boxscores_nfl.sunday for
-          // use in the nflComponent component
-          const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/game_boxscore.json?gameid=`;
-          const params = {
-            teamstats: "none",
-            playerstats: "Att,Comp,Yds,Rec,TD",
-            sort: "player.position.D",
-            force: true
-          };
-
-          // Check if boxscores have been retrieved on previous tab click
-          this.sports_feeds_boxscores_nfl.thursday =
-            this.sports_feeds_boxscores_nfl.thursday ||
-            (await getBoxScores(nflGameIDs.thursday, url, params));
-
-          this.loading = false;
-        }; /* End ThursdayNFLScores Async function */
-        /* jshint ignore:end */
-
-        if (this.nfl_playoffs === false) {
-          thursdayNFLScores();
-        }
-        // ================== Get Monday Night NFL Scores and Game Boxscores ============================= //
-        /* jshint ignore:start */
-        const mondayNFLScores = async () => {
-          this.nfl_feeds.mon_data = await getScores(nflDate.mondayDate, config);
-
-          // Next we need the gameid's to retrieve the game boxscores
           this.nfl_feeds.mon_data.forEach(function(item, index) {
             if (item.isCompleted === "true") {
               nflGameIDs.monday[index] = item.game.ID;
             }
           });
 
+          console.log(`Sunday gameIDs ${nflGameIDs.sunday.length}`);
+          console.log(`Thursday gameIDs ${nflGameIDs.thursday.length}`);
+          console.log(`Monday gameIDs ${nflGameIDs.monday.length}`);
+
           // Let's retrieve the boxscore's for the day's game
-          // and put them in this.sports_feeds_boxscores_nfl.monday for
+          // and put them in this.sports_feeds_boxscores_nfl.[day] for
           // use in the nflComponent component
           const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/game_boxscore.json?gameid=`;
           const params = {
@@ -376,18 +328,37 @@ new Vue({
             force: true
           };
 
-          // Check if boxscores have been retrieved on previous tab click
+          // Check if boxscores have been retrieved on previous tab click for each day
+          // if not retrieve the boxscores
+          this.sports_feeds_boxscores_nfl.sunday =
+            this.sports_feeds_boxscores_nfl.sunday ||
+            (await getBoxScores(nflGameIDs.sunday, url, params));
+          console.log(
+            `Sunday Boxscores ${this.sports_feeds_boxscores_nfl.sunday.length}`
+          );
+
+          this.sports_feeds_boxscores_nfl.thursday =
+            this.sports_feeds_boxscores_nfl.thursday ||
+            (await getBoxScores(nflGameIDs.thursday, url, params));
+          console.log(
+            `Thursday Boxscores ${this.sports_feeds_boxscores_nfl.thursday.length}`
+          );
+
           this.sports_feeds_boxscores_nfl.monday =
             this.sports_feeds_boxscores_nfl.monday ||
             (await getBoxScores(nflGameIDs.monday, url, params));
+          console.log(
+            `Monday Boxscores ${this.sports_feeds_boxscores_nfl.monday.length}`
+          );
 
           this.loading = false;
-        }; /* End MondayNFLScores Async function */
+        }; /* End nflScores Async function */
         /* jshint ignore:end */
 
-        if (this.nfl_playoffs === false) {
-          mondayNFLScores();
+        if (date.today <= league.nfl.superbowlDate) {
+          nflScores(); // Always call nflScores Regular or Playoffs.
         }
+
         // ============================================================== //
         // ====================== End Get NFL Scores ==================== //
         // ============================================================== //
