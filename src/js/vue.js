@@ -52,15 +52,13 @@ new Vue({
   data() {
     return {
       sports_feeds_data: [],
-      sports_feeds_boxscores: {
-        mlb: null,
-        nba: null
-      },
+      sports_feeds_boxscores_mlb: null,
       sports_feeds_boxscores_nfl: {
-        sunday: null,
-        thursday: null,
-        monday: null
+        sun: null,
+        mon: null,
+        thurs: null
       },
+      sports_feeds_boxscores_nba: null,
       baseball_playoffs: false,
       basketball_playoffs: false,
       nfl_playoffs: false,
@@ -106,6 +104,7 @@ new Vue({
       let typeOfStandings = "";
       this.currentTab = tab; // Set the currentTab
 
+      
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
 
@@ -148,9 +147,10 @@ new Vue({
         }
 
         /* jshint ignore:start */
+        // `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${date.yesterday}`
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${date.yesterday}`,
+            `https://api.mysportsfeeds.com/v1.2/pull/mlb/2019-regular/scoreboard.json?fordate=20190928`,
             config
           )
           .then(response => {
@@ -178,8 +178,8 @@ new Vue({
               force: true
             };
             // Check if boxscores have been retrieved on previous tab click
-            this.sports_feeds_boxscores.mlb =
-              this.sports_feeds_boxscores.mlb ||
+            this.sports_feeds_boxscores_mlb =
+              this.sports_feeds_boxscores_mlb ||
               (await getBoxScores(gameIDs, url, params));
           })
           .catch(error => {
@@ -318,7 +318,7 @@ new Vue({
           console.log(`Monday gameIDs ${nflGameIDs.monday.length}`);
 
           // Let's retrieve the boxscore's for the day's game
-          // and put them in this.sports_feeds_boxscores_nfl.[day] for
+          // and put them in this.sports_feeds_boxscores.nfl.[day] for
           // use in the nflComponent component
           const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/game_boxscore.json?gameid=`;
           const params = {
@@ -330,25 +330,25 @@ new Vue({
 
           // Check if boxscores have been retrieved on previous tab click for each day
           // if not retrieve the boxscores
-          this.sports_feeds_boxscores_nfl.sunday =
-            this.sports_feeds_boxscores_nfl.sunday ||
+          this.sports_feeds_boxscores_nfl.sun =
+            this.sports_feeds_boxscores_nfl.sun ||
             (await getBoxScores(nflGameIDs.sunday, url, params));
           console.log(
-            `Sunday Boxscores ${this.sports_feeds_boxscores_nfl.sunday.length}`
+            `Sunday Boxscores ${this.sports_feeds_boxscores_nfl.sun.length}`
           );
 
-          this.sports_feeds_boxscores_nfl.thursday =
-            this.sports_feeds_boxscores_nfl.thursday ||
+          this.sports_feeds_boxscores_nfl.thurs =
+            
             (await getBoxScores(nflGameIDs.thursday, url, params));
           console.log(
-            `Thursday Boxscores ${this.sports_feeds_boxscores_nfl.thursday.length}`
+            `Thursday Boxscores ${this.sports_feeds_boxscores_nfl.thurs.length}`
           );
 
-          this.sports_feeds_boxscores_nfl.monday =
-            this.sports_feeds_boxscores_nfl.monday ||
+          this.sports_feeds_boxscores_nfl.mon =
+            this.sports_feeds_boxscores_nfl.mon ||
             (await getBoxScores(nflGameIDs.monday, url, params));
           console.log(
-            `Monday Boxscores ${this.sports_feeds_boxscores_nfl.monday.length}`
+            `Monday Boxscores ${this.sports_feeds_boxscores_nfl.mon.length}`
           );
 
           this.loading = false;
@@ -454,8 +454,8 @@ new Vue({
               force: true
             };
             // Check if boxscores have been retrieved on previous tab click
-            this.sports_feeds_boxscores.nba =
-              this.sports_feeds_boxscores.nba ||
+            this.sports_feeds_boxscores_nba =
+              this.sports_feeds_boxscores_nba ||
               (await getBoxScores(gameIDs, url, params));
           })
           // ================================================================================= //

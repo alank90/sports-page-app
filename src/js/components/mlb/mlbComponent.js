@@ -13,7 +13,7 @@ const mlb = {
       "props_league_standings",
       "props_baseball_playoffs",
       "props_end_of_season",
-      "props_box_game_scores"
+      "props_box_game_scores_mlb"
     ],
     data: function() {
       return {
@@ -46,7 +46,7 @@ const mlb = {
                     </div>
                     <div v-else>
                         <!-- ============== Markup for Divisional Regular/Playoff Season Scores =============== -->
-                        <div class="container" v-if="props_box_game_scores">
+                        <div class="container" v-if="props_box_game_scores_mlb">
                             <div class="row">
                                 <div class="col-xs-12 col-md-6 col-lg-4 display-boxscores" v-for="(value, index) in props_league_data" >
                                     <table class="table table-striped table-sm">
@@ -102,7 +102,7 @@ const mlb = {
                                     <!-- ==================== Begin Markup for Game MLB Boxscores ============================ -->
                                       <!-- First see if any games were not completed. If not, the props_box_game_score.length
                                            will equal props_league_data.length -->
-                                            <div v-if="props_box_game_scores.length === props_league_data.length">                
+                                            <div v-if="props_box_game_scores_mlb.length === props_league_data.length">                
                                                 <p> 
                                                     <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
                                                         v-bind:data-index="index" v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
@@ -117,7 +117,7 @@ const mlb = {
                                                     <tbody class="table table-striped">
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-12">
-                                                                {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.City }} {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Name }}:
+                                                                {{ props_box_game_scores_mlb[index].data.gameboxscore.game.awayTeam.City }} {{ props_box_game_scores_mlb[index].data.gameboxscore.game.awayTeam.Name }}:
                                                             </th>
                                                             <th class="col-4 justify-content-center" scope="col">Player</th>
                                                             <th class="col-2 justify-content-center" scope="col">Hits</th>
@@ -127,7 +127,7 @@ const mlb = {
                                                         </thead>
 
                                                         <div
-                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                            v-for="playerStats in props_box_game_scores_mlb[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
                                                                     <td class="col-4 justify-content-center" :data-player-id='playerStats.player.ID' scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})</td>
@@ -156,7 +156,7 @@ const mlb = {
                                                             <th class="col-2 justify-content-center" scope="col">ERA</th>
                                                         </thead>
 
-                                                        <div v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                        <div v-for="playerStats in props_box_game_scores_mlb[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
                                                                     <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} 
@@ -186,7 +186,7 @@ const mlb = {
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                         <th class="col-12">
-                                                            {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.City }} {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.Name }}:
+                                                            {{ props_box_game_scores_mlb[index].data.gameboxscore.game.homeTeam.City }} {{ props_box_game_scores_mlb[index].data.gameboxscore.game.homeTeam.Name }}:
                                                         </th>
                                                             <th class="col-4 justify-content-center" scope="col">Player</th>
                                                             <th class="col-2 justify-content-center" scope="col">Hits</th>
@@ -195,7 +195,7 @@ const mlb = {
                                                             <th class="col-2 justify-content-center" scope="col">RBI's</th>
                                                         </thead>
 
-                                                        <div v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                        <div v-for="playerStats in props_box_game_scores_mlb[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
                                                                 <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex" >
                                                                     <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
@@ -225,7 +225,7 @@ const mlb = {
                                                         </thead>
 
                                                         <div
-                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                            v-for="playerStats in props_box_game_scores_mlb[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
                                                                 <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
                                                                     <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
@@ -257,7 +257,7 @@ const mlb = {
                                            <!-- ===== Now if arrays are not equal length we must provide logic to handle
                                                 this situation. 
                                             ============= -->
-                                            <div v-else-if="index < props_box_game_scores.length && props_box_game_scores[index].data.gameboxscore.game.location === props_league_data[index].game.location">      
+                                            <div v-else-if="index < props_box_game_scores_mlb.length && props_box_game_scores_mlb[index].data.gameboxscore.game.location === props_league_data[index].game.location">      
                                                 <p> 
                                                     <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse"
                                                         v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
@@ -271,7 +271,7 @@ const mlb = {
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                         <th class="col-12">
-                                                            {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.City }} {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Name }}:
+                                                            {{ props_box_game_scores_mlb[index].data.gameboxscore.game.awayTeam.City }} {{ props_box_game_scores_mlb[index].data.gameboxscore.game.awayTeam.Name }}:
                                                         </th>
                                                             <th class="col-4 justify-content-center" scope="col">Player</th>
                                                             <th class="col-2 justify-content-center" scope="col">Hits</th>
@@ -281,7 +281,7 @@ const mlb = {
                                                         </thead>
 
                                                         <div
-                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                            v-for="playerStats in props_box_game_scores_mlb[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
                                                                     <td class="col-4 justify-content-center" :data-player-id='playerStats.player.ID' scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
@@ -311,7 +311,7 @@ const mlb = {
                                                         </thead>
 
                                                         <div
-                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                                            v-for="playerStats in props_box_game_scores_mlb[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                                                 <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
                                                                     <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} 
@@ -339,7 +339,7 @@ const mlb = {
                                                     <tbody>
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-12">
-                                                                {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.City }} {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.Name }}:
+                                                                {{ props_box_game_scores_mlb[index].data.gameboxscore.game.homeTeam.City }} {{ props_box_game_scores_mlb[index].data.gameboxscore.game.homeTeam.Name }}:
                                                             </th>
                                                             <th class="col-4 justify-content-center" scope="col">Player</th>
                                                             <th class="col-2 justify-content-center" scope="col">Hits</th>
@@ -349,7 +349,7 @@ const mlb = {
                                                         </thead>
 
                                                         <div
-                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                            v-for="playerStats in props_box_game_scores_mlb[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
                                                                 <tr v-if="playerStats.stats.AtBats['#text'] > 0" class="d-flex">
                                                                     <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
@@ -379,7 +379,7 @@ const mlb = {
                                                         </thead>
 
                                                         <div
-                                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                                            v-for="playerStats in props_box_game_scores_mlb[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
                                                                 <tr v-if="playerStats.player.Position === 'P'" class="d-flex" v-bind:data-player-id="playerStats.player.ID">
                                                                     <td class="col-4 justify-content-center" v-bind:data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}}
@@ -403,7 +403,7 @@ const mlb = {
                                                 <!-- ========= End Pitcher Stats ============== -->
                                             </div>
 <!-- =============================================== End v-else-if for MLB Boxscores ============================================ -->
-         <!-- index value is higher then props_box_game_scores.length so must be an incomplete game. No boxscore available === -->
+         <!-- index value is higher then props_box_game_scores_mlb.length so must be an incomplete game. No boxscore available === -->
                                             <div v-else>
                                                 <p> No Boxscores Available. </p>
                                             </div>

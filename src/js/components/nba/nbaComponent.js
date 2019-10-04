@@ -9,7 +9,7 @@ const nba = {
       "props_league_standings",
       "props_basketball_playoffs",
       "props_end_of_season",
-      "props_box_game_scores"
+      "props_box_game_scores_nba"
     ],
     template: `
             <div class="vue-root-element">
@@ -23,7 +23,7 @@ const nba = {
                 </div>
                 <div v-else>
                     <!-- ============== Markup for Divisional Regular/Playoff Season Scores =============== -->
-                    <div class="container" v-if="props_box_game_scores">
+                    <div class="container" v-if="props_box_game_scores_nba">
                         <div class="row">
                             <div class="col-xs-12 col-md-4 col-lg-3" v-for="(arrayItem, index) in props_league_data">
                                 <table class="table table-striped table-sm">
@@ -100,7 +100,7 @@ const nba = {
                                         <thead class="d-flex flex-wrap">
                                             <th class="col-12">
                                             <td class="team">
-                                                {{ props_box_game_scores[index].data.gameboxscore.game.awayTeam.Abbreviation }}:
+                                                {{ props_box_game_scores_nba[index].data.gameboxscore.game.awayTeam.Abbreviation }}:
                                             </td>
                                             </th>
                                             <th class="col-4 justify-content-center" scope="col">Player</th>
@@ -110,7 +110,7 @@ const nba = {
                                             <th class="col-2 justify-content-center" scope="col">3-pts</th>
                                         </thead>
                                         <template
-                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                            v-for="playerStats in props_box_game_scores_nba[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
                                             <tr class="d-flex">
                                                 <td class="col-4 justify-content-center" scope="row">
                                                     {{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
@@ -132,7 +132,7 @@ const nba = {
                                         <thead class="d-flex flex-wrap">
                                             <th class="col-12">
                                             <td class="team">
-                                                {{ props_box_game_scores[index].data.gameboxscore.game.homeTeam.Abbreviation }}:
+                                                {{ props_box_game_scores_nba[index].data.gameboxscore.game.homeTeam.Abbreviation }}:
                                             </td>
                                             </th>
                                             <th class="col-4 justify-content-center" scope="col">Player</th>
@@ -142,7 +142,7 @@ const nba = {
                                             <th class="col-2 justify-content-center" scope="col">3-pts</th>
                                         </thead>
                                         <template
-                                            v-for="playerStats in props_box_game_scores[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                            v-for="playerStats in props_box_game_scores_nba[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
                                             <tr class="d-flex">
                                                 <td class="col-4 justify-content-center" scope="row">
                                                     {{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
