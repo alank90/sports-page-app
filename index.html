@@ -31,7 +31,10 @@
   <body>
     <div class="container-fluid">
       <h1 class="text-center inset-shadow">Scores From Around The Leagues</h1>
-      <div id="sportsImages" class="title-images d-inline-flex justify-content-around fixed-top">
+      <div
+        id="sportsImages"
+        class="title-images d-inline-flex justify-content-around fixed-top"
+      >
         <img src="./src/img/mlb-sm.jpg" alt="Pitcher Throwing Ball" />
         <img src="./src/img/nfl-sm.jpg" alt="David Tyree Superbowl Catch" />
         <img src="./src/img/nba-sm.jpg" alt="Michael Jordan Dunking" />
@@ -69,9 +72,9 @@
             v-bind:key="tab"
             v-bind:class="['tab-button', {active: currentTab === tab }]"
             v-on:click="getSportsData( tab )"
-          >       
+          >
             {{ tab }}
-            <img v-bind:src="'./src/img/' + tab + '.png'" class="tab-image">
+            <img v-bind:src="'./src/img/' + tab + '.png'" class="tab-image" />
           </button>
         </div>
 
@@ -84,16 +87,38 @@
         <keep-alive>
           <!-- === The Main Web Component ========= -->
           <component
+            v-if="currentTabComponent === 'tab-mlb'"
+            v-bind:is="currentTabComponent"
+            v-bind:props_league_data="sports_feeds_data"
+            v-bind:props_league_standings="standings"
+            v-bind:props_baseball_playoffs="baseball_playoffs"
+            v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
+            v-bind:props_box_game_scores_mlb="sports_feeds_boxscores_mlb"
+            class="tab"
+          >
+          </component>
+
+          <component
+            v-if="currentTabComponent === 'tab-nfl'"
             v-bind:is="currentTabComponent"
             v-bind:props_league_data="sports_feeds_data"
             v-bind:props_league_data_nfl="nfl_feeds"
             v-bind:props_league_standings="standings"
-            v-bind:props_baseball_playoffs="baseball_playoffs"
             v-bind:props_nfl_playoffs="nfl_playoffs"
+            v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
+            v-bind:props_box_game_scores_nfl="sports_feeds_boxscores_nfl"
+            class="tab"
+          >
+          </component>
+
+          <component
+            v-if="currentTabComponent === 'tab-nba'"
+            v-bind:is="currentTabComponent"
+            v-bind:props_league_data="sports_feeds_data"
+            v-bind:props_league_standings="standings"
             v-bind:props_basketball_playoffs="basketball_playoffs"
             v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
-            v-bind:props_box_game_scores="sports_feeds_boxscores[this.currentTab.toLowerCase()]"
-            v-bind:props_box_game_scores_nfl="sports_feeds_boxscores_nfl"
+            v-bind:props_box_game_scores_nba="sports_feeds_boxscores_nba"
             class="tab"
           >
           </component>
@@ -159,6 +184,5 @@
       crossorigin="anonymous"
     ></script>
     <script src="index.js"></script>
-    
   </body>
 </html>
