@@ -120,6 +120,7 @@ new Vue({
         config.params = {
           force: true
         };
+        this.errored = false; // reset if true from another tab
 
         // ========================================================================= //
         // ============ First Get the MLB Sports Scores =========================== //
@@ -147,10 +148,9 @@ new Vue({
         }
 
         /* jshint ignore:start */
-        // `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${date.yesterday}`
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/mlb/2019-regular/scoreboard.json?fordate=20190928`,
+            `https://api.mysportsfeeds.com/v1.2/pull/mlb/2019-regular/scoreboard.json?fordate=${date.yesterday}`,
             config
           )
           .then(response => {
@@ -227,6 +227,8 @@ new Vue({
         league.nfl.superbowlOffsetDate.setTime(
           league.nfl.superbowlDate - league.nfl.daysToMilliseconds
         );
+
+        this.errored = false; // reset if true from another tab
 
         // Check if it is the Off-Season
         if (date.today < league.nfl.regularSeasonStartDate) {
@@ -326,23 +328,14 @@ new Vue({
           this.sports_feeds_boxscores_nfl.sun =
             this.sports_feeds_boxscores_nfl.sun ||
             (await getBoxScores(nflGameIDs.sunday, url, params));
-          console.log(
-            `Sunday Boxscores ${this.sports_feeds_boxscores_nfl.sun.length}`
-          );
 
           this.sports_feeds_boxscores_nfl.thurs =
             this.sports_feeds_boxscores_nfl.thurs ||
             (await getBoxScores(nflGameIDs.thursday, url, params));
-          console.log(
-            `Thursday Boxscores ${this.sports_feeds_boxscores_nfl.thurs.length}`
-          );
 
           this.sports_feeds_boxscores_nfl.mon =
             this.sports_feeds_boxscores_nfl.mon ||
             (await getBoxScores(nflGameIDs.monday, url, params));
-          console.log(
-            `Monday Boxscores ${this.sports_feeds_boxscores_nfl.mon.length}`
-          );
 
           this.loading = false;
         }; /* End nflScores Async function */
@@ -386,6 +379,7 @@ new Vue({
 
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
+        this.errored = false; // reset if true from another tab
 
         // reset axios config parameters
         config.params = {

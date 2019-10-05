@@ -2,11 +2,15 @@ const Vue = require("vue");
 const axios = require("axios");
 
 const boxScoresStats = {
-  stats: Vue.component("boxScores", {
-    props: [],
+  stats: Vue.component("box-scores", {
+    data: function() {
+      return {
+        
+      };
+    },
     template: `
-          <p> Box Scores Here. </p>
-                  
+          <p> Test Paragraph. </p>
+                          
         ` // End template
   })
 };
