@@ -18,7 +18,7 @@ const nfl = {
       };
     },
     components: {
-        boxScores: boxScores
+      boxScores: boxScores
     },
     template: `
             <div class="vue-root-element">
