@@ -1,13 +1,13 @@
 // --------- src/modules/getBoxScores.js --------------- //
 const axios = require("axios");
 
-let boxScores = [];
-let promises = [];
-
 /* jshint ignore:start */
 // Make function async that way it will return a promise that the await invocation can consume
 try {
   const getBoxScores = async (gameIDs, myUrl, params) => {
+    let boxScores = [];
+    let promises = [];
+
     gameIDs.forEach(function(item) {
       promises.push(
         axios({
@@ -34,6 +34,6 @@ try {
 
   module.exports = getBoxScores;
 } catch (err) {
-    console.log(err);
+  console.log(err);
 }
 /* jshint ignore:end */
