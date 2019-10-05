@@ -85,7 +85,7 @@
                         rendered. Here it works out good.
         -->
         <keep-alive>
-          <!-- === The Main Web Component's ========= -->
+          <!-- === The Main Vue Web Component's ========= -->
           <component
             v-if="currentTabComponent === 'tab-mlb'"
             v-bind:is="currentTabComponent"
@@ -101,7 +101,6 @@
           <component
             v-if="currentTabComponent === 'tab-nfl'"
             v-bind:is="currentTabComponent"
-            v-bind:props_league_data="sports_feeds_data"
             v-bind:props_league_data_nfl="nfl_feeds"
             v-bind:props_league_standings="standings"
             v-bind:props_nfl_playoffs="nfl_playoffs"

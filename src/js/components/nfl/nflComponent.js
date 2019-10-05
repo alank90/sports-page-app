@@ -1,7 +1,7 @@
 // src/js/components/nflComponent.js
 
 const Vue = require("vue");
-const boxScores = require("./nflBoxScores");
+const boxscores = require("./nflBoxScores");
 
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
@@ -18,7 +18,7 @@ const nfl = {
       };
     },
     components: {
-      boxScores: boxScores
+      boxscores: boxscores
     },
     template: `
             <div class="vue-root-element">
@@ -100,7 +100,7 @@ const nfl = {
                                     <!-- ======== Start BoxScores Template Markup ============== 
                                     <div v-if="props_box_game_scores_nfl[nfl_days[index].split(' ')[0].toLowerCase()] != null">  {{ props_box_game_scores_nfl[nfl_days[index].split(' ')[0].toLowerCase()][arrayItemIndex] }} </div>
                                     -->
-                                    
+                                    <box-scores :componentBoxScore="props_box_game_scores_nfl.sun"></box-scores>
 
                                     <!-- ======== End BoxScores Template markup =============== -->
                                 </div> <!-- End v-for dayDataArray -->
