@@ -3,13 +3,45 @@ const axios = require("axios");
 
 const boxScoresStats = {
   stats: Vue.component("box-scores", {
+    props: ["props_box_score", "props_gameID"],
     data: function() {
-      return {
-        
-      };
+      return {};
     },
     template: `
-          <p> Test Paragraph. </p>
+        <div>
+                <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
+                    :data-target="'.collapse' + props_gameID"  aria-expanded="false"
+                    :aria-controls="props_gameID">
+                    Game Stats
+                </button> 
+                
+                <div class="collapse" :class="'collapse' + props_gameID">
+
+                    <!-- ======== Away Team Offense Stats ============= -->
+                    <table class="table table-striped table-bordered table-hover table-sm">
+                        <tbody class="table table-striped">
+                            <thead class="d-flex flex-wrap">
+                                <th class="col-12">
+                                {{ props_box_score.data.gameboxscore.game.awayTeam.City }} {{ props_box_score.data.gameboxscore.game.awayTeam.Name }}:
+                                </th>
+                                <th class="col-3 justify-content-center" scope="col">Player</th>
+                                <th class="col-3 justify-content-center" scope="col">Cmp</th>
+                                <th class="col-2 justify-content-center" scope="col">Att</th>
+                                <th class="col-2 justify-content-center" scope="col">Yds</th>
+                                <th class="col-2 justify-content-center" scope="col">TD</th>
+                                <th class="col-1 justify-content-center" scope="col">I</th>
+                            </thead>
+
+                        </tbody>
+                    </table>
+                    
+                    
+                    {{ props_box_score.data.gameboxscore.game.awayTeam.Abbreviation }}
+                 </div> <!-- End Template div -->
+               
+        
+            
+        </div>
                           
         ` // End template
   })

@@ -150,8 +150,9 @@ a.nav-link {
 }
 
 th {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   text-align: center;
+  overflow-wrap: break-word;
 }
 th.season-stats-headers {
   font-size: 0.7rem;
