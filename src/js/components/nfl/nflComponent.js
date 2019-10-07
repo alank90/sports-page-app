@@ -37,7 +37,7 @@ const nfl = {
                             <!-- v-if prevents Vue from trying to access dayDataArray before it has become populated -->
                             <h2> {{ nfl_days[index] }} <span v-if="dayDataArray.length" class="week">(Week
                                     {{ dayDataArray[0].game.week }})</span></h2>
-            
+                            
                             <div class="row">
                                 <div v-for="(arrayItem, arrayItemIndex) in dayDataArray" class="col-xs-12 col-sm-4 col-lg-3">
                                     <table class="table table-striped table-sm">
@@ -97,13 +97,14 @@ const nfl = {
                                         </tbody>
                                     </table>
                                     
-                                    <!-- ======== Start BoxScores Template Markup ============== 
-                                    <div v-if="props_box_game_scores_nfl[nfl_days[index].split(' ')[0].toLowerCase()] != null">  {{ props_box_game_scores_nfl[nfl_days[index].split(' ')[0].toLowerCase()][arrayItemIndex] }} </div>
-                                    -->
-                                    <box-scores :componentBoxScore="props_box_game_scores_nfl.sun"></box-scores>
-
+                                    <!-- ======== Start BoxScores Template Markup ============== -->
+                                    <div v-if="props_box_game_scores_nfl[nfl_days[index].split(' ')[0].slice(0,3).toLowerCase()] != null">
+                                        <box-scores :props_box_score="props_box_game_scores_nfl[nfl_days[index].split(' ')[0].slice(0,3).toLowerCase()][arrayItemIndex]"
+                                                    :props_gameID="arrayItem.game.ID">
+                                        </box-scores>
+                                    </div>
                                     <!-- ======== End BoxScores Template markup =============== -->
-                                </div> <!-- End v-for dayDataArray -->
+                                </div> <!-- End v-for arrayItem -->
                             </div> <!-- End row -->
                         </div> <!-- End v-for props_league_data_nfl -->
             

@@ -56,7 +56,7 @@ new Vue({
       sports_feeds_boxscores_nfl: {
         sun: null,
         mon: null,
-        thurs: null
+        thu: null
       },
       sports_feeds_boxscores_nba: null,
       baseball_playoffs: false,
@@ -329,8 +329,8 @@ new Vue({
             this.sports_feeds_boxscores_nfl.sun ||
             (await getBoxScores(nflGameIDs.sunday, url, params));
 
-          this.sports_feeds_boxscores_nfl.thurs =
-            this.sports_feeds_boxscores_nfl.thurs ||
+          this.sports_feeds_boxscores_nfl.thu =
+            this.sports_feeds_boxscores_nfl.thu ||
             (await getBoxScores(nflGameIDs.thursday, url, params));
 
           this.sports_feeds_boxscores_nfl.mon =
