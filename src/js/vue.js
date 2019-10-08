@@ -318,7 +318,7 @@ new Vue({
           const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/game_boxscore.json?gameid=`;
           const params = {
             teamstats: "none",
-            playerstats: "Att,Comp,Yds,Rec,TD",
+            playerstats: "Att,Comp,Yds,Rec,TD,Tgt",
             sort: "player.position.D",
             force: true
           };
