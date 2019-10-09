@@ -62,10 +62,10 @@ const boxScoresStats = {
                                     <th class="col-2 justify-content-center" scope="col">Rcpt</th>
                                     <th class="col-3 justify-content-center" scope="col">Yds</th>
                                     <th class="col-2 justify-content-center" scope="col">TD</th>
-                                    <th class="col-1 justify-content-center" scope="col">T</th>
+                                    <th class="col-2 justify-content-center" scope="col">T</th>
                                 </thead>
                             <div v-for="playerStats in props_box_score.data.gameboxscore.awayTeam.awayPlayers.playerEntry">
-                                <div v-if="playerStats.stats.RecYards > '2'">
+                                <div v-if="playerStats.stats.Targets >= '1'">
                                     <tr class="d-flex">
                                         <td class="col-3 justify-content-center" scope="row">
                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
@@ -75,15 +75,48 @@ const boxScoresStats = {
                                         <td class="col-3 justify-content-center">{{playerStats.stats.RecYards['#text']}}</td>
                                         <td class="col-2 justify-content-center">{{playerStats.stats.RecTD['#text']}}</td>
                                         <td class="col-2 justify-content-center">{{playerStats.stats.Targets['#text']}}</td>
-
-                                                        
                                     </tr>
-                                </div> <!-- End v-if "WR" -->
-                            </div> <!-- End v-for playerStats
-                        <!-- ============= End Passing Stats ============ -->
+                                </div> <!-- End v-if "Receiving" -->
+                            </div> <!-- End v-for playerStats -->
+                        </tbody>
+                </table>
+                <!-- ============= End Receiving Stats ============ -->
+
+                <!-- ============= Start Rushing Stats ============ -->
+                <table class="table table-striped table-bordered table-hover table-sm">
+                        <tbody class="table table-striped">
+                            <!-- ============= Recvg Stats ============ -->
+                                <thead class="d-flex flex-wrap">
+                                    <th class="col-12"> Rushing Stats </th>
+                                    <th class="col-3 justify-content-center" scope="col">Player</th>
+                                    <th class="col-2 justify-content-center" scope="col">Yds</th>
+                                    <th class="col-3 justify-content-center" scope="col">Avg</th>
+                                    <th class="col-2 justify-content-center" scope="col">TD</th>
+                                    <th class="col-2 justify-content-center" scope="col">Lng</th>
+                                </thead>
+
+                            <div v-for="playerStats in props_box_score.data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                <div v-if="playerStats.stats.RushYards > '5'">
+                                    <tr class="d-flex">
+                                        <td class="col-3 justify-content-center" scope="row">
+                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                        </td>
+                                        <td class="col-2 justify-content-center" justify-content="center">
+                                            {{ playerStats.stats.RushYards['#text'] }} </td>
+                                        <td class="col-3 justify-content-center">{{playerStats.stats.RushAverage['#text']}}</td>
+                                        <td class="col-2 justify-content-center">{{playerStats.stats.RushTD['#text']}}</td>
+                                        <td class="col-2 justify-content-center">{{playerStats.stats.RushLng['#text']}}</td>
+                                    </tr>
+                                </div> <!-- End v-if "Rushing" -->
+                            </div> <!-- End v-for playerStats -->
 
                         </tbody>
                 </table>
+
+
+
+
+                <!-- ============= End Rushing Stats ============== -->
                
         
             </div> <!-- End awayTeam Div -->

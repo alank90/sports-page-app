@@ -164,7 +164,6 @@ th.col-12 {
 th.category-header {
   height: .6rem;
   font-size: .6rem;
-  vertical-align: text-top;
   padding-bottom: 20px;
   background-color: rgba(162, 207, 245, 0.9);
 }
