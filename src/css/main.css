@@ -162,8 +162,8 @@ th.col-12 {
   background-color: #cfdcf8af;
 }
 th.category-header {
-  height: .6rem;
-  font-size: .6rem;
+  height: 0.6rem;
+  font-size: 0.6rem;
   padding-bottom: 20px;
   background-color: rgba(162, 207, 245, 0.9);
 }
@@ -215,6 +215,7 @@ td[title="Click for Season Stats"]:hover {
 .btn-sm {
   font-size: 0.5rem;
   font-weight: 600;
+  margin-bottom: 10px;
   transition: all 0.5s;
 }
 .btn-group-sm > .btn,
@@ -368,7 +369,108 @@ div .footer a img {
   z-index: 99;
 }
 
-/*========== End backToTop Stylings ============== */
+/* ========== End backToTop Stylings ============== */
+
+/* ======== Team Color Classes ==================== */
+.ne {
+  background-color: #002244;
+}
+
+.buf {
+  background-color: #00338d;
+}
+
+.mia {
+  background-color: #008e97;
+}
+.nyj {
+  background-color: #125740;
+}
+.bal {
+  background-color: #241773;
+}
+.cle {
+  background-color: #ff3c00;
+}
+.pit {
+  background-color: #ffb612;
+}
+.cin {
+  background-color: #fb4f14;
+}
+.hou {
+  background-color: #03202f;
+}
+.ind {
+  background-color: #002c5f;
+}
+.jax {
+  background-color: #d7a22a;
+}
+.ten {
+  background-color: #4495d1;
+}
+.kc {
+  background-color: #e31837;
+}
+.oak {
+  background-color: #000000;
+}
+.lac {
+  background-color: #ffc20e;
+}
+.den {
+  background-color: #fb4f14;
+}
+.dal {
+  background-color: #002244;
+}
+.phi {
+  background-color: #004c54;
+}
+.nyg {
+  background-color: #03497f;
+}
+.was {
+  background-color: #79002e;
+}
+.gb {
+  background-color: #003b2a;
+}
+.chi {
+  background-color: #c83803;
+}
+.min {
+  background-color: #4e2683;
+}
+.det {
+  background-color: #0076b6;
+}
+.no {
+  background-color: #d3bc8d;
+}
+.car {
+  background-color: #108dcd;
+}
+.tb {
+  background-color: #d50a0a;
+}
+.atl {
+  background-color: #c9243f;
+}
+.sf {
+  background-color: #aa0000;
+}
+.sea {
+  background-color: #002244;
+}
+.la {
+  background-color: #002244;
+}
+.ari {
+  background-color: #97233f;
+}
+/* ===== End Team Colors Classes ========== */
 
 /* ========== Media Queries Below Here ================ */
 

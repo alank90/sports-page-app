@@ -29,7 +29,7 @@ const boxScoresStats = {
     computed: {
       playerPassingStatsAway: function() {
         return this.offensivePlayersAway.filter(playerEntry => {
-          if (typeof playerEntry.stats.PassYards != "undefined") {
+          if (typeof playerEntry.stats.PassYards != "undefined" && playerEntry.stats.PassAttempts['#text'] > "0" ) {
             return playerEntry.stats.PassYards["#text"] > "0";
           }
         });
@@ -90,22 +90,22 @@ const boxScoresStats = {
                                     {{ props_box_score.data.gameboxscore.game.awayTeam.City }} {{ props_box_score.data.gameboxscore.game.awayTeam.Name }}:
                                     </th>
                                     <th class="col-12"> Passing Stats </th>
-                                    <th class="col-4 justify-content-center" scope="col">Player</th>
-                                    <th class="col-4 justify-content-center" scope="col">CP/Att</th>
+                                    <th class="col-3 justify-content-center" scope="col">Player</th>
+                                    <th class="col-3 justify-content-center" scope="col">CP/Att</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
-                                    <th class="col-1 justify-content-center" scope="col">TD</th>
-                                    <th class="col-1 justify-content-center" scope="col">I</th>
+                                    <th class="col-2 justify-content-center" scope="col">TD</th>
+                                    <th class="col-2 justify-content-center" scope="col">Int</th>
                                 </thead>
                             <div v-for="playerStats in playerPassingStatsAway">
                                     <tr class="d-flex">
-                                        <td class="col-4 justify-content-center" scope="row">
+                                        <td class="col-3 justify-content-center" scope="row">
                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                         </td>
-                                        <td class="col-4 justify-content-center" justify-content="center">
+                                        <td class="col-3 justify-content-center" justify-content="center">
                                             {{ playerStats.stats.PassCompletions['#text'] }} / {{ playerStats.stats.PassAttempts['#text'] }} </td>
                                         <td class="col-2 justify-content-center">{{playerStats.stats.PassYards['#text']}}</td>
-                                        <td class="col-1 justify-content-center">{{playerStats.stats.PassTD['#text']}}</td>
-                                        <td class="col-1 justify-content-center">{{playerStats.stats.IntTD['#text']}}
+                                        <td class="col-2 justify-content-center">{{playerStats.stats.PassTD['#text']}}</td>
+                                        <td class="col-2 justify-content-center">{{playerStats.stats.IntTD['#text']}}
                                         </td>                 
                                     </tr>
                             </div> <!-- End v-for playerPassingStatsAway -->
@@ -122,9 +122,9 @@ const boxScoresStats = {
                                     <th class="col-12"> Receiving Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
                                     <th class="col-2 justify-content-center" scope="col">Rcpt</th>
-                                    <th class="col-3 justify-content-center" scope="col">Yds</th>
+                                    <th class="col-2 justify-content-center" scope="col">Yds</th>
                                     <th class="col-2 justify-content-center" scope="col">TD</th>
-                                    <th class="col-2 justify-content-center" scope="col">T</th>
+                                    <th class="col-3 justify-content-center" scope="col">Tgts</th>
                                 </thead>
                                 <div v-for="playerStats in playerReceivingStatsAway">
                                     <tr class="d-flex">
@@ -133,9 +133,9 @@ const boxScoresStats = {
                                         </td>
                                         <td class="col-2 justify-content-center" justify-content="center">
                                             {{ playerStats.stats.Receptions['#text'] }} </td>
-                                        <td class="col-3 justify-content-center">{{playerStats.stats.RecYards['#text']}}</td>
+                                        <td class="col-2 justify-content-center">{{playerStats.stats.RecYards['#text']}}</td>
                                         <td class="col-2 justify-content-center">{{playerStats.stats.RecTD['#text']}}</td>
-                                        <td class="col-2 justify-content-center">{{playerStats.stats.Targets['#text']}}</td>
+                                        <td class="col-3 justify-content-center">{{playerStats.stats.Targets['#text']}}</td>
                                     </tr>
                                 </div>  <!-- End v-for playerStats -->
                         </tbody>
@@ -197,22 +197,22 @@ const boxScoresStats = {
                                     {{ props_box_score.data.gameboxscore.game.homeTeam.City }} {{ props_box_score.data.gameboxscore.game.homeTeam.Name }}:
                                     </th>
                                     <th class="col-12"> Passing Stats </th>
-                                    <th class="col-4 justify-content-center" scope="col">Player</th>
-                                    <th class="col-4 justify-content-center" scope="col">CP/Att</th>
+                                    <th class="col-3 justify-content-center" scope="col">Player</th>
+                                    <th class="col-3 justify-content-center" scope="col">CP/Att</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
-                                    <th class="col-1 justify-content-center" scope="col">TD</th>
-                                    <th class="col-1 justify-content-center" scope="col">I</th>
+                                    <th class="col-2 justify-content-center" scope="col">TD</th>
+                                    <th class="col-2 justify-content-center" scope="col">Int</th>
                                 </thead>
                             <div v-for="playerStats in playerPassingStatsHome">
                                     <tr class="d-flex">
-                                        <td class="col-4 justify-content-center" scope="row">
+                                        <td class="col-3 justify-content-center" scope="row">
                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                         </td>
-                                        <td class="col-4 justify-content-center" justify-content="center">
+                                        <td class="col-3 justify-content-center" justify-content="center">
                                             {{ playerStats.stats.PassCompletions['#text'] }} / {{ playerStats.stats.PassAttempts['#text'] }} </td>
                                         <td class="col-2 justify-content-center">{{playerStats.stats.PassYards['#text']}}</td>
-                                        <td class="col-1 justify-content-center">{{playerStats.stats.PassTD['#text']}}</td>
-                                        <td class="col-1 justify-content-center">{{playerStats.stats.IntTD['#text']}}
+                                        <td class="col-2 justify-content-center">{{playerStats.stats.PassTD['#text']}}</td>
+                                        <td class="col-2 justify-content-center">{{playerStats.stats.IntTD['#text']}}
                                         </td>                 
                                     </tr>
                             </div> <!-- End v-for playerPassingStats -->
@@ -229,9 +229,9 @@ const boxScoresStats = {
                                     <th class="col-12"> Receiving Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
                                     <th class="col-2 justify-content-center" scope="col">Rcpt</th>
-                                    <th class="col-3 justify-content-center" scope="col">Yds</th>
+                                    <th class="col-2 justify-content-center" scope="col">Yds</th>
                                     <th class="col-2 justify-content-center" scope="col">TD</th>
-                                    <th class="col-2 justify-content-center" scope="col">T</th>
+                                    <th class="col-3 justify-content-center" scope="col">Tgts</th>
                                 </thead>
                                 <div v-for="playerStats in playerReceivingStatsHome">
                                     <tr class="d-flex">
@@ -240,9 +240,9 @@ const boxScoresStats = {
                                         </td>
                                         <td class="col-2 justify-content-center" justify-content="center">
                                             {{ playerStats.stats.Receptions['#text'] }} </td>
-                                        <td class="col-3 justify-content-center">{{playerStats.stats.RecYards['#text']}}</td>
+                                        <td class="col-2 justify-content-center">{{playerStats.stats.RecYards['#text']}}</td>
                                         <td class="col-2 justify-content-center">{{playerStats.stats.RecTD['#text']}}</td>
-                                        <td class="col-2 justify-content-center">{{playerStats.stats.Targets['#text']}}</td>
+                                        <td class="col-3 justify-content-center">{{playerStats.stats.Targets['#text']}}</td>
                                     </tr>
                                 </div>  <!-- End v-for playerStats -->
                         </tbody>
