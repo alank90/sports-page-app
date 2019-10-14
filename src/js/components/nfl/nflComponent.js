@@ -20,6 +20,16 @@ const nfl = {
     components: {
       boxscores: boxscores
     },
+    methods: {
+      nflBoxScoresForDayOfWeekArray: function(index) {
+        return this.props_box_game_scores_nfl[
+          this.nfl_days[index]
+            .split(" ")[0]
+            .slice(0, 3)
+            .toLowerCase()
+        ];
+      }
+    },
     template: `
             <div class="vue-root-element">
                 <!-- Check if data was returned from Get request to mysportsfeeds API -->
@@ -98,7 +108,7 @@ const nfl = {
                                     </table>
                                     
                                     <!-- ======== Start BoxScores Template Markup ============== -->
-                                    <div v-if="props_box_game_scores_nfl[nfl_days[index].split(' ')[0].slice(0,3).toLowerCase()] != null">
+                                    <div v-if="nflBoxScoresForDayOfWeekArray(index)">
                                         <box-scores :props_box_score="props_box_game_scores_nfl[nfl_days[index].split(' ')[0].slice(0,3).toLowerCase()][arrayItemIndex]"
                                                     :props_gameID="arrayItem.game.ID">
                                         </box-scores>
