@@ -158,9 +158,13 @@ th.season-stats-headers {
   font-size: 0.7rem;
   font-weight: 600;
 }
-th.col-12 {
-  background-color: #cfdcf8af;
+thead th.stats-header {
+  color: rgba(0,0,0, .6);
 }
+th.col-12 {
+ color: rgba(255,255,255, .7);
+}
+
 th.category-header {
   height: 0.6rem;
   font-size: 0.6rem;
@@ -373,11 +377,11 @@ div .footer a img {
 
 /* ======== Team Color Classes ==================== */
 .ne {
-  background-color: #002244;
+  background-color: #002653;
 }
 
 .buf {
-  background-color: #00338d;
+  background-color: #0029c4;
 }
 
 .mia {
@@ -387,7 +391,7 @@ div .footer a img {
   background-color: #125740;
 }
 .bal {
-  background-color: #241773;
+  background-color: #2e2d88;
 }
 .cle {
   background-color: #ff3c00;
@@ -402,13 +406,13 @@ div .footer a img {
   background-color: #03202f;
 }
 .ind {
-  background-color: #002c5f;
+  background-color: #003485;
 }
 .jax {
   background-color: #d7a22a;
 }
 .ten {
-  background-color: #4495d1;
+  background-color: #5085bc;
 }
 .kc {
   background-color: #e31837;
@@ -423,7 +427,7 @@ div .footer a img {
   background-color: #fb4f14;
 }
 .dal {
-  background-color: #002244;
+  background-color: #00386c;
 }
 .phi {
   background-color: #004c54;
@@ -462,10 +466,10 @@ div .footer a img {
   background-color: #aa0000;
 }
 .sea {
-  background-color: #002244;
+  background-color: #003463;
 }
 .la {
-  background-color: #002244;
+  background-color: #13264b;
 }
 .ari {
   background-color: #97233f;

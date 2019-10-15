@@ -29,7 +29,10 @@ const boxScoresStats = {
     computed: {
       playerPassingStatsAway: function() {
         return this.offensivePlayersAway.filter(playerEntry => {
-          if (typeof playerEntry.stats.PassYards != "undefined" && playerEntry.stats.PassAttempts['#text'] > "0" ) {
+          if (
+            typeof playerEntry.stats.PassYards != "undefined" &&
+            playerEntry.stats.PassAttempts["#text"] > "0"
+          ) {
             return playerEntry.stats.PassYards["#text"] > "0";
           }
         });
@@ -68,6 +71,12 @@ const boxScoresStats = {
             return playerEntry.stats.RushYards["#text"] > "0";
           }
         });
+      },
+      teamColorAway: function() {
+        return this.props_box_score.data.gameboxscore.game.awayTeam.Abbreviation.toLowerCase();
+      },
+      teamColorHome: function() {
+        return this.props_box_score.data.gameboxscore.game.homeTeam.Abbreviation.toLowerCase();
       }
     },
     template: `
@@ -86,10 +95,10 @@ const boxScoresStats = {
                         <tbody class="table table-striped">
                             <!-- ============= Passing Stats ============ -->
                                 <thead class="d-flex flex-wrap">
-                                    <th class="col-12">
-                                    {{ props_box_score.data.gameboxscore.game.awayTeam.City }} {{ props_box_score.data.gameboxscore.game.awayTeam.Name }}:
+                                    <th class="col-12" :class="teamColorAway">
+                                    {{ props_box_score.data.gameboxscore.game.awayTeam.City }} {{ props_box_score.data.gameboxscore.game.awayTeam.Name }}
                                     </th>
-                                    <th class="col-12"> Passing Stats </th>
+                                    <th class="col-12 stats-header"> Passing Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
                                     <th class="col-3 justify-content-center" scope="col">CP/Att</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
@@ -119,7 +128,7 @@ const boxScoresStats = {
                         <tbody class="table table-striped">
                             <!-- ============= Recvg Stats ============ -->
                                 <thead class="d-flex flex-wrap">
-                                    <th class="col-12"> Receiving Stats </th>
+                                    <th class="col-12 stats-header"> Receiving Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
                                     <th class="col-2 justify-content-center" scope="col">Rcpt</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
@@ -148,7 +157,7 @@ const boxScoresStats = {
                         <tbody class="table table-striped">
                             <!-- ============= Receiving Stats ============ -->
                                 <thead class="d-flex flex-wrap">
-                                    <th class="col-12"> Rushing Stats </th>
+                                    <th class="col-12 stats-header"> Rushing Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
                                     <th class="col-3 justify-content-center" scope="col">Avg</th>
@@ -193,10 +202,10 @@ const boxScoresStats = {
                         <tbody class="table table-striped">
                             <!-- ============= Passing Stats ============ -->
                                 <thead class="d-flex flex-wrap">
-                                    <th class="col-12">
-                                    {{ props_box_score.data.gameboxscore.game.homeTeam.City }} {{ props_box_score.data.gameboxscore.game.homeTeam.Name }}:
+                                    <th class="col-12" :class="teamColorHome">
+                                    {{ props_box_score.data.gameboxscore.game.homeTeam.City }} {{ props_box_score.data.gameboxscore.game.homeTeam.Name }}
                                     </th>
-                                    <th class="col-12"> Passing Stats </th>
+                                    <th class="col-12 stats-header"> Passing Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
                                     <th class="col-3 justify-content-center" scope="col">CP/Att</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
@@ -226,7 +235,7 @@ const boxScoresStats = {
                         <tbody class="table table-striped">
                             <!-- ============= Recvg Stats ============ -->
                                 <thead class="d-flex flex-wrap">
-                                    <th class="col-12"> Receiving Stats </th>
+                                    <th class="col-12 stats-header"> Receiving Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
                                     <th class="col-2 justify-content-center" scope="col">Rcpt</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
@@ -255,7 +264,7 @@ const boxScoresStats = {
                         <tbody class="table table-striped">
                             <!-- ============= Receiving Stats ============ -->
                                 <thead class="d-flex flex-wrap">
-                                    <th class="col-12"> Rushing Stats </th>
+                                    <th class="col-12 stats-header"> Rushing Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
                                     <th class="col-3 justify-content-center" scope="col">Avg</th>
