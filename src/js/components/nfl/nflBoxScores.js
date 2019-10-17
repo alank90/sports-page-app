@@ -15,6 +15,15 @@ const boxScoresStats = {
             offensivePlayer.player.Position === "RB" ||
             offensivePlayer.player.Position === "TE"
         ),
+        defensivePlayersAway: this.props_box_score.data.gameboxscore.awayTeam.awayPlayers.playerEntry.filter(
+          defensivePlayer =>
+            defensivePlayer.player.Position === "DT" ||
+            defensivePlayer.player.Position === "DE" ||
+            defensivePlayer.player.Position === "LB" ||
+            defensivePlayer.player.Position === "FS" ||
+            defensivePlayer.player.Position === "LS" ||
+            defensivePlayer.player.Position === "CB"
+        ),
         playerStatsHome: this.props_box_score.data.gameboxscore.homeTeam
           .homePlayers.playerEntry,
         offensivePlayersHome: this.props_box_score.data.gameboxscore.homeTeam.homePlayers.playerEntry.filter(
@@ -23,6 +32,15 @@ const boxScoresStats = {
             offensivePlayer.player.Position === "WR" ||
             offensivePlayer.player.Position === "RB" ||
             offensivePlayer.player.Position === "TE"
+        ),
+        defensivePlayersHome: this.props_box_score.data.gameboxscore.homeTeam.homePlayers.playerEntry.filter(
+          defensivePlayer =>
+            defensivePlayer.player.Position === "DT" ||
+            defensivePlayer.player.Position === "DE" ||
+            defensivePlayer.player.Position === "LB" ||
+            defensivePlayer.player.Position === "FS" ||
+            defensivePlayer.player.Position === "LS" ||
+            defensivePlayer.player.Position === "CB"
         )
       };
     },
@@ -51,6 +69,16 @@ const boxScoresStats = {
           }
         });
       },
+      playerDefensiveStatsAway: function() {
+        return this.defensivePlayersAway.filter(playerEntry => {
+          if (typeof playerEntry.stats.TackleTotal != "undefined") {
+            return (
+              playerEntry.stats.TackleTotal["#text"] > "5" ||
+              playerEntry.stats.Interceptions["#text"] > "0"
+            );
+          }
+        });
+      },
       playerPassingStatsHome: function() {
         return this.offensivePlayersHome.filter(playerEntry => {
           if (typeof playerEntry.stats.PassYards != "undefined") {
@@ -69,6 +97,16 @@ const boxScoresStats = {
         return this.offensivePlayersHome.filter(playerEntry => {
           if (typeof playerEntry.stats.RushYards != "undefined") {
             return playerEntry.stats.RushYards["#text"] > "0";
+          }
+        });
+      },
+      playerDefensiveStatsHome: function() {
+        return this.defensivePlayersHome.filter(playerEntry => {
+          if (typeof playerEntry.stats.TackleTotal != "undefined") {
+            return (
+              playerEntry.stats.TackleTotal["#text"] > "5" ||
+              playerEntry.stats.Interceptions["#text"] > "0"
+            );
           }
         });
       },
@@ -98,92 +136,124 @@ const boxScoresStats = {
                                     <th class="col-12" :class="teamColorAway">
                                     {{ props_box_score.data.gameboxscore.game.awayTeam.City }} {{ props_box_score.data.gameboxscore.game.awayTeam.Name }}
                                     </th>
+                                  
                                     <th class="col-12 stats-header"> Passing Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
                                     <th class="col-3 justify-content-center" scope="col">CP/Att</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
                                     <th class="col-2 justify-content-center" scope="col">TD</th>
                                     <th class="col-2 justify-content-center" scope="col">Int</th>
+                                   
                                 </thead>
-                            <div v-for="playerStats in playerPassingStatsAway">
-                                    <tr class="d-flex">
-                                        <td class="col-3 justify-content-center" scope="row">
-                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
-                                        </td>
-                                        <td class="col-3 justify-content-center" justify-content="center">
-                                            {{ playerStats.stats.PassCompletions['#text'] }} / {{ playerStats.stats.PassAttempts['#text'] }} </td>
-                                        <td class="col-2 justify-content-center">{{playerStats.stats.PassYards['#text']}}</td>
-                                        <td class="col-2 justify-content-center">{{playerStats.stats.PassTD['#text']}}</td>
-                                        <td class="col-2 justify-content-center">{{playerStats.stats.IntTD['#text']}}
-                                        </td>                 
-                                    </tr>
-                            </div> <!-- End v-for playerPassingStatsAway -->
-                        <!-- ============= End Passing Stats ============ -->
+                               
+                            
+                                <div v-for="playerStats in playerPassingStatsAway">
+                                  <tr class="d-flex">
+                                      <td class="col-3 justify-content-center" scope="row">
+                                      {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                      </td>
+                                      <td class="col-3 justify-content-center" justify-content="center">
+                                          {{ playerStats.stats.PassCompletions['#text'] }} / {{ playerStats.stats.PassAttempts['#text'] }} </td>
+                                      <td class="col-2 justify-content-center">{{playerStats.stats.PassYards['#text']}}</td>
+                                      <td class="col-2 justify-content-center">{{playerStats.stats.PassTD['#text']}}</td>
+                                      <td class="col-2 justify-content-center">{{playerStats.stats.IntTD['#text']}}
+                                      </td>                 
+                                </tr>
+                               </div> <!-- End v-for playerPassingStatsAway -->
+                                <!-- ============= End Passing Stats ============ -->               
 
-                        </tbody>
+                         </tbody>
                     </table>
-                
-                <!-- ============= Receiving Stats ============ -->
-                <table class="table table-striped table-bordered table-hover table-sm">
-                        <tbody class="table table-striped">
-                            <!-- ============= Recvg Stats ============ -->
-                                <thead class="d-flex flex-wrap">
-                                    <th class="col-12 stats-header"> Receiving Stats </th>
-                                    <th class="col-3 justify-content-center" scope="col">Player</th>
-                                    <th class="col-2 justify-content-center" scope="col">Rcpt</th>
-                                    <th class="col-2 justify-content-center" scope="col">Yds</th>
-                                    <th class="col-2 justify-content-center" scope="col">TD</th>
-                                    <th class="col-3 justify-content-center" scope="col">Tgts</th>
-                                </thead>
-                                <div v-for="playerStats in playerReceivingStatsAway">
-                                    <tr class="d-flex">
-                                        <td class="col-3 justify-content-center" scope="row">
-                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
-                                        </td>
-                                        <td class="col-2 justify-content-center" justify-content="center">
-                                            {{ playerStats.stats.Receptions['#text'] }} </td>
-                                        <td class="col-2 justify-content-center">{{playerStats.stats.RecYards['#text']}}</td>
-                                        <td class="col-2 justify-content-center">{{playerStats.stats.RecTD['#text']}}</td>
-                                        <td class="col-3 justify-content-center">{{playerStats.stats.Targets['#text']}}</td>
-                                    </tr>
-                                </div>  <!-- End v-for playerStats -->
-                        </tbody>
-                </table>
-                <!-- ============= End Receiving Stats ============ -->
+                                                            
+                                        <!-- ============= Receiving Stats ============ -->
+                                        <table class="table table-striped table-bordered table-hover table-sm">
+                                                <tbody class="table table-striped">
+                                                    <!-- ============= Recvg Stats ============ -->
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-12 stats-header"> Receiving Stats </th>
+                                                            <th class="col-3 justify-content-center" scope="col">Player</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Rcpt</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Yds</th>
+                                                            <th class="col-2 justify-content-center" scope="col">TD</th>
+                                                            <th class="col-3 justify-content-center" scope="col">Tgts</th>
+                                                        </thead>
+                                                        <div v-for="playerStats in playerReceivingStatsAway">
+                                                            <tr class="d-flex">
+                                                                <td class="col-3 justify-content-center" scope="row">
+                                                                {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                                                </td>
+                                                                <td class="col-2 justify-content-center" justify-content="center">
+                                                                    {{ playerStats.stats.Receptions['#text'] }} </td>
+                                                                <td class="col-2 justify-content-center">{{playerStats.stats.RecYards['#text']}}</td>
+                                                                <td class="col-2 justify-content-center">{{playerStats.stats.RecTD['#text']}}</td>
+                                                                <td class="col-3 justify-content-center">{{playerStats.stats.Targets['#text']}}</td>
+                                                            </tr>
+                                                        </div>  <!-- End v-for playerStats -->
+                                                </tbody>
+                                        </table>
+                                        <!-- ============= End Receiving Stats ============ -->
 
 
-                <!-- ============= Start Rushing Stats ============ -->
-                <table class="table table-striped table-bordered table-hover table-sm">
-                        <tbody class="table table-striped">
-                            <!-- ============= Receiving Stats ============ -->
-                                <thead class="d-flex flex-wrap">
-                                    <th class="col-12 stats-header"> Rushing Stats </th>
-                                    <th class="col-3 justify-content-center" scope="col">Player</th>
-                                    <th class="col-2 justify-content-center" scope="col">Yds</th>
-                                    <th class="col-3 justify-content-center" scope="col">Avg</th>
-                                    <th class="col-2 justify-content-center" scope="col">TD</th>
-                                    <th class="col-2 justify-content-center" scope="col">Lng</th>
-                                </thead>
+                                        <!-- ============= Start Rushing Stats ============ -->
+                                        <table class="table table-striped table-bordered table-hover table-sm">
+                                                <tbody class="table table-striped">
+                                                    <!-- ============= Receiving Stats ============ -->
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-12 stats-header"> Rushing Stats </th>
+                                                            <th class="col-3 justify-content-center" scope="col">Player</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Yds</th>
+                                                            <th class="col-3 justify-content-center" scope="col">Avg</th>
+                                                            <th class="col-2 justify-content-center" scope="col">TD</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Lng</th>
+                                                        </thead>
 
-                            <div v-for="playerStats in playerRushingStatsAway">
-                                    <tr class="d-flex">
-                                        <td class="col-3 justify-content-center" scope="row">
-                                        {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
-                                        </td>
-                                        <td class="col-2 justify-content-center" justify-content="center">
-                                            {{ playerStats.stats.RushYards['#text'] }} </td>
-                                        <td class="col-3 justify-content-center">{{playerStats.stats.RushAverage['#text']}}</td>
-                                        <td class="col-2 justify-content-center">{{playerStats.stats.RushTD['#text']}}</td>
-                                        <td class="col-2 justify-content-center">{{playerStats.stats.RushLng['#text']}}</td>
-                                    </tr>
-                            </div> <!-- End v-for playerStatsAway for Rushing -->
+                                                    <div v-for="playerStats in playerRushingStatsAway">
+                                                            <tr class="d-flex">
+                                                                <td class="col-3 justify-content-center" scope="row">
+                                                                {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                                                </td>
+                                                                <td class="col-2 justify-content-center" justify-content="center">
+                                                                    {{ playerStats.stats.RushYards['#text'] }} </td>
+                                                                <td class="col-3 justify-content-center">{{playerStats.stats.RushAverage['#text']}}</td>
+                                                                <td class="col-2 justify-content-center">{{playerStats.stats.RushTD['#text']}}</td>
+                                                                <td class="col-2 justify-content-center">{{playerStats.stats.RushLng['#text']}}</td>
+                                                            </tr>
+                                                    </div> <!-- End v-for playerStatsAway for Rushing -->
 
-                        </tbody>
-                </table>
+                                                </tbody>
+                                        </table>
 
-                <!-- ============= End Rushing Stats ============== -->
-                
-         
+                                        <!-- ============= End Rushing Stats ================ -->
+
+                                        <!-- =============== Start AwayDefensive Stats ================ -->
+                                        <table class="table table-striped table-bordered table-hover table-sm">
+                                                <tbody class="table table-striped">
+                                                    <!-- ============= Defensive Stats ============ -->
+                                                        <thead class="d-flex flex-wrap">
+                                                            <th class="col-12 stats-header"> Defensive Stats </th>
+                                                            <th class="col-3 justify-content-center" scope="col">Player</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Tkls</th>
+                                                            <th class="col-3 justify-content-center" scope="col">Scks</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Int</th>
+                                                            <th class="col-2 justify-content-center" scope="col">FF</th>
+                                                        </thead>
+
+                                                    <div v-for="playerStats in playerDefensiveStatsAway">
+                                                        <tr class="d-flex">
+                                                            <td class="col-3 justify-content-center" scope="row">
+                                                            {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                                            </td>
+                                                            <td class="col-2 justify-content-center" justify-content="center">
+                                                                {{ playerStats.stats.TackleTotal['#text'] }} </td>
+                                                            <td class="col-3 justify-content-center">{{playerStats.stats.Sacks['#text']}}</td>
+                                                            <td class="col-2 justify-content-center">{{playerStats.stats.Interceptions['#text']}}</td>
+                                                            <td class="col-2 justify-content-center">{{playerStats.stats.FumForced['#text']}}</td>
+                                                        </tr>
+                                                    </div> <!-- End v-for playerStatsAway for Rushing -->
+
+                                                </tbody>
+                                        </table>
+                                  
             </div> <!-- End awayTeam Div -->
             <!-- ================================================================================ -->
             <!-- =================== End AwayTeam Markup ======================================== -->
@@ -289,6 +359,35 @@ const boxScoresStats = {
                 </table>
 
                 <!-- ============= End Rushing Stats ============== -->
+
+                <!-- =============== Start HomeDefensive Stats ================ -->
+                <table class="table table-striped table-bordered table-hover table-sm">
+                        <tbody class="table table-striped">
+                            <!-- ============= Defensive Stats ============ -->
+                                <thead class="d-flex flex-wrap">
+                                    <th class="col-12 stats-header"> Defensive Stats </th>
+                                    <th class="col-3 justify-content-center" scope="col">Player</th>
+                                    <th class="col-2 justify-content-center" scope="col">Tkls</th>
+                                    <th class="col-3 justify-content-center" scope="col">Scks</th>
+                                    <th class="col-2 justify-content-center" scope="col">Int</th>
+                                    <th class="col-2 justify-content-center" scope="col">FF</th>
+                                </thead>
+
+                            <div v-for="playerStats in playerDefensiveStatsHome">
+                                <tr class="d-flex">
+                                    <td class="col-3 justify-content-center" scope="row">
+                                    {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                    </td>
+                                    <td class="col-2 justify-content-center" justify-content="center">
+                                        {{ playerStats.stats.TackleTotal['#text'] }} </td>
+                                    <td class="col-3 justify-content-center">{{playerStats.stats.Sacks['#text']}}</td>
+                                    <td class="col-2 justify-content-center">{{playerStats.stats.Interceptions['#text']}}</td>
+                                    <td class="col-2 justify-content-center">{{playerStats.stats.FumForced['#text']}}</td>
+                                </tr>
+                            </div> <!-- End v-for playerStatsAway for Rushing -->
+
+                        </tbody>
+                </table>
                 
          
             </div> <!-- End HomeTeam Div -->
