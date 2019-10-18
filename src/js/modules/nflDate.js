@@ -1,30 +1,34 @@
 // ========== src/js/modules/nfldate.js ================== //
 
 let nflDay = new Date();
+console.log(`nflDay Initialization value: ${nflDay}`);
 // convert to msec since Jan 1 1970
-const localTime = nflDay.getTime();
-
+/* const localTime = nflDay.getTime();
+ */
 // obtain local UTC offset and convert to msec
-const minutesToMilliseconds = 60 * 1000;
-const localOffset = nflDay.getTimezoneOffset() * minutesToMilliseconds;
+/* const minutesToMilliseconds = 60 * 1000;
+const localOffset = nflDay.getTimezoneOffset() * minutesToMilliseconds; */
 
 // obtain UTC time in msec
-const utc = localTime + localOffset;
+/* const utc = localTime + localOffset; */
 
 // obtain and add destination's UTC time offset
 // for example, Eastern Time
 // which is UTC - 4 hours
-const offset = 4;
+/* const offset = 4;
 const hoursToMilliseconds = 3600 * 1000;
-const easternTime = utc - hoursToMilliseconds * offset;
+const easternTime = utc - hoursToMilliseconds * offset; */
 
 // convert msec value to date string
-let thursdayDate = new Date(easternTime);
-let sundayDate = new Date(easternTime);
-let mondayDate = new Date(easternTime);
+let thursdayDate = new Date();
+console.log(`Thursday: ${thursdayDate}`);
+let sundayDate = new Date();
+console.log(`Sunday: ${sundayDate}`);
+let mondayDate = new Date();
 
 // Get Day of Week (0-6)
 let dayOfWeek = nflDay.getDay();
+console.log(`Day of Week: ${dayOfWeek}`);
 
 // Calculate back to appropriate Thursday
 if (dayOfWeek === 4) {
@@ -45,6 +49,7 @@ if (dayOfWeek === 4) {
   // format yesterday to yyyymmdd format
   thursdayDate = thursdayDate.toISOString();
   thursdayDate = thursdayDate.substring(0, 10).replace(/-/g, "");
+  console.log(`Thursday date after conversion: ${thursdayDate}`);
 } else {
   console.log(`Variable dayOfWeek out of Bounds!`);
   console.log(dayOfWeek);
@@ -64,6 +69,7 @@ if (dayOfWeek === 0) {
   // format yesterday to yyyymmdd format
   sundayDate = sundayDate.toISOString();
   sundayDate = sundayDate.substring(0, 10).replace(/-/g, "");
+  console.log(`Sunday Date after Conversion: ${sundayDate}`);
 } else {
   console.log(`Variable dayOfWeek out of Bounds!`);
   console.log(dayOfWeek);
@@ -83,12 +89,14 @@ if (dayOfWeek === 1) {
   // format mondayDate to yyyymmdd format
   mondayDate = mondayDate.toISOString();
   mondayDate = mondayDate.substring(0, 10).replace(/-/g, "");
+  console.log(`Monday Date after conversion: ${mondayDate}`);
 } else if (dayOfWeek === 0) {
   // Set mondayDate to appropriate prior Sun
   mondayDate.setDate(mondayDate.getDate() - 6);
   // format mondayDate to yyyymmdd format
   mondayDate = mondayDate.toISOString();
   mondayDate = mondayDate.substring(0, 10).replace(/-/g, "");
+  console.log(`Monday Date after conversion: ${mondayDate}`);
 } else {
   console.log(`Variable dayOfWeek out of Bounds!`);
   console.log(dayOfWeek);

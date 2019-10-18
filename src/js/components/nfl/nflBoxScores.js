@@ -56,11 +56,15 @@ const boxScoresStats = {
         });
       },
       playerReceivingStatsAway: function() {
-        return this.offensivePlayersAway.filter(playerEntry => {
-          if (typeof playerEntry.stats.RecYards != "undefined") {
-            return playerEntry.stats.RecYards["#text"] > "0";
-          }
-        });
+        return this.offensivePlayersAway
+          .filter(playerEntry => {
+            if (typeof playerEntry.stats.RecYards != "undefined") {
+              return playerEntry.stats.RecYards["#text"] > "0";
+            }
+          })
+          .sort(function(a, b) {
+            return parseInt(a.stats.Receptions) - parseInt(b.stats.Receptions);
+          });
       },
       playerRushingStatsAway: function() {
         return this.offensivePlayersAway.filter(playerEntry => {
@@ -172,7 +176,7 @@ const boxScoresStats = {
                                                         <thead class="d-flex flex-wrap">
                                                             <th class="col-12 stats-header"> Receiving Stats </th>
                                                             <th class="col-3 justify-content-center" scope="col">Player</th>
-                                                            <th class="col-2 justify-content-center" scope="col">Rcpt</th>
+                                                            <th class="col-2 justify-content-center" scope="col">Rec</th>
                                                             <th class="col-2 justify-content-center" scope="col">Yds</th>
                                                             <th class="col-2 justify-content-center" scope="col">TD</th>
                                                             <th class="col-3 justify-content-center" scope="col">Tgts</th>
@@ -307,7 +311,7 @@ const boxScoresStats = {
                                 <thead class="d-flex flex-wrap">
                                     <th class="col-12 stats-header"> Receiving Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
-                                    <th class="col-2 justify-content-center" scope="col">Rcpt</th>
+                                    <th class="col-2 justify-content-center" scope="col">Rec</th>
                                     <th class="col-2 justify-content-center" scope="col">Yds</th>
                                     <th class="col-2 justify-content-center" scope="col">TD</th>
                                     <th class="col-3 justify-content-center" scope="col">Tgts</th>
