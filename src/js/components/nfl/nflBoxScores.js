@@ -63,7 +63,7 @@ const boxScoresStats = {
             }
           })
           .sort(function(a, b) {
-            return parseInt(a.stats.Receptions) - parseInt(b.stats.Receptions);
+            return b.stats.Receptions["#text"] - a.stats.Receptions["#text"];
           });
       },
       playerRushingStatsAway: function() {
@@ -91,11 +91,15 @@ const boxScoresStats = {
         });
       },
       playerReceivingStatsHome: function() {
-        return this.offensivePlayersHome.filter(playerEntry => {
-          if (typeof playerEntry.stats.RecYards != "undefined") {
-            return playerEntry.stats.RecYards["#text"] > "0";
-          }
-        });
+        return this.offensivePlayersHome
+          .filter(playerEntry => {
+            if (typeof playerEntry.stats.RecYards != "undefined") {
+              return playerEntry.stats.RecYards["#text"] > "0";
+            }
+          })
+          .sort(function(a, b) {
+            return b.stats.Receptions["#text"] - a.stats.Receptions["#text"];
+          });
       },
       playerRushingStatsHome: function() {
         return this.offensivePlayersHome.filter(playerEntry => {
