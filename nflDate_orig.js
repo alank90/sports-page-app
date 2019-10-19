@@ -1,38 +1,54 @@
 // ========== src/js/modules/nfldate.js ================== //
 
 let nflDay = new Date();
+console.log(`nflDay Initialization value: ${nflDay}`);
 // convert to msec since Jan 1 1970
+/* const localTime = nflDay.getTime();
+ */
+// obtain local UTC offset and convert to msec
+/* const minutesToMilliseconds = 60 * 1000;
+const localOffset = nflDay.getTimezoneOffset() * minutesToMilliseconds; */
+
+// obtain UTC time in msec
+/* const utc = localTime + localOffset; */
+
+// obtain and add destination's UTC time offset
+// for example, Eastern Time
+// which is UTC - 4 hours
+/* const offset = 4;
+const hoursToMilliseconds = 3600 * 1000;
+const easternTime = utc - hoursToMilliseconds * offset; */
 
 // convert msec value to date string
-let thursdayDate = new Date();
-let sundayDate = new Date();
-let mondayDate = new Date();
+let thursdayDate = new Date(easternTime);
+console.log(`Thursday: ${thursdayDate}`);
+let sundayDate = new Date(easternTime);
+console.log(`Sunday: ${sundayDate}`);
+let mondayDate = new Date(easternTime);
 
 // Get Day of Week (0-6)
 let dayOfWeek = nflDay.getDay();
+console.log(`Day of Week: ${dayOfWeek}`);
 
 // Calculate back to appropriate Thursday
-// Need SetUTCDate to offset the .toISOString method from
-// converting date back to UTC time.
 if (dayOfWeek === 4) {
   // it's Thursday go back one week
-  thursdayDate.setUTCDate(thursdayDate.getDate() - 7);
+  thursdayDate.setDate(thursdayDate.getDate() - 7);
   // format yesterday to yyyymmdd format
   thursdayDate = thursdayDate.toISOString();
   thursdayDate = thursdayDate.substring(0, 10).replace(/-/g, "");
 } else if (dayOfWeek >= 0 && dayOfWeek < 4) {
   // Set thursdayDate to appropriate prior Thursday for Sun thru Wed
-  thursdayDate.setUTCDate(thursdayDate.getDate() - (dayOfWeek + 3));
+  thursdayDate.setDate(thursdayDate.getDate() - (dayOfWeek + 3));
   // format yesterday to yyyymmdd format
   thursdayDate = thursdayDate.toISOString();
   thursdayDate = thursdayDate.substring(0, 10).replace(/-/g, "");
 } else if (dayOfWeek >= 5 && dayOfWeek < 7) {
   // Set thursdayDate to appropriate prior Thursday for Fri & Sat
-  thursdayDate.setUTCDate(thursdayDate.getDate() - (dayOfWeek - 4));
-  console.log(`Thursday.getdate: ${thursdayDate.getUTCDate()}`);
+  thursdayDate.setDate(thursdayDate.getDate() - (dayOfWeek - 4));
+  console.log(`Thursday.getdate: ${thursdayDate.getDate()}`);
   // format yesterday to yyyymmdd format
   thursdayDate = thursdayDate.toISOString();
-
   thursdayDate = thursdayDate.substring(0, 10).replace(/-/g, "");
   console.log(`Thursday date after conversion: ${thursdayDate}`);
 } else {
@@ -44,13 +60,13 @@ if (dayOfWeek === 4) {
 // ======= Calculate back to appropriate Sunday ========= //
 if (dayOfWeek === 0) {
   // it's Sunday. go back one week
-  sundayDate.setUTCDate(sundayDate.getDate() - 7);
+  sundayDate.setDate(sundayDate.getDate() - 7);
   // format yesterday to yyyymmdd format
   sundayDate = sundayDate.toISOString();
   sundayDate = sundayDate.substring(0, 10).replace(/-/g, "");
 } else if (dayOfWeek < 7) {
   // Set the day sundayDate to appropriate prior Sunday
-  sundayDate.setUTCDate(sundayDate.getDate() - dayOfWeek);
+  sundayDate.setDate(sundayDate.getDate() - dayOfWeek);
   // format yesterday to yyyymmdd format
   sundayDate = sundayDate.toISOString();
   sundayDate = sundayDate.substring(0, 10).replace(/-/g, "");
@@ -64,20 +80,20 @@ if (dayOfWeek === 0) {
 // ============ Calculate back to appropriate Monday ========== //
 if (dayOfWeek === 1) {
   // it's Monday go back one week
-  mondayDate.setUTCDate(mondayDate.getDate() - 7);
+  mondayDate.setDate(mondayDate.getDate() - 7);
   // format mondayDate to yyyymmdd format
   mondayDate = mondayDate.toISOString();
   mondayDate = mondayDate.substring(0, 10).replace(/-/g, "");
 } else if (dayOfWeek >= 2 && dayOfWeek <= 6) {
   // Set mondayDate to appropriate prior Monday for Tu thru Sat
-  mondayDate.setUTCDate(mondayDate.getDate() - (dayOfWeek - 1));
+  mondayDate.setDate(mondayDate.getDate() - (dayOfWeek - 1));
   // format mondayDate to yyyymmdd format
   mondayDate = mondayDate.toISOString();
   mondayDate = mondayDate.substring(0, 10).replace(/-/g, "");
   console.log(`Monday Date after conversion: ${mondayDate}`);
 } else if (dayOfWeek === 0) {
   // Set mondayDate to appropriate prior Sun
-  mondayDate.setUTCDate(mondayDate.getDate() - 6);
+  mondayDate.setDate(mondayDate.getDate() - 6);
   // format mondayDate to yyyymmdd format
   mondayDate = mondayDate.toISOString();
   mondayDate = mondayDate.substring(0, 10).replace(/-/g, "");
