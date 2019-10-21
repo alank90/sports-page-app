@@ -159,10 +159,10 @@ th.season-stats-headers {
   font-weight: 600;
 }
 thead th.stats-header {
-  color: rgba(0,0,0, .6);
+  color: rgba(0, 0, 0, 0.6);
 }
 th.col-12 {
- color: rgba(255,255,255, .7);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 th.category-header {
@@ -177,6 +177,10 @@ tr {
 }
 tr.header-row {
   margin-top: 2px;
+}
+
+table td {
+  overflow-wrap: break-word;
 }
 
 td:not(:first-child) {
@@ -374,107 +378,6 @@ div .footer a img {
 }
 
 /* ========== End backToTop Stylings ============== */
-
-/* ======== Team Color Classes ==================== */
-.ne {
-  background-color: #002653;
-}
-
-.buf {
-  background-color: #0029c4;
-}
-
-.mia {
-  background-color: #008e97;
-}
-.nyj {
-  background-color: #125740;
-}
-.bal {
-  background-color: #2e2d88;
-}
-.cle {
-  background-color: #ff3c00;
-}
-.pit {
-  background-color: #ffb612;
-}
-.cin {
-  background-color: #fb4f14;
-}
-.hou {
-  background-color: #03202f;
-}
-.ind {
-  background-color: #003485;
-}
-.jax {
-  background-color: #d7a22a;
-}
-.ten {
-  background-color: #5085bc;
-}
-.kc {
-  background-color: #e31837;
-}
-.oak {
-  background-color: #000000;
-}
-.lac {
-  background-color: #ffc20e;
-}
-.den {
-  background-color: #fb4f14;
-}
-.dal {
-  background-color: #00386c;
-}
-.phi {
-  background-color: #004c54;
-}
-.nyg {
-  background-color: #03497f;
-}
-.was {
-  background-color: #79002e;
-}
-.gb {
-  background-color: #003b2a;
-}
-.chi {
-  background-color: #c83803;
-}
-.min {
-  background-color: #4e2683;
-}
-.det {
-  background-color: #0076b6;
-}
-.no {
-  background-color: #d3bc8d;
-}
-.car {
-  background-color: #108dcd;
-}
-.tb {
-  background-color: #d50a0a;
-}
-.atl {
-  background-color: #c9243f;
-}
-.sf {
-  background-color: #aa0000;
-}
-.sea {
-  background-color: #003463;
-}
-.la {
-  background-color: #13264b;
-}
-.ari {
-  background-color: #97233f;
-}
-/* ===== End Team Colors Classes ========== */
 
 /* ========== Media Queries Below Here ================ */
 
