@@ -151,8 +151,8 @@ a.nav-link {
 
 th {
   font-size: 0.7rem;
-  text-align: center;
   overflow-wrap: break-word;
+  text-align: center;
 }
 th.season-stats-headers {
   font-size: 0.7rem;
@@ -166,10 +166,10 @@ th.col-12 {
 }
 
 th.category-header {
-  height: 0.6rem;
-  font-size: 0.6rem;
-  padding-bottom: 20px;
   background-color: rgba(162, 207, 245, 0.9);
+  font-size: 0.6rem;
+  height: 0.6rem;
+  padding-bottom: 20px;
 }
 
 tr {
@@ -192,8 +192,9 @@ td[title="Click for Season Stats"] {
   font-weight: 700;
 }
 td[title="Click for Season Stats"]:hover {
+  -webkit-text-decoration: underline solid blue;
   background-color: lightgrey;
-  text-decoration: underline solid blue;
+          text-decoration: underline solid blue;
 }
 
 /* Vue Transition CSS Rules */
