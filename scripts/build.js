@@ -30,14 +30,44 @@ require("rimraf")("./dist", function() {
       /* jshint ignore:start */
       const uglifyJS = async function() {
         try {
-          console.log("main.css: build and uglify");
-          let uglified = require("uglifycss").processFiles(
-            ["src/css/main.css"],
-            {
-              maxLineLen: 500,
-              expandVars: true
-            }
-          );
+          const readDirectory = await readdir("./src/css");
+          if (readDirectory[0] === "main.css" && readDirectory.length === 1) {
+            console.log("main.css: build and uglify");
+            let uglified = require("uglifycss").processFiles(
+              ["src/css/main.css"],
+              {
+                maxLineLen: 500,
+                expandVars: true
+              }
+            );
+
+            await writeFile("dist/css/main.css", uglified);
+
+            return `Alert! /css/main.css copied to /dist/css. ${checkMark}
+             ======== End miscOperations. =========`;
+
+            // Copy /src/css to /dist/css folder
+          } else if (readDirectory.length > 0) {
+            console.log("/src/css directory present. Copying to /dist/css...");
+            readDirectory.forEach(cssFile => {
+              console.log(`${cssFile}: build and uglify`);
+              let uglified = require("uglifycss").processFiles(
+                [`src/css/${cssFile}`],
+                {
+                  maxLineLen: 500,
+                  expandVars: true
+                }
+              );
+
+              writeFile(`dist/css/${cssFile}`, uglified);
+            });
+
+            return `Copied /src/css files to /dist/css directory successfully ${checkMark}
+            ====== End miscOperations. ======`;
+          } else if (!readDirectory.length) {
+            return `Alert. /css directory empty ${warning}
+             ====== End CSS Uglify. =====`;
+          } // end if/else
 
           await writeFile("dist/css/main.css", uglified);
         } catch (err) {
