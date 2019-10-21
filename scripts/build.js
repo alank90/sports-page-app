@@ -66,10 +66,11 @@ require("rimraf")("./dist", function() {
             return `Alert. /css directory empty ${warning}
              ====== End CSS Uglify. =====`;
           } // end if/else
+
+          return `=== Uglified CSS file(s) Successfully!!! ======= ${checkMark}`;
         } catch (err) {
           console.log("ERROR:", err);
         }
-        return `=== Uglified CSS file(s) Successfully!!! ======= ${checkMark}`;
       }; // end uglifyJS async function
       /* jshint ignore:end */
 
