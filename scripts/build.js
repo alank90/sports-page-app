@@ -49,17 +49,15 @@ require("rimraf")("./dist", function() {
             // Copy /src/css to /dist/css folder
           } else if (readDirectory.length > 0) {
             console.log("/src/css directory present. Copying to /dist/css...");
-            readDirectory.forEach(cssFile => {
+            let uglifiedcss = require("uglifycss");
+            readDirectory.forEach(async cssFile => {
               console.log(`${cssFile}: build and uglify`);
-              let uglified = require("uglifycss").processFiles(
-                [`src/css/${cssFile}`],
-                {
-                  maxLineLen: 500,
-                  expandVars: true
-                }
-              );
+              uglified = uglifiedcss.processFiles([`src/css/${cssFile}`], {
+                maxLineLen: 500,
+                expandVars: true
+              });
 
-              writeFile(`dist/css/${cssFile}`, uglified);
+              await writeFile(`dist/css/${cssFile}`, uglified);
             });
 
             return `Copied /src/css files to /dist/css directory successfully ${checkMark}
@@ -68,8 +66,6 @@ require("rimraf")("./dist", function() {
             return `Alert. /css directory empty ${warning}
              ====== End CSS Uglify. =====`;
           } // end if/else
-
-          await writeFile("dist/css/main.css", uglified);
         } catch (err) {
           console.log("ERROR:", err);
         }
