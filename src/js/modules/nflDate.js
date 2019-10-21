@@ -29,12 +29,10 @@ if (dayOfWeek === 4) {
 } else if (dayOfWeek >= 5 && dayOfWeek < 7) {
   // Set thursdayDate to appropriate prior Thursday for Fri & Sat
   thursdayDate.setUTCDate(thursdayDate.getDate() - (dayOfWeek - 4));
-  console.log(`Thursday.getdate: ${thursdayDate.getUTCDate()}`);
+
   // format yesterday to yyyymmdd format
   thursdayDate = thursdayDate.toISOString();
-
   thursdayDate = thursdayDate.substring(0, 10).replace(/-/g, "");
-  console.log(`Thursday date after conversion: ${thursdayDate}`);
 } else {
   console.log(`Variable dayOfWeek out of Bounds!`);
   console.log(dayOfWeek);
@@ -51,10 +49,10 @@ if (dayOfWeek === 0) {
 } else if (dayOfWeek < 7) {
   // Set the day sundayDate to appropriate prior Sunday
   sundayDate.setUTCDate(sundayDate.getDate() - dayOfWeek);
+
   // format yesterday to yyyymmdd format
   sundayDate = sundayDate.toISOString();
   sundayDate = sundayDate.substring(0, 10).replace(/-/g, "");
-  console.log(`Sunday Date after Conversion: ${sundayDate}`);
 } else {
   console.log(`Variable dayOfWeek out of Bounds!`);
   console.log(dayOfWeek);
@@ -74,14 +72,12 @@ if (dayOfWeek === 1) {
   // format mondayDate to yyyymmdd format
   mondayDate = mondayDate.toISOString();
   mondayDate = mondayDate.substring(0, 10).replace(/-/g, "");
-  console.log(`Monday Date after conversion: ${mondayDate}`);
 } else if (dayOfWeek === 0) {
   // Set mondayDate to appropriate prior Sun
   mondayDate.setUTCDate(mondayDate.getDate() - 6);
   // format mondayDate to yyyymmdd format
   mondayDate = mondayDate.toISOString();
   mondayDate = mondayDate.substring(0, 10).replace(/-/g, "");
-  console.log(`Monday Date after conversion: ${mondayDate}`);
 } else {
   console.log(`Variable dayOfWeek out of Bounds!`);
   console.log(dayOfWeek);

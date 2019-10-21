@@ -67,21 +67,29 @@ const boxScoresStats = {
           });
       },
       playerRushingStatsAway: function() {
-        return this.offensivePlayersAway.filter(playerEntry => {
-          if (typeof playerEntry.stats.RushYards != "undefined") {
-            return playerEntry.stats.RushYards["#text"] > "0";
-          }
-        });
+        return this.offensivePlayersAway
+          .filter(playerEntry => {
+            if (typeof playerEntry.stats.RushYards != "undefined") {
+              return playerEntry.stats.RushYards["#text"] > "0";
+            }
+          })
+          .sort(function(a, b) {
+            return b.stats.RushYards["#text"] - a.stats.RushYards["#text"];
+          });
       },
       playerDefensiveStatsAway: function() {
-        return this.defensivePlayersAway.filter(playerEntry => {
-          if (typeof playerEntry.stats.TackleTotal != "undefined") {
-            return (
-              playerEntry.stats.TackleTotal["#text"] > "5" ||
-              playerEntry.stats.Interceptions["#text"] > "0"
-            );
-          }
-        });
+        return this.defensivePlayersAway
+          .filter(playerEntry => {
+            if (typeof playerEntry.stats.TackleTotal != "undefined") {
+              return (
+                playerEntry.stats.TackleTotal["#text"] > "5" ||
+                playerEntry.stats.Interceptions["#text"] > "0"
+              );
+            }
+          })
+          .sort(function(a, b) {
+            return b.stats.TackleTotal["#text"] - a.stats.TackleTotal["#text"];
+          });
       },
       playerPassingStatsHome: function() {
         return this.offensivePlayersHome.filter(playerEntry => {
@@ -102,21 +110,29 @@ const boxScoresStats = {
           });
       },
       playerRushingStatsHome: function() {
-        return this.offensivePlayersHome.filter(playerEntry => {
-          if (typeof playerEntry.stats.RushYards != "undefined") {
-            return playerEntry.stats.RushYards["#text"] > "0";
-          }
-        });
+        return this.offensivePlayersHome
+          .filter(playerEntry => {
+            if (typeof playerEntry.stats.RushYards != "undefined") {
+              return playerEntry.stats.RushYards["#text"] > "0";
+            }
+          })
+          .sort(function(a, b) {
+            return b.stats.RushYards["#text"] - a.stats.RushYards["#text"];
+          });
       },
       playerDefensiveStatsHome: function() {
-        return this.defensivePlayersHome.filter(playerEntry => {
-          if (typeof playerEntry.stats.TackleTotal != "undefined") {
-            return (
-              playerEntry.stats.TackleTotal["#text"] > "5" ||
-              playerEntry.stats.Interceptions["#text"] > "0"
-            );
-          }
-        });
+        return this.defensivePlayersHome
+          .filter(playerEntry => {
+            if (typeof playerEntry.stats.TackleTotal != "undefined") {
+              return (
+                playerEntry.stats.TackleTotal["#text"] > "5" ||
+                playerEntry.stats.Interceptions["#text"] > "0"
+              );
+            }
+          })
+          .sort(function(a, b) {
+            return b.stats.TackleTotal["#text"] - a.stats.TackleTotal["#text"];
+          });
       },
       teamColorAway: function() {
         return this.props_box_score.data.gameboxscore.game.awayTeam.Abbreviation.toLowerCase();
