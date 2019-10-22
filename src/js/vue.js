@@ -370,8 +370,8 @@ new Vue({
       } else if (this.currentTab === "NBA") {
         // first check if Off-Season and skip AJAX call
         if (
-          date.today < `${league.nba.regularSeasonStartDate}` ||
-          date.today > `${league.nba.playoffsEndDate}`
+          date.today <= `${league.nba.regularSeasonStartDate}` ||
+          date.today >= `${league.nba.playoffsEndDate}`
         ) {
           this.end_of_season.nba = true;
           return;
