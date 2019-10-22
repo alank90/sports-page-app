@@ -1,9 +1,14 @@
 const Vue = require("vue");
-const axios = require("axios");
+const cumulativeQBSeasonStats = require("./cumulativeQBSeasonStats");
+
+const { EventBus } = require("../../modules/event-bus");
 
 const boxScoresStats = {
   stats: Vue.component("box-scores", {
     props: ["props_box_score", "props_gameID"],
+    components: {
+      cumulativeQBSeasonStats: cumulativeQBSeasonStats
+    },
     data: function() {
       return {
         playerStatsAway: this.props_box_score.data.gameboxscore.awayTeam
@@ -41,7 +46,8 @@ const boxScoresStats = {
             defensivePlayer.player.Position === "FS" ||
             defensivePlayer.player.Position === "LS" ||
             defensivePlayer.player.Position === "CB"
-        )
+        ),
+        showPlayerSeasonStats: false
       };
     },
     computed: {
@@ -141,6 +147,13 @@ const boxScoresStats = {
         return this.props_box_score.data.gameboxscore.game.homeTeam.Abbreviation.toLowerCase();
       }
     },
+    methods: {
+      emitQBSeasonStatsClicked: function($event) {
+        let playerId = $event.target.dataset.playerId;
+        console.log(playerId);
+        EventBus.$emit("showQBTemplateClicked", playerId);
+      }
+    },
     template: `
         <div v-if="props_box_score">
                 <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse" 
@@ -172,8 +185,8 @@ const boxScoresStats = {
                                
                             
                                 <div v-for="playerStats in playerPassingStatsAway">
-                                  <tr class="d-flex">
-                                      <td class="col-3 justify-content-center" scope="row">
+                                  <tr  @click="emitQBSeasonStatsClicked($event)" class="d-flex">
+                                      <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                       {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                       </td>
                                       <td class="col-3 justify-content-center" justify-content="center">
@@ -292,7 +305,7 @@ const boxScoresStats = {
                 <div 
                  class="collapse" :class="'collapse' + props_gameID">
                     <!-- ======== Home Team Offense Stats ============= -->
-                    <table class="table table-striped table-bordered table-hover table-sm">
+                    <table @click="emitQBSeasonStatsClicked($event)" class="table table-striped table-bordered table-hover table-sm">
                         <tbody class="table table-striped">
                             <!-- ============= Passing Stats ============ -->
                                 <thead class="d-flex flex-wrap">
@@ -308,7 +321,7 @@ const boxScoresStats = {
                                 </thead>
                             <div v-for="playerStats in playerPassingStatsHome">
                                     <tr class="d-flex">
-                                        <td class="col-3 justify-content-center" scope="row">
+                                        <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                         </td>
                                         <td class="col-3 justify-content-center" justify-content="center">
