@@ -196,7 +196,10 @@ const boxScoresStats = {
                                       <td class="col-2 justify-content-center">{{playerStats.stats.IntTD['#text']}}
                                       </td>                 
                                 </tr>
-                               </div> <!-- End v-for playerPassingStatsAway -->
+
+                                <qb-season-stats v-bind:props_player_id="playerStats.player.ID"></qb-season-stats>
+                               
+                                </div> <!-- End v-for playerPassingStatsAway -->
                                 <!-- ============= End Passing Stats ============ -->               
 
                          </tbody>
