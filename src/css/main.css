@@ -154,7 +154,7 @@ th {
   overflow-wrap: break-word;
   text-align: center;
 }
-th.season-stats-headers {
+th.season-stats-headers, td.season-stats-headers {
   font-size: 0.7rem;
   font-weight: 600;
 }

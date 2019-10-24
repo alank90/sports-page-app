@@ -1,13 +1,14 @@
 const Vue = require("vue");
 const cumulativeQBSeasonStats = require("./cumulativeQBSeasonStats");
-
+const cumulativeReceivingSeasonStats = require("./cumlativeReceivingSeasonStats");
 const { EventBus } = require("../../modules/event-bus");
 
 const boxScoresStats = {
   stats: Vue.component("box-scores", {
     props: ["props_box_score", "props_gameID"],
     components: {
-      cumulativeQBSeasonStats: cumulativeQBSeasonStats
+      cumulativeQBSeasonStats: cumulativeQBSeasonStats,
+      cumulativeReceivingSeasonStats: cumulativeReceivingSeasonStats
     },
     data: function() {
       return {
@@ -150,8 +151,19 @@ const boxScoresStats = {
     methods: {
       emitQBSeasonStatsClicked: function($event) {
         let playerId = $event.target.dataset.playerId;
-        console.log(playerId);
         EventBus.$emit("showQBTemplateClicked", playerId);
+      },
+      emitReceivingSeasonStatsClicked: function($event) {
+        let playerId = $event.target.dataset.playerId;
+        EventBus.$emit("showReceivingTemplateClicked", playerId);
+      },
+      emitRushingSeasonStatsClicked: function($event) {
+        let playerId = $event.target.dataset.playerId;
+        EventBus.$emit("showRushingTemplateClicked", playerId);
+      },
+      emitDefensiveSeasonStatsClicked: function($event) {
+        let playerId = $event.target.dataset.playerId;
+        EventBus.$emit("showDefensiveTemplateClicked", playerId);
       }
     },
     template: `
@@ -182,8 +194,7 @@ const boxScoresStats = {
                                     <th class="col-2 justify-content-center" scope="col">Int</th>
                                    
                                 </thead>
-                               
-                            
+                                               
                                 <div v-for="playerStats in playerPassingStatsAway">
                                   <tr  @click="emitQBSeasonStatsClicked($event)" class="d-flex">
                                       <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
@@ -217,9 +228,10 @@ const boxScoresStats = {
                                                             <th class="col-2 justify-content-center" scope="col">TD</th>
                                                             <th class="col-3 justify-content-center" scope="col">Tgts</th>
                                                         </thead>
+
                                                         <div v-for="playerStats in playerReceivingStatsAway">
-                                                            <tr class="d-flex">
-                                                                <td class="col-3 justify-content-center" scope="row">
+                                                            <tr @click="emitReceivingSeasonStatsClicked($event)" class="d-flex">
+                                                                <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                                                 {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                                                 </td>
                                                                 <td class="col-2 justify-content-center" justify-content="center">
@@ -228,6 +240,9 @@ const boxScoresStats = {
                                                                 <td class="col-2 justify-content-center">{{playerStats.stats.RecTD['#text']}}</td>
                                                                 <td class="col-3 justify-content-center">{{playerStats.stats.Targets['#text']}}</td>
                                                             </tr>
+
+                                                            <receiving-season-stats v-bind:props_player_id="playerStats.player.ID"></receiving-season-stats>
+                                                        
                                                         </div>  <!-- End v-for playerStats -->
                                                 </tbody>
                                         </table>
@@ -248,8 +263,8 @@ const boxScoresStats = {
                                                         </thead>
 
                                                     <div v-for="playerStats in playerRushingStatsAway">
-                                                            <tr class="d-flex">
-                                                                <td class="col-3 justify-content-center" scope="row">
+                                                            <tr @click="emitRushingSeasonStatsClicked($event)" class="d-flex">
+                                                                <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                                                 {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                                                 </td>
                                                                 <td class="col-2 justify-content-center" justify-content="center">
@@ -279,8 +294,8 @@ const boxScoresStats = {
                                                         </thead>
 
                                                     <div v-for="playerStats in playerDefensiveStatsAway">
-                                                        <tr class="d-flex">
-                                                            <td class="col-3 justify-content-center" scope="row">
+                                                        <tr @click="emitDefensiveSeasonStatsClicked($event)" class="d-flex">
+                                                            <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                                             {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                                             </td>
                                                             <td class="col-2 justify-content-center" justify-content="center">
@@ -334,6 +349,9 @@ const boxScoresStats = {
                                         <td class="col-2 justify-content-center">{{playerStats.stats.IntTD['#text']}}
                                         </td>                 
                                     </tr>
+
+                                    <qb-season-stats v-bind:props_player_id="playerStats.player.ID"></qb-season-stats>
+
                             </div> <!-- End v-for playerPassingStats -->
                         <!-- ============= End Passing Stats ============ -->
 
@@ -353,8 +371,8 @@ const boxScoresStats = {
                                     <th class="col-3 justify-content-center" scope="col">Tgts</th>
                                 </thead>
                                 <div v-for="playerStats in playerReceivingStatsHome">
-                                    <tr class="d-flex">
-                                        <td class="col-3 justify-content-center" scope="row">
+                                    <tr @click="emitReceivingSeasonStatsClicked($event)" class="d-flex">
+                                        <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                         </td>
                                         <td class="col-2 justify-content-center" justify-content="center">
@@ -363,6 +381,9 @@ const boxScoresStats = {
                                         <td class="col-2 justify-content-center">{{playerStats.stats.RecTD['#text']}}</td>
                                         <td class="col-3 justify-content-center">{{playerStats.stats.Targets['#text']}}</td>
                                     </tr>
+
+                                    <receiving-season-stats v-bind:props_player_id="playerStats.player.ID"></receiving-season-stats>
+
                                 </div>  <!-- End v-for playerStats -->
                         </tbody>
                 </table>
@@ -383,8 +404,8 @@ const boxScoresStats = {
                                 </thead>
 
                             <div v-for="playerStats in playerRushingStatsHome">
-                                    <tr class="d-flex">
-                                        <td class="col-3 justify-content-center" scope="row">
+                                    <tr  @click="emitRushingSeasonStatsClicked($event)" class="d-flex">
+                                        <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                         </td>
                                         <td class="col-2 justify-content-center" justify-content="center">
@@ -414,8 +435,8 @@ const boxScoresStats = {
                                 </thead>
 
                             <div v-for="playerStats in playerDefensiveStatsHome">
-                                <tr class="d-flex">
-                                    <td class="col-3 justify-content-center" scope="row">
+                                <tr @click="emitDefensiveSeasonStatsClicked($event)" class="d-flex">
+                                    <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                     {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
                                     </td>
                                     <td class="col-2 justify-content-center" justify-content="center">

@@ -3,38 +3,40 @@ const axios = require("axios");
 
 const { EventBus } = require("../../modules/event-bus");
 
-const qbCumulativeStats = {
-  cumulativeStats: Vue.component("qb-season-stats", {
+const receivingCumulativeStats = {
+  cumulativeStats: Vue.component("receiving-season-stats", {
     props: ["props_player_id"],
     data: function() {
       return {
-        passCompletions: "",
-        passAttempts: "",
-        passPct: "",
-        passYards: "",
-        passAvg: "",
-        passInt: "",
-        passTD: "",
+        receptions: "",
+        targets: "",
+        receivingYards: "",
+        averagePerReception: "",
+        receivingTD: "",
+        receptionLong: "",
         showComponent: false,
         loading: false
       };
     },
     mounted: function() {
-      EventBus.$on("showQBTemplateClicked", this.onShowQBTemplateClicked);
+      EventBus.$on(
+        "showReceivingTemplateClicked",
+        this.onShowReceivingTemplateClicked
+      );
     },
     methods: {
-      onShowQBTemplateClicked: function(playerId) {
+      onShowReceivingTemplateClicked: function(playerId) {
         if (playerId === this.props_player_id) {
           console.log(playerId);
           this.loading = true;
           this.showComponent = !this.showComponent;
-          this.retrieveQBStats(playerId);
+          this.retrieveReceivingStats(playerId);
         }
       },
-      retrieveQBStats: function(playerId) {
+      retrieveReceivingStats: function(playerId) {
         const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/2019-regular/cumulative_player_stats.json?player=`;
         const params = {
-          playerstats: "Comp,Att,Pct,Yds,Int,TD,Avg",
+          playerstats: "Rec,Tgt,Yds,Avg,TD,Lng",
           force: true
         };
 
@@ -47,32 +49,28 @@ const qbCumulativeStats = {
           url: url + playerId,
           params: params
         }).then(response => {
-          this.passCompletions =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.PassCompletions[
+          this.receptions =
+            response.data.cumulativeplayerstats.playerstatsentry[0].stats.Receptions[
               "#text"
             ];
-          this.passAttempts =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.PassAttempts[
+          this.targets =
+            response.data.cumulativeplayerstats.playerstatsentry[0].stats.Targets[
               "#text"
             ];
-          this.passPct =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.PassPct[
+          this.receivingYards =
+            response.data.cumulativeplayerstats.playerstatsentry[0].stats.RecYards[
               "#text"
             ];
-          this.passYards =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.PassYards[
+          this.averagePerReception =
+            response.data.cumulativeplayerstats.playerstatsentry[0].stats.RecAverage[
               "#text"
             ];
-          this.passAvg =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.PassAvg[
+          this.receivingTD =
+            response.data.cumulativeplayerstats.playerstatsentry[0].stats.RecTD[
               "#text"
             ];
-          this.passTD =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.PassTD[
-              "#text"
-            ];
-          this.passInt =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.PassInt[
+          this.receptionLong =
+            response.data.cumulativeplayerstats.playerstatsentry[0].stats.RecLng[
               "#text"
             ];
 
@@ -85,12 +83,12 @@ const qbCumulativeStats = {
           <transition name="fade">
             <thead class="d-flex flex-wrap">
               <th class="col-12 stats-header"> Season Stats </th>
-                <th class="col-2 justify-content-center season-stats-headers" scope="col">CP/Att</th>
-                <th class="col-2 justify-content-center season-stats-headers" scope="col">Pct</th>
+                <th class="col-2 justify-content-center season-stats-headers" scope="col">Rec</th>
+                <th class="col-2 justify-content-center season-stats-headers" scope="col">Tgts</th>
                 <th class="col-2 justify-content-center season-stats-headers" scope="col">Yds</th>
                 <th class="col-2 justify-content-center season-stats-headers" scope="col">Avg</th>
                 <th class="col-2 justify-content-center season-stats-headers" scope="col">TD</th>
-                <th class="col-2 justify-content-right season-stats-headers" scope="col">Int</th>
+                <th class="col-2 justify-content-right season-stats-headers" scope="col">Lng</th>
             </thead>
           </transition>
 
@@ -103,12 +101,12 @@ const qbCumulativeStats = {
                   <i class="fas fa-cog spin-it fa-sm" aria-hidden="true"></i>
                 </span>
                 <td class="col-2 justify-content-center season-stats" justify-content="center">
-                {{ passCompletions }} / {{ passAttempts }}</td>
-                <td class="col-2 justify-content-center season-stats">{{ passPct }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ passYards }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ passAvg }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ passTD }}</td>
-                <td class="col-2 justify-content-center season-stats">{{ passInt }}</td>
+                {{ receptions }}</td>
+                <td class="col-2 justify-content-center season-stats">{{ targets }}</td>
+                <td class="col-2 justify-content-center season-stats"> {{ receivingYards }}</td>
+                <td class="col-2 justify-content-center season-stats"> {{ averagePerReception }}</td>
+                <td class="col-2 justify-content-center season-stats"> {{ receivingTD }}</td>
+                <td class="col-2 justify-content-center season-stats">{{ receptionLong }}</td>
             </tr>
           </transition>
         </div>
@@ -116,4 +114,4 @@ const qbCumulativeStats = {
   })
 };
 
-module.export = { qbCumulativeStats };
+module.export = { receivingCumulativeStats };
