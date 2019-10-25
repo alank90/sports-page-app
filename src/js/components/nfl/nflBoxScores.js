@@ -94,7 +94,7 @@ const boxScoresStats = {
           .filter(playerEntry => {
             if (typeof playerEntry.stats.TackleTotal != "undefined") {
               return (
-                playerEntry.stats.TackleTotal["#text"] > "5" ||
+                playerEntry.stats.TackleTotal["#text"] > "3" ||
                 playerEntry.stats.Interceptions["#text"] > "0"
               );
             }
@@ -137,7 +137,7 @@ const boxScoresStats = {
           .filter(playerEntry => {
             if (typeof playerEntry.stats.TackleTotal != "undefined") {
               return (
-                playerEntry.stats.TackleTotal["#text"] > "5" ||
+                playerEntry.stats.TackleTotal["#text"] > "3" ||
                 playerEntry.stats.Interceptions["#text"] > "0"
               );
             }
@@ -312,6 +312,9 @@ const boxScoresStats = {
                                                             <td class="col-2 justify-content-center">{{playerStats.stats.Interceptions['#text']}}</td>
                                                             <td class="col-2 justify-content-center">{{playerStats.stats.FumForced['#text']}}</td>
                                                         </tr>
+
+                                                        <defensive-season-stats v-bind:props_player_id="playerStats.player.ID"></defensive-season-stats>
+
                                                     </div> <!-- End v-for playerStatsAway for Rushing -->
 
                                                 </tbody>
@@ -456,7 +459,10 @@ const boxScoresStats = {
                                     <td class="col-2 justify-content-center">{{playerStats.stats.Interceptions['#text']}}</td>
                                     <td class="col-2 justify-content-center">{{playerStats.stats.FumForced['#text']}}</td>
                                 </tr>
-                            </div> <!-- End v-for playerStatsAway for Rushing -->
+
+                                <defensive-season-stats v-bind:props_player_id="playerStats.player.ID"></defensive-season-stats>
+                            
+                                </div> <!-- End v-for playerStatsAway for Rushing -->
 
                         </tbody>
                 </table>

@@ -19,7 +19,10 @@ const defensiveCumulativeStats = {
       };
     },
     mounted: function() {
-      EventBus.$on("showDefensiveTemplateClicked", this.onShowDefensiveTemplateClicked);
+      EventBus.$on(
+        "showDefensiveTemplateClicked",
+        this.onShowDefensiveTemplateClicked
+      );
     },
     methods: {
       onShowDefensiveTemplateClicked: function(playerId) {
@@ -33,7 +36,7 @@ const defensiveCumulativeStats = {
       retrieveDefensiveStats: function(playerId) {
         const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/2019-regular/cumulative_player_stats.json?player=`;
         const params = {
-          playerstats: "Total,Solo,Sacks,Interceptions,Forced,Stuffs",
+          playerstats: "Total,Solo,Sacks,Int,Forced,Stuffs",
           force: true
         };
 
@@ -47,11 +50,11 @@ const defensiveCumulativeStats = {
           params: params
         }).then(response => {
           this.totalTackles =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.Total[
+            response.data.cumulativeplayerstats.playerstatsentry[0].stats.TackleTotal[
               "#text"
             ];
           this.soloTackles =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.Solo[
+            response.data.cumulativeplayerstats.playerstatsentry[0].stats.TackleSolo[
               "#text"
             ];
           this.sacks =
@@ -63,7 +66,7 @@ const defensiveCumulativeStats = {
               "#text"
             ];
           this.forcedFumbles =
-            response.data.cumulativeplayerstats.playerstatsentry[0].stats.Forced[
+            response.data.cumulativeplayerstats.playerstatsentry[0].stats.FumForced[
               "#text"
             ];
           this.stuffs =
@@ -80,11 +83,11 @@ const defensiveCumulativeStats = {
             <transition name="fade">
               <thead class="d-flex flex-wrap">
                 <th class="col-12 stats-header"> Season Stats </th>
-                  <th class="col-2 justify-content-center season-stats-headers" scope="col">TT</th>
+                  <th class="col-2 justify-content-center season-stats-headers" scope="col">Tkls</th>
                   <th class="col-2 justify-content-center season-stats-headers" scope="col">Solo</th>
                   <th class="col-2 justify-content-center season-stats-headers" scope="col">Sks</th>
                   <th class="col-2 justify-content-center season-stats-headers" scope="col">Int</th>
-                  <th class="col-2 justify-content-center season-stats-headers" scope="col">F</th>
+                  <th class="col-2 justify-content-center season-stats-headers" scope="col">FF</th>
                   <th class="col-2 justify-content-right season-stats-headers" scope="col">Stff</th>
               </thead>
             </transition>
@@ -99,7 +102,7 @@ const defensiveCumulativeStats = {
                   </span>
                   <td class="col-2 justify-content-center season-stats" justify-content="center">
                   {{ totalTackles }}</td>
-                  <td class="col-2 justify-content-center season-stats">{{ solo }}</td>
+                  <td class="col-2 justify-content-center season-stats">{{ soloTackles }}</td>
                   <td class="col-2 justify-content-center season-stats"> {{ sacks }}</td>
                   <td class="col-2 justify-content-center season-stats"> {{ interceptions }}</td>
                   <td class="col-2 justify-content-center season-stats"> {{ forcedFumbles }}</td>
