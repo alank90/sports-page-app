@@ -1,6 +1,9 @@
 const Vue = require("vue");
 const cumulativeQBSeasonStats = require("./cumulativeQBSeasonStats");
 const cumulativeReceivingSeasonStats = require("./cumlativeReceivingSeasonStats");
+const cumulativeRushingSeasonStats = require("./cumullativeRushingSeasonStats");
+const cumulativeDefensiveSeasonStats = require("./cumulativeDefensiveSeasonStats");
+
 const { EventBus } = require("../../modules/event-bus");
 
 const boxScoresStats = {
@@ -8,7 +11,9 @@ const boxScoresStats = {
     props: ["props_box_score", "props_gameID"],
     components: {
       cumulativeQBSeasonStats: cumulativeQBSeasonStats,
-      cumulativeReceivingSeasonStats: cumulativeReceivingSeasonStats
+      cumulativeReceivingSeasonStats: cumulativeReceivingSeasonStats,
+      cumulativeRushingSeasonStats: cumulativeRushingSeasonStats,
+      cumulativeDefensiveSeasonStats: cumulativeDefensiveSeasonStats
     },
     data: function() {
       return {
@@ -273,6 +278,9 @@ const boxScoresStats = {
                                                                 <td class="col-2 justify-content-center">{{playerStats.stats.RushTD['#text']}}</td>
                                                                 <td class="col-2 justify-content-center">{{playerStats.stats.RushLng['#text']}}</td>
                                                             </tr>
+                                                            
+                                                            <rushing-season-stats v-bind:props_player_id="playerStats.player.ID"></rushing-season-stats>
+
                                                     </div> <!-- End v-for playerStatsAway for Rushing -->
 
                                                 </tbody>
@@ -393,7 +401,7 @@ const boxScoresStats = {
                 <!-- ============= Start Rushing Stats ============ -->
                 <table class="table table-striped table-bordered table-hover table-sm">
                         <tbody class="table table-striped">
-                            <!-- ============= Receiving Stats ============ -->
+                            <!-- ============= Rushing Stats ============ -->
                                 <thead class="d-flex flex-wrap">
                                     <th class="col-12 stats-header"> Rushing Stats </th>
                                     <th class="col-3 justify-content-center" scope="col">Player</th>
@@ -414,6 +422,9 @@ const boxScoresStats = {
                                         <td class="col-2 justify-content-center">{{playerStats.stats.RushTD['#text']}}</td>
                                         <td class="col-2 justify-content-center">{{playerStats.stats.RushLng['#text']}}</td>
                                     </tr>
+
+                                    <rushing-season-stats v-bind:props_player_id="playerStats.player.ID"></rushing-season-stats>
+
                             </div> <!-- End v-for playerStats for Rushing -->
 
                         </tbody>
