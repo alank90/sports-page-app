@@ -204,6 +204,7 @@ const boxScoresStats = {
                                   <tr  @click="emitQBSeasonStatsClicked($event)" class="d-flex">
                                       <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                       {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                      <i class="fa fa-chevron-down" ></i>
                                       </td>
                                       <td class="col-3 justify-content-center" justify-content="center">
                                           {{ playerStats.stats.PassCompletions['#text'] }} / {{ playerStats.stats.PassAttempts['#text'] }} </td>
@@ -238,6 +239,7 @@ const boxScoresStats = {
                                                             <tr @click="emitReceivingSeasonStatsClicked($event)" class="d-flex">
                                                                 <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                                                 {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                                                <i class="fa fa-chevron-down" ></i>
                                                                 </td>
                                                                 <td class="col-2 justify-content-center" justify-content="center">
                                                                     {{ playerStats.stats.Receptions['#text'] }} </td>
@@ -271,6 +273,7 @@ const boxScoresStats = {
                                                             <tr @click="emitRushingSeasonStatsClicked($event)" class="d-flex">
                                                                 <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                                                 {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                                                <i class="fa fa-chevron-down" ></i>
                                                                 </td>
                                                                 <td class="col-2 justify-content-center" justify-content="center">
                                                                     {{ playerStats.stats.RushYards['#text'] }} </td>
@@ -305,6 +308,7 @@ const boxScoresStats = {
                                                         <tr @click="emitDefensiveSeasonStatsClicked($event)" class="d-flex">
                                                             <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                                             {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                                            <i class="fa fa-chevron-down" ></i>
                                                             </td>
                                                             <td class="col-2 justify-content-center" justify-content="center">
                                                                 {{ playerStats.stats.TackleTotal['#text'] }} </td>
@@ -352,6 +356,7 @@ const boxScoresStats = {
                                     <tr class="d-flex">
                                         <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                        <i class="fa fa-chevron-down" ></i>
                                         </td>
                                         <td class="col-3 justify-content-center" justify-content="center">
                                             {{ playerStats.stats.PassCompletions['#text'] }} / {{ playerStats.stats.PassAttempts['#text'] }} </td>
@@ -385,6 +390,7 @@ const boxScoresStats = {
                                     <tr @click="emitReceivingSeasonStatsClicked($event)" class="d-flex">
                                         <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                        <i class="fa fa-chevron-down " ></i>
                                         </td>
                                         <td class="col-2 justify-content-center" justify-content="center">
                                             {{ playerStats.stats.Receptions['#text'] }} </td>
@@ -418,6 +424,7 @@ const boxScoresStats = {
                                     <tr  @click="emitRushingSeasonStatsClicked($event)" class="d-flex">
                                         <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                         {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                        <i class="fa fa-chevron-down" ></i>
                                         </td>
                                         <td class="col-2 justify-content-center" justify-content="center">
                                             {{ playerStats.stats.RushYards['#text'] }} </td>
@@ -452,6 +459,7 @@ const boxScoresStats = {
                                 <tr @click="emitDefensiveSeasonStatsClicked($event)" class="d-flex">
                                     <td class="col-3 justify-content-center" :data-player-id="playerStats.player.ID" title="Click for Season Stats" scope="row">
                                     {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                                    <i class="fa fa-chevron-down" ></i>
                                     </td>
                                     <td class="col-2 justify-content-center" justify-content="center">
                                         {{ playerStats.stats.TackleTotal['#text'] }} </td>

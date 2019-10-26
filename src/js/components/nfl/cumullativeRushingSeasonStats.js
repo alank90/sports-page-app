@@ -93,20 +93,20 @@ const rushingCumulativeStats = {
           </transition>
 
           <transition name="fade">
-            <tr class="d-flex flex-wrap">
+            <tr class="d-flex flex-wrap season-stats">
                 <span class="cumlativeStatsLoading" v-if="loading">
                 Loading
                 <!-- below is our font awesome icon with the class “spin-it” where 
                     we have set the infinite animation:                        -->
                   <i class="fas fa-cog spin-it fa-sm" aria-hidden="true"></i>
                 </span>
-                <td class="col-2 justify-content-center season-stats" justify-content="center">
+                <td class="col-2 justify-content-center" justify-content="center">
                 {{ rushAttempts }} </td>
-                <td class="col-2 justify-content-center season-stats">{{ rushYards }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ rushAvg }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ rushTD }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ rushLong }}</td>
-                <td class="col-2 justify-content-center season-stats">{{ receptions }}</td>
+                <td class="col-2 justify-content-center">{{ rushYards }}</td>
+                <td class="col-2 justify-content-center"> {{ rushAvg }}</td>
+                <td class="col-2 justify-content-center"> {{ rushTD }}</td>
+                <td class="col-2 justify-content-center"> {{ rushLong }}</td>
+                <td class="col-2 justify-content-center">{{ receptions }}</td>
             </tr>
           </transition>
         </div>

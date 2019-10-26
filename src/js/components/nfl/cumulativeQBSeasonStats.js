@@ -95,20 +95,20 @@ const qbCumulativeStats = {
           </transition>
 
           <transition name="fade">
-            <tr class="d-flex flex-wrap">
+            <tr class="d-flex flex-wrap season-stats">
                 <span class="cumlativeStatsLoading" v-if="loading">
                 Loading
                 <!-- below is our font awesome icon with the class “spin-it” where 
                     we have set the infinite animation:                        -->
                   <i class="fas fa-cog spin-it fa-sm" aria-hidden="true"></i>
                 </span>
-                <td class="col-2 justify-content-center season-stats" justify-content="center">
+                <td class="col-2 justify-content-center" justify-content="center">
                 {{ passCompletions }} / {{ passAttempts }}</td>
-                <td class="col-2 justify-content-center season-stats">{{ passPct }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ passYards }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ passAvg }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ passTD }}</td>
-                <td class="col-2 justify-content-center season-stats">{{ passInt }}</td>
+                <td class="col-2 justify-content-center">{{ passPct }}</td>
+                <td class="col-2 justify-content-center"> {{ passYards }}</td>
+                <td class="col-2 justify-content-center"> {{ passAvg }}</td>
+                <td class="col-2 justify-content-center"> {{ passTD }}</td>
+                <td class="col-2 justify-content-center">{{ passInt }}</td>
             </tr>
           </transition>
         </div>

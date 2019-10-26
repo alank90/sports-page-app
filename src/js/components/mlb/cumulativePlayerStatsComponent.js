@@ -68,7 +68,7 @@ const playerCumulativeStats = {
     },
     template: `
       <transition name="fade">
-        <tr class="d-flex" v-if="showComponent">
+        <tr class="d-flex flex-wrap season-stats" v-if="showComponent">
           <span class="cumlativeStatsLoading" v-if="loading">
           Loading
           <!-- below is our font awesome icon with the class “spin-it” where 
