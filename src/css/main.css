@@ -183,6 +183,12 @@ table td {
   overflow-wrap: break-word;
 }
 
+tr.season-stats {
+  margin-bottom: 15px;
+  box-shadow:5px 10px 10px grey; 
+
+}
+
 td:not(:first-child) {
   text-align: center;
 }

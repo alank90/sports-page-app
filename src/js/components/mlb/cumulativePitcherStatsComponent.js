@@ -87,20 +87,20 @@ const pitcherCumulativeStats = {
           </transition>
 
           <transition name="fade">
-            <tr class="d-flex" v-if="showComponent">
+            <tr class="d-flex flex-wrap season-stats" v-if="showComponent">
                 <span class="cumlativeStatsLoading" v-if="loading">
                 Loading
                 <!-- below is our font awesome icon with the class “spin-it” where 
                     we have set the infinite animation:                        -->
                   <i class="fas fa-cog spin-it fa-sm" aria-hidden="true"></i>
                 </span>
-                <td class="col-2 justify-content-center season-stats" justify-content="center"></td>
-                <td class="col-2 justify-content-center season-stats" justify-content="center">
+                <td class="col-2 justify-content-center" justify-content="center"></td>
+                <td class="col-2 justify-content-center" justify-content="center">
                 {{ Wins }}</td>
-                <td class="col-2 justify-content-center season-stats">{{ Losses }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ SO }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ IP }}</td>
-                <td class="col-2 justify-content-center season-stats">{{ ERA }}</td>
+                <td class="col-2 justify-content-center">{{ Losses }}</td>
+                <td class="col-2 justify-content-center"> {{ SO }}</td>
+                <td class="col-2 justify-content-center"> {{ IP }}</td>
+                <td class="col-2 justify-content-center">{{ ERA }}</td>
             </tr>
           </transition>
         </div>

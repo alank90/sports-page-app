@@ -93,20 +93,20 @@ const receivingCumulativeStats = {
           </transition>
 
           <transition name="fade">
-            <tr class="d-flex flex-wrap">
+            <tr class="d-flex flex-wrap season-stats">
                 <span class="cumlativeStatsLoading" v-if="loading">
                 Loading
                 <!-- below is our font awesome icon with the class “spin-it” where 
                     we have set the infinite animation:                        -->
                   <i class="fas fa-cog spin-it fa-sm" aria-hidden="true"></i>
                 </span>
-                <td class="col-2 justify-content-center season-stats" justify-content="center">
+                <td class="col-2 justify-content-center" justify-content="center">
                 {{ receptions }}</td>
-                <td class="col-2 justify-content-center season-stats">{{ targets }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ receivingYards }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ averagePerReception }}</td>
-                <td class="col-2 justify-content-center season-stats"> {{ receivingTD }}</td>
-                <td class="col-2 justify-content-center season-stats">{{ receptionLong }}</td>
+                <td class="col-2 justify-content-center">{{ targets }}</td>
+                <td class="col-2 justify-content-center"> {{ receivingYards }}</td>
+                <td class="col-2 justify-content-center"> {{ averagePerReception }}</td>
+                <td class="col-2 justify-content-center"> {{ receivingTD }}</td>
+                <td class="col-2 justify-content-center">{{ receptionLong }}</td>
             </tr>
           </transition>
         </div>
