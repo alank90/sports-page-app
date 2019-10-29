@@ -27,7 +27,6 @@ const rushingCumulativeStats = {
     methods: {
       onShowRushingTemplateClicked: function(playerId) {
         if (playerId === this.props_player_id) {
-          console.log(playerId);
           this.loading = true;
           this.showComponent = !this.showComponent;
           this.retrieveRushingStats(playerId);

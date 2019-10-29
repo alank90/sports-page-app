@@ -1,8 +1,6 @@
 // ========== src/js/modules/seasonDates.js ================== //
 const date = require("./todayDate");
 
-let seasonYear = date.year;
-
 const mlb = {
   regularSeasonStartDate: `${date.year}0328`,
   regularSeasonEndDate: `${date.year}0929`,
@@ -18,22 +16,18 @@ const nfl = {
   daysToMilliseconds: 3600 * 24 * 7 * 1000
 };
 
-const nbaStartOfRegularSeasonYear = function(offset = 1) {
-  if (date.today > `${date.year - 1}1231` && date.today < nba.playoffsEndDate) {
-    let startOfRegularSeasonYear = seasonYear - offset;
-    return startOfRegularSeasonYear;
-  } else {
-    return seasonYear;
-  }
-};
-
 const nba = {
-  startOfRegularSeasonYear: nbaStartOfRegularSeasonYear,
   regularSeasonStartDate: "20191022",
   regularSeasonEndDate: "20200415",
   playoffsBeginDate: "20200418",
   playoffsEndDate: "20200612"
 };
+
+const nbaStartSeasonYear = () => {
+  return nba.regularSeasonStartDate.substring(0, 4);
+};
+
+nba.regularSeasonYear = nbaStartSeasonYear();
 
 module.exports = {
   mlb: mlb,
