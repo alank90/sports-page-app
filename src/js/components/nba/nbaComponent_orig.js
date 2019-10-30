@@ -1,7 +1,6 @@
 // src/js/components/nbaComponent.js
 
 const Vue = require("vue");
-const boxscores = require("./nbaBoxscores");
 
 const nba = {
   nbaComponent: Vue.component("tab-nba", {
@@ -12,7 +11,6 @@ const nba = {
       "props_end_of_season",
       "props_box_game_scores_nba"
     ],
-    components: { boxscores: boxscores },
     template: `
             <div class="vue-root-element">
                 <!-- Check if data was returned from get request to mysportsfeeds API -->
@@ -87,16 +85,84 @@ const nba = {
                                     </tbody>
                                 </table>
             
-
-                                <!-- ======== Start BoxScores Component ============== -->
-                                    <div>
-                                        <nba-box-scores :props_nba_box_scores_single_game = "props_box_game_scores_nba[index]"
-                                                        :props_index = "index">
-                                        </nba-box-scores>
-                                    </div>
-                                <!-- ======== End BoxScores Component ================ -->
-
-                            </div> <!-- End v-for props_league_data_nba -->
+                                <!-- ==================== Begin Markup for Game NBA Boxscores ============================ -->
+                                <p>
+                                    <button class="btn-sm btn-outline-dark" type="button" data-toggle="collapse"
+                                        v-bind:data-target="'.multi-collapse-' + index" aria-expanded="false"
+                                        aria-controls="collapseExample">
+                                        Game Stats
+                                    </button>
+                                </p>
+            
+                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                    <tbody>
+                                        <!-- ---------- Away Team Boxscore ------------------------- -->
+                                        <thead class="d-flex flex-wrap">
+                                            <th class="col-12">
+                                            <td class="team">
+                                                {{ props_box_game_scores_nba[index].data.gameboxscore.game.awayTeam.Abbreviation }}:
+                                            </td>
+                                            </th>
+                                            <th class="col-4 justify-content-center" scope="col">Player</th>
+                                            <th class="col-2 justify-content-center" scope="col">Pts</th>
+                                            <th class="col-2 justify-content-center" scope="col">Rebs</th>
+                                            <th class="col-2 justify-content-center" scope="col">Assts</th>
+                                            <th class="col-2 justify-content-center" scope="col">3-pts</th>
+                                        </thead>
+                                        <template
+                                            v-for="playerStats in props_box_game_scores_nba[index].data.gameboxscore.awayTeam.awayPlayers.playerEntry">
+                                            <tr class="d-flex">
+                                                <td class="col-4 justify-content-center" scope="row">
+                                                    {{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
+                                                <td class="col-2 justify-content-center" justify-content="center">
+                                                    {{playerStats.stats.Pts['#text']}}</td>
+                                                <td class="col-2 justify-content-center">{{playerStats.stats.Reb['#text']}}</td>
+                                                <td class="col-2 justify-content-center">{{playerStats.stats.Ast['#text']}}</td>
+                                                <td class="col-2 justify-content-center">{{playerStats.stats.Fg3PtMade['#text']}}
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                                <!-- ---------- End Away Team Boxscore ------------------------- -->
+            
+                                <!-- ---------- Home Team Boxscore ------------------------- -->
+                                <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + index">
+                                    <tbody>
+                                        <thead class="d-flex flex-wrap">
+                                            <th class="col-12">
+                                            <td class="team">
+                                                {{ props_box_game_scores_nba[index].data.gameboxscore.game.homeTeam.Abbreviation }}:
+                                            </td>
+                                            </th>
+                                            <th class="col-4 justify-content-center" scope="col">Player</th>
+                                            <th class="col-2 justify-content-center" scope="col">Pts</th>
+                                            <th class="col-2 justify-content-center" scope="col">Rebs</th>
+                                            <th class="col-2 justify-content-center" scope="col">Assts</th>
+                                            <th class="col-2 justify-content-center" scope="col">3-pts</th>
+                                        </thead>
+                                        <template
+                                            v-for="playerStats in props_box_game_scores_nba[index].data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                                            <tr class="d-flex">
+                                                <td class="col-4 justify-content-center" scope="row">
+                                                    {{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
+                                                <td class="col-2 justify-content-center" justify-content="center">
+                                                    {{playerStats.stats.Pts['#text']}}</td>
+                                                <td class="col-2 justify-content-center">{{playerStats.stats.Reb['#text']}}</td>
+                                                <td class="col-2 justify-content-center">{{playerStats.stats.Ast['#text']}}</td>
+                                                <td class="col-2 justify-content-center">{{playerStats.stats.Fg3PtMade['#text']}}
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+            
+            
+                                <!-- ---------- End Home Team Boxscore ------------------------- -->
+            
+                                <!-- ==================== End Markup for Game Boxscores ============================ -->
+            
+                            </div> <!-- End v-for -->
             
                         </div> <!-- End of row -->
                     </div> <!-- End container -->
