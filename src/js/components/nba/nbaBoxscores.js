@@ -1,11 +1,29 @@
 // src/js/components/nbaBoxScores.js
 const Vue = require("vue");
+const cumulativeNBAPlayerSeasonStats = require("./cumulativeNBAPlayerSeasonStats");
 
 const { EventBus } = require("../../modules/event-bus");
 
 const nbaBoxScoresStats = {
   nbaStats: Vue.component("nba-box-scores", {
     props: ["props_nba_box_scores_single_game", "props_index"],
+    components: {
+      cumulativeNBAPlayerSeasonStats: cumulativeNBAPlayerSeasonStats
+    },
+    data: function() {
+      return {
+        playerCumulativeStatsAway: this.props_nba_box_scores_single_game.data
+          .gameboxscore.awayTeam.awayPlayers.playerEntry,
+        playerCumulativeStatsHome: this.props_nba_box_scores_single_game.data
+          .gameboxscore.homeTeam.homePlayers.playerEntry
+      };
+    },
+    methods: {
+      emitNBAPlayerSeasonStatsClicked: function($event) {
+        let playerId = $event.target.dataset.playerId;
+        EventBus.$emit("showNBAPlayerclicked", playerId);
+      }
+    },
     template: `
     <div class="vue-root-element">
         <p>
@@ -30,9 +48,9 @@ const nbaBoxScoresStats = {
                   <th class="col-2 justify-content-center" scope="col">3-pts</th>
               </thead>
             <template
-                v-for="playerStats in props_nba_box_scores_single_game.data.gameboxscore.awayTeam.awayPlayers.playerEntry">
-                  <tr class="d-flex">
-                      <td class="col-4 justify-content-center" scope="row">
+                v-for="playerStats in playerCumulativeStatsAway">
+                  <tr @click="emitNBAPlayerSeasonStatsClicked($event)" class="d-flex">
+                      <td class="col-4 justify-content-center" :data-player-id="playerStats.player.ID" scope="row">
                           {{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
                       <td class="col-2 justify-content-center" justify-content="center">
                           {{playerStats.stats.Pts['#text']}}</td>
@@ -41,6 +59,9 @@ const nbaBoxScoresStats = {
                       <td class="col-2 justify-content-center">{{playerStats.stats.Fg3PtMade['#text']}}
                       </td>
                   </tr>
+
+                  <nba-player-season-stats v-bind:props_player_id="playerStats.player.ID"></nba-player-season-stats>
+
             </template>
           </tbody>
       </table>                                    
@@ -62,7 +83,7 @@ const nbaBoxScoresStats = {
                     <th class="col-2 justify-content-center" scope="col">3-pts</th>
             </thead>                                
             <template
-                    v-for="playerStats in props_nba_box_scores_single_game.data.gameboxscore.homeTeam.homePlayers.playerEntry">
+                    v-for="playerStats in playerCumulativeStatsHome">
                       <tr class="d-flex">
                           <td class="col-4 justify-content-center" scope="row">
                               {{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>

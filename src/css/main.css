@@ -154,7 +154,8 @@ th {
   overflow-wrap: break-word;
   text-align: center;
 }
-th.season-stats-headers, td.season-stats-headers {
+th.season-stats-headers,
+td.season-stats-headers {
   font-size: 0.7rem;
   font-weight: 600;
 }
@@ -179,14 +180,13 @@ tr.header-row {
   margin-top: 2px;
 }
 
-table td {
-  overflow-wrap: break-word;
-}
-
 tr.season-stats {
   margin-bottom: 15px;
-  box-shadow:5px 10px 10px grey; 
+  box-shadow: 5px 10px 10px grey;
+}
 
+table td {
+  overflow-wrap: break-word;
 }
 
 td:not(:first-child) {
@@ -200,7 +200,7 @@ td[title="Click for Season Stats"] {
 td[title="Click for Season Stats"]:hover {
   -webkit-text-decoration: underline solid blue;
   background-color: lightgrey;
-          text-decoration: underline solid blue;
+  text-decoration: underline solid blue;
 }
 
 /* Vue Transition CSS Rules */
