@@ -1,5 +1,6 @@
 const Vue = require("vue");
 const axios = require("axios");
+const date = require("../../modules/todayDate");
 
 const { EventBus } = require("../../modules/event-bus");
 
@@ -31,7 +32,8 @@ const playerCumulativeStats = {
         }
       },
       retrievePlayerStats: function(playerId) {
-        const url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/2019-regular/cumulative_player_stats.json?player=`;
+        let seasonName = `${date.year}-regular`;
+        const url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/cumulative_player_stats.json?player=`;
         const params = {
           playerstats: "AB,H,HR,RBI,AVG",
           force: true
