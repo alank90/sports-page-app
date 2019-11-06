@@ -18,6 +18,14 @@ const nbaBoxScoresStats = {
           .gameboxscore.homeTeam.homePlayers.playerEntry
       };
     },
+    computed: {
+      teamColorAway: function() {
+        return `${this.props_nba_box_scores_single_game.data.gameboxscore.game.awayTeam.Abbreviation.toLowerCase()}-nba`;
+      },
+      teamColorHome: function() {
+        return `${this.props_nba_box_scores_single_game.data.gameboxscore.game.homeTeam.Abbreviation.toLowerCase()}-nba`;
+      }
+    },
     methods: {
       emitNBAPlayerSeasonStatsClicked: function($event) {
         let playerId = $event.target.dataset.playerId;
@@ -38,20 +46,22 @@ const nbaBoxScoresStats = {
             <tbody>
             <!-- ---------- Away Team Boxscore ------------------------- -->
               <thead class="d-flex flex-wrap">
-                  <th class="col-12 team">
-                    {{ props_nba_box_scores_single_game.data.gameboxscore.game.awayTeam.Abbreviation }}:
+                  <th class="col-12 team" :class="teamColorAway">
+                    {{ props_nba_box_scores_single_game.data.gameboxscore.game.awayTeam.City }} {{ props_nba_box_scores_single_game.data.gameboxscore.game.awayTeam.Name }}
                   </th>
                   <th class="col-4 justify-content-center" scope="col">Player</th>
                   <th class="col-2 justify-content-center" scope="col">Pts</th>
                   <th class="col-2 justify-content-center" scope="col">Rebs</th>
-                  <th class="col-2 justify-content-center" scope="col">Assts</th>
-                  <th class="col-2 justify-content-center" scope="col">3-pts</th>
+                  <th class="col-2 justify-content-center" scope="col">Asst</th>
+                  <th class="col-2 justify-content-center" scope="col">3PT</th>
               </thead>
             <template
                 v-for="playerStats in playerCumulativeStatsAway">
                   <tr @click="emitNBAPlayerSeasonStatsClicked($event)" class="d-flex">
-                      <td class="col-4 justify-content-center" :data-player-id="playerStats.player.ID" scope="row">
-                          {{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
+                      <td class="col-4 justify-content-center" :data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
+                          {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                          <i class="fa fa-chevron-down" ></i>
+                      </td>
                       <td class="col-2 justify-content-center" justify-content="center">
                           {{playerStats.stats.Pts['#text']}}</td>
                       <td class="col-2 justify-content-center">{{playerStats.stats.Reb['#text']}}</td>
@@ -60,6 +70,7 @@ const nbaBoxScoresStats = {
                       </td>
                   </tr>
 
+                  <!-- === Season Stats Component ==== -->
                   <nba-player-season-stats v-bind:props_player_id="playerStats.player.ID"></nba-player-season-stats>
 
             </template>
@@ -72,27 +83,34 @@ const nbaBoxScoresStats = {
       <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + props_index">
           <tbody>
             <thead class="d-flex flex-wrap">
-              <th class="col-12 team">
-                    {{ props_nba_box_scores_single_game.data.gameboxscore.game.homeTeam.Abbreviation }}:
-                  
-                    </th>
+              <th class="col-12 team" :class="teamColorHome">
+                {{ props_nba_box_scores_single_game.data.gameboxscore.game.homeTeam.City }} {{ props_nba_box_scores_single_game.data.gameboxscore.game.homeTeam.Name }}
+              </th>
                     <th class="col-4 justify-content-center" scope="col">Player</th>
                     <th class="col-2 justify-content-center" scope="col">Pts</th>
                     <th class="col-2 justify-content-center" scope="col">Rebs</th>
-                    <th class="col-2 justify-content-center" scope="col">Assts</th>
-                    <th class="col-2 justify-content-center" scope="col">3-pts</th>
+                    <th class="col-2 justify-content-center" scope="col">Asst</th>
+                    <th class="col-2 justify-content-center" scope="col">3PT</th>
             </thead>                                
             <template
                     v-for="playerStats in playerCumulativeStatsHome">
-                      <tr class="d-flex">
-                          <td class="col-4 justify-content-center" scope="row">
-                              {{playerStats.player.FirstName}} {{playerStats.player.LastName}}</td>
+                      <tr @click="emitNBAPlayerSeasonStatsClicked($event)" class="d-flex">
+                          <td class="col-4 justify-content-center" :data-player-id="playerStats.player.ID" scope="row" title="Click for Season Stats">
+                              {{playerStats.player.FirstName}} {{playerStats.player.LastName}} ({{playerStats.player.Position}})
+                              <i class="fa fa-chevron-down" ></i>
+                          </td>
                           <td class="col-2 justify-content-center" justify-content="center">
-                              {{playerStats.stats.Pts['#text']}}</td>
+                              {{playerStats.stats.Pts['#text']}}
+                              
+                              </td>
                           <td class="col-2 justify-content-center">{{playerStats.stats.Reb['#text']}}</td>
                           <td class="col-2 justify-content-center">{{playerStats.stats.Ast['#text']}}</td>
                           <td class="col-2 justify-content-center">{{playerStats.stats.Fg3PtMade['#text']}}</td>
                       </tr>
+
+                      <!-- === Season Stats Component ==== -->
+                      <nba-player-season-stats v-bind:props_player_id="playerStats.player.ID"></nba-player-season-stats>
+
             </template>
           </tbody>
       </table>

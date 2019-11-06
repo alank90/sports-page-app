@@ -99,6 +99,158 @@
   background-color: #97233f;
 }
 
-/* ======= End NFL ==========*/
+/* ======= End NFL ========== */
+
+/* ======== NBA =========== */
+.atl-nba {
+  background-color: #e03a3e;
+  border: 4px solid #c1d32f;
+}
+
+.bos-nba {
+  background-color: #007a33;
+  border: 4px solid #ba9653;
+}
+
+.bro-nba {
+  background-color: #000000;
+  border: 4px solid #c6cfd4;
+}
+
+.cha-nba {
+  background-color: #1d1160;
+  border: 4px solid #00788c;
+}
+
+.chi-nba {
+  background-color: #ce1141;
+  border: 4px solid #000;
+}
+
+.cle-nba {
+  background-color: #6f263d;
+  border: 4px solid #fdbb30;
+}
+
+.dal-nba {
+  background-color: #00538c;
+  border: 4px solid #bbc4ca;
+}
+
+.den-nba {
+  background-color: #00285e;
+  border: 4px solid #fec524;
+}
+
+.det-nba {
+  background-color: #ed174c;
+  border: 4px solid #1d42ba;
+}
+
+.gsw-nba {
+  background-color: #006bb6;
+  border: 4px solid #ffc72c;
+}
+
+.hou-nba {
+  background-color: #ce1141;
+  border: 4px solid #000;
+}
+
+.ind-nba {
+  background-color: #002d62;
+  border: 4px solid #fdbb30;
+}
+
+.lac-nba {
+  background-color: #ed174c;
+  border: 4px solid #1d42ba;
+}
+
+.lal-nba {
+  background-color: #552583;
+  border: 4px solid #fdb927;
+}
+
+.mem-nba {
+  background-color: #6189b9;
+  border: 4px solid #12173f;
+}
+
+.mia-nba {
+  background-color: #98002e;
+  border: 4px solid #f9a01b;
+}
+
+.mil-nba {
+  background-color: #00471b;
+  border: 4px solid #eee1c6;
+}
+
+.min-nba {
+  background-color: #0c2340;
+  border: 4px solid #236192;
+}
+
+.nop-nba {
+  background-color: #002b5c;
+  border: 4px solid #c8102e;
+}
+
+.nyk-nba {
+  background-color: #006bb6;
+  border: 4px solid #f58426;
+}
+
+.okl-nba {
+  background-color: #007ac1;
+  border: 4px solid #ef3b24;
+}
+
+.orl-nba {
+  background-color: #0057b8;
+  border: 4px solid #c4ced4;
+}
+
+.phi-nba {
+  background-color: #006bb6;
+  border: 4px solid #ed174c;
+}
+
+.phx-nba {
+  background-color: #1d1160;
+  border: 4px solid #e56020;
+}
+
+.por-nba {
+  background-color: #e03a3e;
+  border: 4px solid #000;
+}
+
+sac-nba {
+  background-color: #5a2d81;
+  border: 4px solid #63727a;
+}
+
+.sas-nba {
+  background-color: #000000;
+  border: 4px solid #c4ced4;
+}
+
+.tor-nba {
+  background-color: #ce1141;
+  border: 4px solid #000;
+}
+
+.uta-nba {
+  background-color: #002b5c;
+  border: 4px solid #00471b;
+}
+
+.was-nba {
+  background-color: #002b5c;
+  border: 4px solid #e31837;
+}
+/* ======= End NBA ======== */
 
 /* =========== End Team Colors Classes ============= */
