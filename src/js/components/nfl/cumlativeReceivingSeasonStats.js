@@ -2,7 +2,6 @@ const Vue = require("vue");
 const axios = require("axios");
 const date = require("../../modules/todayDate");
 
-
 const { EventBus } = require("../../modules/event-bus");
 
 const receivingCumulativeStats = {

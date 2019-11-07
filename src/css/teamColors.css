@@ -1,253 +1,283 @@
 /* ======== Team Color Classes ==================== */
 /* ======== NFL =============== */
-.ne {
+th.team.ne {
   background-color: #002653;
+  border: 4px solid #c60c30;
 }
-
-.buf {
+th.team.buf {
   background-color: #0029c4;
+  border: 4px solid #c60c30;
 }
-
-.mia {
+th.team.mia {
   background-color: #008e97;
+  border: 4px solid #fc4c02;
 }
-.nyj {
+th.team.nyj {
   background-color: #125740;
+  border: 4px solid #000;
 }
-.bal {
+th.team.bal {
   background-color: #2e2d88;
+  border: 4px solid #9e7c0c;
 }
-.cle {
+th.team.cle {
   background-color: #ff3c00;
+  border: 4px solid #311d00;
 }
-.pit {
+th.team.pit {
   background-color: #ffb612;
+  border: 4px solid #101820;
 }
-.cin {
+th.team.cin {
   background-color: #fb4f14;
+  border: 4px solid #000;
 }
-.hou {
+th.team.hou {
   background-color: #03202f;
+  border: 4px solid #a71930;
 }
-.ind {
+th.team.ind {
   background-color: #003485;
+  border: 4px solid #a2aaad;
 }
-.jax {
+th.team.jax {
   background-color: #d7a22a;
+  border: 4px solid #006778;
 }
-.ten {
-  background-color: #5085bc;
+th.team.ten {
+  background-color: #418fde;
+  border: 4px solid #0c2340;
 }
-.kc {
+th.team.kc {
   background-color: #e31837;
+  border: 4px solid #ffb81c;
 }
-.oak {
+th.team.oak {
   background-color: #000000;
+  border: 4px solid #a5acaf;
 }
-.lac {
+th.team.lac {
   background-color: #ffc20e;
+  border: 4px solid #002a5e;
 }
-.den {
+th.team.den {
   background-color: #fb4f14;
+  border: 4px solid #002244;
 }
-.dal {
+th.team.dal {
   background-color: #00386c;
+  border: 4px solid #869397;
 }
-.phi {
+th.team.phi {
   background-color: #004c54;
+  border: 4px solid #a5acaf;
 }
-.nyg {
+th.team.nyg {
   background-color: #03497f;
+  border: 4px solid #a71930;
 }
-.was {
+th.team.was {
   background-color: #79002e;
+  border: 4px solid #ffb612;
 }
-.gb {
-  background-color: #003b2a;
+th.team.gb {
+  background-color: #203731;
+  border: 4px solid #ffb612;
 }
-.chi {
-  background-color: #c83803;
+th.team.chi {
+  background-color: #0b162a;
+  border: 4px solid #c83803;
 }
-.min {
+th.team.min {
   background-color: #4e2683;
+  border: 4px solid #ffc62f;
 }
-.det {
+th.team.det {
   background-color: #0076b6;
+  border: 4px solid #b0b7bc;
 }
-.no {
+th.team.no {
   background-color: #d3bc8d;
+  border: 4px solid #101820;
 }
-.car {
+th.team.car {
   background-color: #108dcd;
+  border: 4px solid #101820;
 }
-.tb {
+th.team.tb {
   background-color: #d50a0a;
+  border: 4px solid #ff7900;
 }
-.atl {
+th.team.atl {
   background-color: #c9243f;
+  border: 4px solid #000;
 }
-.sf {
+th.team.sf {
   background-color: #aa0000;
+  border: 4px solid #b3995d;
 }
-.sea {
+th.team.sea {
   background-color: #003463;
+  border: 4px solid #69be28;
 }
-.la {
+th.team.la {
   background-color: #13264b;
+  border: 4px solid #866d4b;
 }
-.ari {
+th.team.ari {
   background-color: #97233f;
+  border: 4px solid #ffb612;
 }
 
 /* ======= End NFL ========== */
 
 /* ======== NBA =========== */
-.atl-nba {
+th.team.atl-nba {
   background-color: #e03a3e;
   border: 4px solid #c1d32f;
 }
 
-.bos-nba {
+th.team.bos-nba {
   background-color: #007a33;
   border: 4px solid #ba9653;
 }
 
-.bro-nba {
+th.team.bro-nba {
   background-color: #000000;
   border: 4px solid #c6cfd4;
 }
 
-.cha-nba {
+th.team.cha-nba {
   background-color: #1d1160;
   border: 4px solid #00788c;
 }
 
-.chi-nba {
+th.team.chi-nba {
   background-color: #ce1141;
   border: 4px solid #000;
 }
 
-.cle-nba {
+th.team.cle-nba {
   background-color: #6f263d;
   border: 4px solid #fdbb30;
 }
 
-.dal-nba {
+th.team.dal-nba {
   background-color: #00538c;
   border: 4px solid #bbc4ca;
 }
 
-.den-nba {
+th.team.den-nba {
   background-color: #00285e;
   border: 4px solid #fec524;
 }
 
-.det-nba {
+th.team.det-nba {
   background-color: #ed174c;
   border: 4px solid #1d42ba;
 }
 
-.gsw-nba {
+th.team.gsw-nba {
   background-color: #006bb6;
   border: 4px solid #ffc72c;
 }
 
-.hou-nba {
+th.team.hou-nba {
   background-color: #ce1141;
   border: 4px solid #000;
 }
 
-.ind-nba {
+th.team.ind-nba {
   background-color: #002d62;
   border: 4px solid #fdbb30;
 }
 
-.lac-nba {
+th.team.lac-nba {
   background-color: #ed174c;
   border: 4px solid #1d42ba;
 }
 
-.lal-nba {
+th.team.lal-nba {
   background-color: #552583;
   border: 4px solid #fdb927;
 }
 
-.mem-nba {
+th.team.mem-nba {
   background-color: #6189b9;
   border: 4px solid #12173f;
 }
 
-.mia-nba {
+th.team.mia-nba {
   background-color: #98002e;
   border: 4px solid #f9a01b;
 }
 
-.mil-nba {
+th.team.mil-nba {
   background-color: #00471b;
   border: 4px solid #eee1c6;
 }
 
-.min-nba {
+th.team.min-nba {
   background-color: #0c2340;
   border: 4px solid #236192;
 }
 
-.nop-nba {
+th.team.nop-nba {
   background-color: #002b5c;
   border: 4px solid #c8102e;
 }
 
-.nyk-nba {
+th.team.nyk-nba {
   background-color: #006bb6;
   border: 4px solid #f58426;
 }
 
-.okl-nba {
+th.team.okl-nba {
   background-color: #007ac1;
   border: 4px solid #ef3b24;
 }
 
-.orl-nba {
+th.team.orl-nba {
   background-color: #0057b8;
   border: 4px solid #c4ced4;
 }
 
-.phi-nba {
+th.team.phi-nba {
   background-color: #006bb6;
   border: 4px solid #ed174c;
 }
 
-.phx-nba {
+th.team.phx-nba {
   background-color: #1d1160;
   border: 4px solid #e56020;
 }
 
-.por-nba {
+th.team.por-nba {
   background-color: #e03a3e;
   border: 4px solid #000;
 }
 
-sac-nba {
+th.team.sac-nba {
   background-color: #5a2d81;
   border: 4px solid #63727a;
 }
 
-.sas-nba {
+th.team.sas-nba {
   background-color: #000000;
   border: 4px solid #c4ced4;
 }
 
-.tor-nba {
+th.team.tor-nba {
   background-color: #ce1141;
   border: 4px solid #000;
 }
 
-.uta-nba {
+th.team.uta-nba {
   background-color: #002b5c;
-  border: 4px solid #00471b;
+  border: 4px solid #f9a01b;
 }
 
-.was-nba {
+th.team.was-nba {
   background-color: #002b5c;
   border: 4px solid #e31837;
 }

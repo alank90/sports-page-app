@@ -187,7 +187,7 @@ const boxScoresStats = {
                         <tbody class="table table-striped">
                             <!-- ============= Passing Stats ============ -->
                                 <thead class="d-flex flex-wrap">
-                                    <th class="col-12" :class="teamColorAway">
+                                    <th class="col-12 team" :class="teamColorAway">
                                     {{ props_box_score.data.gameboxscore.game.awayTeam.City }} {{ props_box_score.data.gameboxscore.game.awayTeam.Name }}
                                     </th>
                                   
@@ -342,7 +342,7 @@ const boxScoresStats = {
                         <tbody class="table table-striped">
                             <!-- ============= Passing Stats ============ -->
                                 <thead class="d-flex flex-wrap">
-                                    <th class="col-12" :class="teamColorHome">
+                                    <th class="col-12 team" :class="teamColorHome">
                                     {{ props_box_score.data.gameboxscore.game.homeTeam.City }} {{ props_box_score.data.gameboxscore.game.homeTeam.Name }}
                                     </th>
                                     <th class="col-12 stats-header"> Passing Stats </th>

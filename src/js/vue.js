@@ -110,7 +110,7 @@ new Vue({
 
       if (this.currentTab === "MLB") {
         // If Off-Seson skip AJAX call and just print Off-Season template
-        if (date.today <= seasonDates.mlb.regularSeasonStartDate) {
+        if (date.today >= seasonDates.mlb.playoffsEndDate) {
           this.end_of_season.mlb = true;
           return;
         }
@@ -150,7 +150,7 @@ new Vue({
         /* jshint ignore:start */
         axios
           .get(
-            `https://api.mysportsfeeds.com/v1.2/pull/mlb/2019-regular/scoreboard.json?fordate=${date.yesterday}`,
+            `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${date.yesterday}`,
             config
           )
           .then(response => {
@@ -438,7 +438,7 @@ new Vue({
               teamstats: "none",
               playerstats: "PTS,AST,REB,3PM",
               sort: "stats.PTS.D",
-              limit: 5,
+              limit: 8,
               force: true
             };
             // Check if boxscores have been retrieved on previous tab click
