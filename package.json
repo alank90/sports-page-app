@@ -40,7 +40,7 @@
     "uglifyify": "^4.0.4"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "npm": "^6.4.1",
     "surge": "^0.21.3",
     "vue": "^2.5.17"
