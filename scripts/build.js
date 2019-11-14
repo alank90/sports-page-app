@@ -195,6 +195,9 @@ require("rimraf")("./dist", function() {
           await access("CNAME", fs.constants.R_OK | fs.constants.W_OK);
           await copyFile("CNAME", "dist/CNAME");
 
+          await access("favicon.jpg", fs.constants.R_OK | fs.constants.W_OK);
+          await copyFile("favicon.jpg", "dist/favicon.jpg");
+
           // Copy /src/resources to /dist folder
           const readDirectory = await readdir("./resources");
 
