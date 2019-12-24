@@ -1,5 +1,5 @@
 // src/js/components/nflComponent.js
-
+/* jshint esversion:9 */
 const Vue = require("vue");
 const boxscores = require("./nflBoxScores");
 
@@ -20,8 +20,22 @@ const nfl = {
     components: {
       boxscores: boxscores
     },
+    computed: {
+      props_League_Data_NFL_Groomed: function() {
+        let nflDataObject = {};
+
+        for (const [key, value] of Object.entries(this.props_league_data_nfl)) {
+          if (value != undefined) {
+            nflDataObject[key] = value;
+          }
+        }
+
+        return nflDataObject;
+      }
+    },
     methods: {
       currentPropsBoxScoreDayOfWeekArray: function(index) {
+        // Put if here to check if this.props_box_game_scores_nfl(index).length > 0
         return this.props_box_game_scores_nfl[
           this.nfl_days[index]
             .split(" ")[0]
@@ -51,7 +65,7 @@ const nfl = {
                 <!-- ========== Markup for Divional/Regular Season Daily Scores ====== -->
                 <div v-else>
                     <div class="container">
-                        <div v-for="(dayDataArray, key, index) in props_league_data_nfl">
+                        <div v-for="(dayDataArray, key, index) in props_League_Data_NFL_Groomed">
                             <!-- v-if prevents Vue from trying to access dayDataArray before it has become populated -->
                             <h2> {{ nfl_days[index] }} <span v-if="dayDataArray.length" class="week">(Week
                                     {{ dayDataArray[0].game.week }})</span></h2>

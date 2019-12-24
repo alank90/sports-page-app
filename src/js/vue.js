@@ -300,11 +300,12 @@ new Vue({
             }
           });
 
-          this.nfl_feeds.thurs_data.forEach(function(item, index) {
-            if (item.isCompleted === "true") {
-              nflGameIDs.thursday[index] = item.game.ID;
-            }
-          });
+          if (this.nfl_feeds.thurs_data != undefined)
+            this.nfl_feeds.thurs_data.forEach(function(item, index) {
+              if (item.isCompleted === "true") {
+                nflGameIDs.thursday[index] = item.game.ID;
+              }
+            });
 
           this.nfl_feeds.mon_data.forEach(function(item, index) {
             if (item.isCompleted === "true") {
