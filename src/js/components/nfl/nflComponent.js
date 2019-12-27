@@ -31,11 +31,19 @@ const nfl = {
         }
 
         return nflDataObject;
+      },
+      nfl_days_groomed: function() {
+        for (const [key, value] of Object.entries(this.props_league_data_nfl)) {
+          if (value.length === 0) {
+            console.log("array zero length");
+          }
+        }
+
+        return true;
       }
     },
     methods: {
       currentPropsBoxScoreDayOfWeekArray: function(index) {
-        // Put if here to check if this.props_box_game_scores_nfl(index).length > 0
         return this.props_box_game_scores_nfl[
           this.nfl_days[index]
             .split(" ")[0]
