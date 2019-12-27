@@ -13,9 +13,7 @@ const nfl = {
       "props_box_game_scores_nfl"
     ],
     data: function() {
-      return {
-        nfl_days: ["Sunday", "Thursday Night", "Monday Night"]
-      };
+      return {};
     },
     components: {
       boxscores: boxscores
@@ -32,14 +30,21 @@ const nfl = {
 
         return nflDataObject;
       },
-      nfl_days_groomed: function() {
+      nfl_days: function() {
+        days = [];
+
         for (const [key, value] of Object.entries(this.props_league_data_nfl)) {
-          if (value.length === 0) {
-            console.log("array zero length");
+          if (value != undefined) {
+            if (key === "sunday_data") {
+              days.push("Sunday");
+            } else if (key === "mon_data") {
+              days.push("Monday Night");
+            } else if (key === "thurs_data") {
+              days.push("Thursday Night");
+            }
           }
         }
-
-        return true;
+        return days;
       }
     },
     methods: {
