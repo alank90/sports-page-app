@@ -294,24 +294,29 @@ new Vue({
           this.nfl_feeds.mon_data = await getScores(nflDate.mondayDate, config);
 
           // Next we need the gameid's to retrieve the game boxscores for each day
-          this.nfl_feeds.sunday_data.forEach(function(item, index) {
-            if (item.isCompleted === "true") {
-              nflGameIDs.sunday[index] = item.game.ID;
-            }
-          });
+          if (this.nfl_feeds.sunday_data != undefined) {
+            this.nfl_feeds.sunday_data.forEach(function(item, index) {
+              if (item.isCompleted === "true") {
+                nflGameIDs.sunday[index] = item.game.ID;
+              }
+            });
+          }
 
-          if (this.nfl_feeds.thurs_data != undefined)
+          if (this.nfl_feeds.thurs_data != undefined) {
             this.nfl_feeds.thurs_data.forEach(function(item, index) {
               if (item.isCompleted === "true") {
                 nflGameIDs.thursday[index] = item.game.ID;
               }
             });
+          }
 
-          this.nfl_feeds.mon_data.forEach(function(item, index) {
-            if (item.isCompleted === "true") {
-              nflGameIDs.monday[index] = item.game.ID;
-            }
-          });
+          if (this.nfl_feeds.mon_data != undefined) {
+            this.nfl_feeds.mon_data.forEach(function(item, index) {
+              if (item.isCompleted === "true") {
+                nflGameIDs.monday[index] = item.game.ID;
+              }
+            });
+          }
 
           // Let's retrieve the boxscore's for the day's game
           // and put them in this.sports_feeds_boxscores.nfl.[day] for
