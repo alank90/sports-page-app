@@ -68,8 +68,8 @@ const nfl = {
     template: `
             <div class="vue-root-element">
                 <!-- Check if data was returned from Get request to mysportsfeeds API -->
-                <div v-if="props_league_data_nfl === undefined">
-                    <p> No Games Yesterday</p>
+                <div v-if="props_league_data_nfl === undefined || props_league_data_nfl.sunday_data.length === 0">
+                    <h3> No Regular Season Games Yesterday</h3>
                 </div>
                 <!-- ============== Markup for End of Season =============== -->
                 <div v-else-if="props_end_of_season === true" class="container">

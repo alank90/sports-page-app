@@ -2,10 +2,10 @@
 const date = require("./todayDate");
 
 const mlb = {
-  regularSeasonStartDate: `${date.year}0328`,
-  regularSeasonEndDate: `${date.year}0929`,
-  playoffsBeginDate: `${date.year}1001`,
-  playoffsEndDate: `${date.year}1101`
+  regularSeasonStartDate: "20190328",
+  regularSeasonEndDate: "20190929",
+  playoffsBeginDate: "20191001",
+  playoffsEndDate: "20191101"
 };
 
 const nfl = {

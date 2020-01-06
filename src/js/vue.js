@@ -108,12 +108,16 @@ new Vue({
       // ======== Let's check currentTab and make appropriate API call =============== //
       // ======== Use Axios Get to retrieve the baseball info ======================== //
 
+      console.log(`date.today: ${date.today}`);
+      console.log(`seasonDates.mlb.playoffsEndDate: ${seasonDates.mlb.playoffsEndDate}`);
+
       if (this.currentTab === "MLB") {
         // If Off-Seson skip AJAX call and just print Off-Season template
         if (date.today >= seasonDates.mlb.playoffsEndDate) {
           this.end_of_season.mlb = true;
           return;
         }
+
 
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
@@ -229,6 +233,15 @@ new Vue({
         );
 
         this.errored = false; // reset if true from another tab
+        /* console.log(`date.today: ${date.today}`);
+        console.log(
+          `season.startdate ${seasonDates.nfl.regularSeasonStartDate}`
+        );
+        console.log(`seasonDates.nfl.superbowlOffsetDate
+         ${seasonDates.nfl.superbowlOffsetDate
+           .toISOString()
+           .substring(0, 10)
+           .replace(/-/g, "")}`); */
 
         // Check if it is the Off-Season
         if (date.today < seasonDates.nfl.regularSeasonStartDate) {
@@ -254,8 +267,9 @@ new Vue({
           return;
         }
         // End Check for Off-season. Continue on if it is Football Season!
+        // Also check if any results returned from feeds API call
+        if (nfl_feeds.sunday_data.length > 0) this.loading = true;
 
-        this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         // reset axios config parameters
         config.params = {
