@@ -9,9 +9,9 @@ const mlb = {
 };
 
 const nfl = {
-  regularSeasonStartDate: "20190905",
-  regularSeasonEndDate: "20191230",
-  superbowlDate: new Date(2020, 1, 2), // Feb 02 2020
+  regularSeasonStartDate: "20200910",
+  regularSeasonEndDate: "20210103",
+  superbowlDate: new Date(2021, 1, 7), // Feb 07 2021
   superbowlOffsetDate: new Date(),
   daysToMilliseconds: 3600 * 24 * 7 * 1000
 };
