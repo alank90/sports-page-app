@@ -24,18 +24,18 @@ const config = {
   // `headers` are custom headers to be sent
   headers: {
     Authorization:
-      "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA=="
+      "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA==",
   },
   // `params` are the URL parameters to be sent with the request
   // Must be a plain object or a URLSearchParams object. Set for each API call
   // below.
-  params: {}
+  params: {},
 };
 
 // Starting Vue Component. Need this so don't throw Vue error message about
 // no custom element "tab-" on first render.
 Vue.component("tab-", {
-  template: `<span></span>`
+  template: `<span></span>`,
 });
 
 // ============================================================================ //
@@ -47,7 +47,7 @@ new Vue({
     mlbComponent: mlbComponent,
     nflComponent: nflComponent,
     nbaComponent: nbaComponent,
-    helperComponent: helperComponent
+    helperComponent: helperComponent,
   },
   data() {
     return {
@@ -56,7 +56,7 @@ new Vue({
       sports_feeds_boxscores_nfl: {
         sun: null,
         mon: null,
-        thu: null
+        thu: null,
       },
       sports_feeds_boxscores_nba: null,
       baseball_playoffs: false,
@@ -65,12 +65,12 @@ new Vue({
       end_of_season: {
         mlb: false,
         nfl: false,
-        nba: false
+        nba: false,
       },
       nfl_feeds: {
         sunday_data: [],
         thurs_data: [],
-        mon_data: []
+        mon_data: [],
       },
       standings: [],
       currentTab: "",
@@ -80,22 +80,22 @@ new Vue({
       isCompleted: false,
       gameDate: date.yesterday.substr(4, 2) + "." + date.yesterday.substr(6, 2),
       loading: false,
-      errored: false
+      errored: false,
     };
   },
   computed: {
-    currentTabComponent: function() {
+    currentTabComponent: function () {
       return "tab-" + this.currentTab.toLowerCase();
-    }
+    },
   },
   methods: {
-    getSportsData: function(tab) {
+    getSportsData: function (tab) {
       // Variable declarations
       let mlbGameIDs = [];
       let nflGameIDs = {
         sunday: [],
         thursday: [],
-        monday: []
+        monday: [],
       };
       let nbaGameIDs = [];
       let url = "";
@@ -118,7 +118,7 @@ new Vue({
         this.loading = true;
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         config.params = {
-          force: true
+          force: true,
         };
         this.errored = false; // reset if true from another tab
 
@@ -153,14 +153,14 @@ new Vue({
             `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/scoreboard.json?fordate=${date.yesterday}`,
             config
           )
-          .then(response => {
+          .then((response) => {
             this.sports_feeds_data = response.data.scoreboard.gameScore;
             return this.sports_feeds_data;
           })
-          .then(response => {
+          .then((response) => {
             // Fill up array with all the game ID's for today's games that were
             // completed. This will be used to retrieve the Box Scores later
-            response.forEach(function(item, index) {
+            response.forEach(function (item, index) {
               if (item.isCompleted === "true") {
                 mlbGameIDs[index] = item.game.ID;
               }
@@ -169,20 +169,20 @@ new Vue({
             return mlbGameIDs;
           })
           // Now call getBoxScores to retrieve MLB boxscores
-          .then(async mlbGameIDs => {
+          .then(async (mlbGameIDs) => {
             const url = `https://api.mysportsfeeds.com/v1.2/pull/mlb/${seasonName}/game_boxscore.json?gameid=`;
             const params = {
               teamstats: "none",
               playerstats: "AB,H,R,HR,RBI,AVG,W,L,ERA,SV,SO,IP",
               sort: "player.position.D",
-              force: true
+              force: true,
             };
             // Check if boxscores have been retrieved on previous tab click
             this.sports_feeds_boxscores_mlb =
               this.sports_feeds_boxscores_mlb ||
               (await getBoxScores(mlbGameIDs, url, params));
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
             this.errored = true;
           })
@@ -255,12 +255,12 @@ new Vue({
         }
         // End Check for Off-season. Continue on if it is Football Season!
         // Also check if any results returned from feeds API call
-        if (nfl_feeds.sunday_data.length > 0) this.loading = true;
+        if (this.nfl_feeds.sunday_data.length > 0) this.loading = true;
 
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         // reset axios config parameters
         config.params = {
-          force: true
+          force: true,
         };
 
         // ===================== Get NFL Scores and Game Boxscores ======================= //
@@ -279,7 +279,6 @@ new Vue({
           this.nfl_playoffs = true;
         }
 
-        /* jshint ignore:start */
         // First let's get the Game and BoxScores Data
         const nflScores = async () => {
           this.nfl_feeds.sunday_data = await getScores(
@@ -296,7 +295,7 @@ new Vue({
 
           // Next we need the gameid's to retrieve the game boxscores for each day
           if (this.nfl_feeds.sunday_data != undefined) {
-            this.nfl_feeds.sunday_data.forEach(function(item, index) {
+            this.nfl_feeds.sunday_data.forEach(function (item, index) {
               if (item.isCompleted === "true") {
                 nflGameIDs.sunday[index] = item.game.ID;
               }
@@ -304,7 +303,7 @@ new Vue({
           }
 
           if (this.nfl_feeds.thurs_data != undefined) {
-            this.nfl_feeds.thurs_data.forEach(function(item, index) {
+            this.nfl_feeds.thurs_data.forEach(function (item, index) {
               if (item.isCompleted === "true") {
                 nflGameIDs.thursday[index] = item.game.ID;
               }
@@ -312,7 +311,7 @@ new Vue({
           }
 
           if (this.nfl_feeds.mon_data != undefined) {
-            this.nfl_feeds.mon_data.forEach(function(item, index) {
+            this.nfl_feeds.mon_data.forEach(function (item, index) {
               if (item.isCompleted === "true") {
                 nflGameIDs.monday[index] = item.game.ID;
               }
@@ -328,7 +327,7 @@ new Vue({
             playerstats:
               "Att,Comp,Yds,Rec,TD,Tgt,Avg,Lng,Total,Sacks,Int,Forced",
             sort: "player.position.D",
-            force: true
+            force: true,
           };
 
           // Check if boxscores have been retrieved on previous tab click for each day
@@ -347,7 +346,6 @@ new Vue({
 
           this.loading = false;
         }; /* End nflScores Async function */
-        /* jshint ignore:end */
 
         if (date.today <= seasonDates.nfl.superbowlDate) {
           nflScores(); // Always call nflScores Regular or Playoffs.
@@ -360,11 +358,11 @@ new Vue({
         // ============================================================== //
         // =================== Get NFL Standings ======================== //
         url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${date.year}-regular/division_team_standings.json`;
-        /* jshint ignore:start */
+
         leagueStandings = async () => {
           this.standings = await getStandings(url);
         };
-        /* jshint ignore:end */
+
         leagueStandings();
         // ============================================================== //
         // ================= End Get NFL Standings ====================== //
@@ -391,7 +389,7 @@ new Vue({
 
         // reset axios config parameters
         config.params = {
-          force: true
+          force: true,
         };
         // ========================================================================= //
         // ================ Get the NBA Sports Scores ============================== //
@@ -403,8 +401,9 @@ new Vue({
           date.today > `${seasonDates.nba.regularSeasonStartDate}` &&
           date.today < `${seasonDates.nba.regularSeasonEndDate}`
         ) {
-          seasonName = `${seasonDates.nba.regularSeasonYear}-${+seasonDates.nba
-            .regularSeasonYear + 1}-regular`;
+          seasonName = `${seasonDates.nba.regularSeasonYear}-${
+            +seasonDates.nba.regularSeasonYear + 1
+          }-regular`;
         } else if (
           date.yesterday > `${seasonDates.nba.playoffsBeginDate}` &&
           date.yesterday < `${seasonDates.nba.playoffsEndDate}`
@@ -423,14 +422,14 @@ new Vue({
             `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/scoreboard.json?fordate=${date.yesterday}`,
             config
           )
-          .then(response => {
+          .then((response) => {
             this.sports_feeds_data = response.data.scoreboard.gameScore;
             return this.sports_feeds_data;
           })
-          .then(response => {
+          .then((response) => {
             // Fill up array with all the game ID's for today's completed games.
             // This will be used to retrieve the Box Scores later
-            response.forEach(function(item, index) {
+            response.forEach(function (item, index) {
               if (item.isCompleted === "true") {
                 nbaGameIDs[index] = item.game.ID;
               }
@@ -439,14 +438,14 @@ new Vue({
             return nbaGameIDs;
           })
           // Now call getBoxScores to retrieve NBA boxscores
-          .then(async nbaGameIDs => {
+          .then(async (nbaGameIDs) => {
             const url = `https://api.mysportsfeeds.com/v1.2/pull/nba/${seasonName}/game_boxscore.json?gameid=`;
             const params = {
               teamstats: "none",
               playerstats: "PTS,AST,REB,3PM",
               sort: "stats.PTS.D",
               limit: 8,
-              force: true
+              force: true,
             };
             // Check if boxscores have been retrieved on previous tab click
             this.sports_feeds_boxscores_nba =
@@ -469,8 +468,9 @@ new Vue({
               date.yesterday > `${seasonDates.nba.regularSeasonStartDate}` &&
               date.yesterday < `${seasonDates.nba.regularSeasonEndDate}`
             ) {
-              seasonName = `${seasonDates.nba.regularSeasonYear}-${+seasonDates
-                .nba.regularSeasonYear + 1}-regular`;
+              seasonName = `${seasonDates.nba.regularSeasonYear}-${
+                +seasonDates.nba.regularSeasonYear + 1
+              }-regular`;
               teamStats = `W,L,GB,Win %`;
               typeOfStandings = "division_team_standings";
             } else if (
@@ -501,14 +501,14 @@ new Vue({
             // =========================== End NBA Standings ================================= //
             // =============================================================================== //
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
             this.errored = true;
           });
         /* jshint ignore:end */
       }
-    } // ================ end getSportsData =============================== //
-  }
+    }, // ================ end getSportsData =============================== //
+  },
 });
 
 // ================================================================================================== //
