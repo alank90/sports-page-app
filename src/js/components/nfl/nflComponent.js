@@ -2,6 +2,7 @@
 /* jshint esversion:9 */
 const Vue = require("vue");
 const boxscores = require("./nflBoxScores");
+const leagueleaders = require("./nflLeagueLeaders");
 
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
@@ -10,16 +11,17 @@ const nfl = {
       "props_league_standings",
       "props_nfl_playoffs",
       "props_end_of_season",
-      "props_box_game_scores_nfl"
+      "props_box_game_scores_nfl",
     ],
-    data: function() {
+    data: function () {
       return {};
     },
     components: {
-      boxscores: boxscores
+      boxscores: boxscores,
+      leagueleaders: leagueleaders,
     },
     computed: {
-      props_League_Data_NFL_Groomed: function() {
+      props_League_Data_NFL_Groomed: function () {
         let nflDataObject = {};
 
         for (const [key, value] of Object.entries(this.props_league_data_nfl)) {
@@ -30,7 +32,7 @@ const nfl = {
 
         return nflDataObject;
       },
-      nfl_days: function() {
+      nfl_days: function () {
         days = [];
 
         for (const [key, value] of Object.entries(this.props_league_data_nfl)) {
@@ -45,25 +47,19 @@ const nfl = {
           }
         }
         return days;
-      }
+      },
     },
     methods: {
-      currentPropsBoxScoreDayOfWeekArray: function(index) {
+      currentPropsBoxScoreDayOfWeekArray: function (index) {
         return this.props_box_game_scores_nfl[
-          this.nfl_days[index]
-            .split(" ")[0]
-            .slice(0, 3)
-            .toLowerCase()
+          this.nfl_days[index].split(" ")[0].slice(0, 3).toLowerCase()
         ];
       },
       currentPropsBoxScoreDayOfWeekArrayItem(index, arrayItemIndex) {
         return this.props_box_game_scores_nfl[
-          this.nfl_days[index]
-            .split(" ")[0]
-            .slice(0, 3)
-            .toLowerCase()
+          this.nfl_days[index].split(" ")[0].slice(0, 3).toLowerCase()
         ][arrayItemIndex];
-      }
+      },
     },
     template: `
             <div class="vue-root-element">
@@ -155,6 +151,19 @@ const nfl = {
                     <!-- ============== End of Markup for Divional/Regular Season Scores =============== -->
             
                     <!-- ------------------------------------------------------------------------------------------------------ -->
+
+                <!-- =================== Markup for League Leader Stats ========================== -->
+                
+                <league-leaders></league-leaders>
+                        
+
+                <!-- ================ End of Markup for League Leader Stats ===================== -->
+
+
+
+          <!-- ---------------------------------------------------------------------------------------------------------------- -->
+
+
             
                     <!-- ============== Markup for Regular/Divisional Season Standings =============== -->
             
@@ -193,10 +202,10 @@ const nfl = {
             
                 </div> <!-- end else -->
             </div> <!-- End Vue root element -->
-            `
-  })
+            `,
+  }),
 };
 
 module.exports = {
-  nfl
+  nfl,
 };
