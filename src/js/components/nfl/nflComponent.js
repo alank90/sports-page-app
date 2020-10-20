@@ -143,11 +143,9 @@ const nfl = {
                                     </table>
                                     
                                     <!-- ======== Start BoxScores Template Markup ============== -->
-                                    <div v-if="currentPropsBoxScoreDayOfWeekArray(index)">
-                                        <box-scores :props_box_score="currentPropsBoxScoreDayOfWeekArrayItem(index, arrayItemIndex)"
+                                        <box-scores v-if="currentPropsBoxScoreDayOfWeekArray(index)" :props_box_score="currentPropsBoxScoreDayOfWeekArrayItem(index, arrayItemIndex)"
                                                     :props_gameID="arrayItem.game.ID">
                                         </box-scores>
-                                    </div>
                                     <!-- ======== End BoxScores Template markup =============== -->
                                 </div> <!-- End v-for arrayItem -->
                             </div> <!-- End row -->

@@ -1,7 +1,7 @@
 const Vue = require("vue");
 const cumulativeQBSeasonStats = require("./cumulativeQBSeasonStats");
 const cumulativeReceivingSeasonStats = require("./cumlativeReceivingSeasonStats");
-const cumulativeRushingSeasonStats = require("./cumullativeRushingSeasonStats");
+const cumulativeRushingSeasonStats = require("./cumulativeRushingSeasonStats");
 const cumulativeDefensiveSeasonStats = require("./cumulativeDefensiveSeasonStats");
 
 const { EventBus } = require("../../modules/event-bus");
