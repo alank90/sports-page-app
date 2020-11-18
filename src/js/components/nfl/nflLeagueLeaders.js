@@ -25,6 +25,7 @@ const leagueLeaders = {
     },
     mounted: async function () {
       this.qbLeaders = await getLeagueLeaders(this.fetchQbUrl, this.params);
+      console.log("qBLeaders is %s", this.qbLeaders);
     },
   }),
 };
