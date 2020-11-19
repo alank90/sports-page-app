@@ -2,10 +2,8 @@
 
 /* jshint ignore:start */
 // Make function to retrieve League Leaders in a Category
-try {
-  const getLeagueLeaders = async (url, params) => {
-    let leagueLeaders = {};
 
+  const getLeagueLeaders =  (url, params) => {
     fetch(url + new URLSearchParams(params), {
       method: "get",
       headers: {
@@ -15,18 +13,17 @@ try {
     })
       .then((response) => response.json())
       .then((data) => {
-        leagueLeaders = data;
+        let leagueLeaders = data;
         console.log(
           "leagueLeaders is %s",
           leagueLeaders.cumulativeplayerstats.playerstatsentry[0].player
             .LastName
         );
+        return leagueLeaders;
       });
 
-    return leagueLeaders;
+    
   };
 
   module.exports = getLeagueLeaders;
-} catch (err) {
-  console.log(err);
-}
+
