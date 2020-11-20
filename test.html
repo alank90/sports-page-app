@@ -1,11 +1,4 @@
-// src/js/components/nflLeagueLeaders.js
-const Vue = require("vue");
-const getLeagueLeaders = require("../../modules/getLeagueLeaders");
-
-const leagueLeaders = {
-  leaders: Vue.component("league-leaders", {
-    template: `
-    <div class="container">
+<div class="container">
     <h2>League Leaders Go Here</h2>
     <div>
         <table class="table table-striped table-sm">
@@ -35,7 +28,7 @@ const leagueLeaders = {
             <tbody>
                 <div v-for="(qb, index) in qbLeaders">
                     <tr class="d-flex justify-content-around">
-                        <td class="col-3">{{qb.player.FirstName + " " + qb.player.LastName}}</td>
+                        <td class="col-3">{{qb.player.FirstName}} + {{qb.player.Lastname}}</td>
                         <td class="col-2">{{qb.stats.PassYards["#text"]}}</td>
                         <td class="col-1">{{qb.stats.PassTD["#text"]}}</td>
                         <td class="col-1">{{qb.stats.PassAttempts["#text"]}}</td>
@@ -51,28 +44,3 @@ const leagueLeaders = {
     </div>
 
 </div>
-`, // End of Template
-    data: function () {
-      return {
-        qbLeaders: {},
-        fetchQbUrl:
-          "https://api.mysportsfeeds.com/v1.2/pull/nfl/2020-2021-regular/cumulative_player_stats.json?",
-        params: {
-          teamstats: "none",
-          playerstats: "Att,Comp,Yds,Rec,TD",
-          position: "qb",
-          sort: "stats.Yds.D",
-          limit: 10,
-          force: true,
-        },
-      };
-    },
-    mounted: async function () {
-      const qbResponse = await getLeagueLeaders(this.fetchQbUrl, this.params);
-      this.qbLeaders =  qbResponse.cumulativeplayerstats.playerstatsentry;
-      console.log("qBLeaders is %s", qbResponse.cumulativeplayerstats.playerstatsentry[4].player.LastName);
-    },
-  }),
-};
-
-module.exports = { leagueLeaders };
