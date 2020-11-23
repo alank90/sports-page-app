@@ -15,6 +15,7 @@ body {
 h1 {
   color: #fff;
   font: 2.7rem "MisoRegular";
+  margin-top: 15px;
   letter-spacing: 5px;
   text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff,
     0 0 20px rgba(4, 4, 4, 0.8), 0 0 30px rgba(4, 4, 4, 0.8),
@@ -32,9 +33,22 @@ h3 {
   text-align: center;
 }
 
+/* Navbar Stylings */
+.navbar-dark .navbar-nav .active > .nav-link,
+.navbar-dark .navbar-nav > .nav-link,
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-nav .nav-link {
+  font-size: 1.1rem;
+}
+/* End Navbar */
+
 img {
   height: auto;
   max-width: 100%;
+}
+
+#sportsImages > img {
+  margin-top: 75px; /* For Main Page Images only */
 }
 
 img[src="./src/img/nyy.png"] {
@@ -305,7 +319,8 @@ div .footer a {
   width: 15%;
 }
 
-div .footer a[href="https://www.mlb.com"]:hover, div .footer a[href="https://www.nfl.com"]:hover, div .footer a[href="https://www.nba.com"]:hover {
+div .footer a[href="https://www.mlb.com"]:hover, div .footer a[href="https://www.nfl.com"]:hover, div .footer a[href="https://www.nba.com"]:hover
+{
   color: rgba(171, 200, 245, 0.5);
   font-size: 1.3rem;
 }
@@ -434,7 +449,8 @@ div .footer a img {
 }
 
 @media only screen and (max-width: 1024px) {
-  div .footer a[href="https://www.mlb.com"]:hover, div .footer a[href="https://www.nfl.com"]:hover, div .footer a[href="https://www.nba.com"]:hover {
+  div .footer a[href="https://www.mlb.com"]:hover, div .footer a[href="https://www.nfl.com"]:hover, div .footer a[href="https://www.nba.com"]:hover
+  {
     font-size: 0.75rem;
   }
 }

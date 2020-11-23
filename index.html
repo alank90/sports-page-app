@@ -1,189 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <title>Sports's Page</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <!-- ====================================================================== -->
-    <!-- ============== CSS Files Here ======================================== -->
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Libre+Baskerville"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Abril+Fatface|Bevan|Chonburi|Lora"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-    />
-    <link rel="stylesheet" href="./src/css/main.css" />
-    <link rel="stylesheet" href="./src/css/teamColors.css">
-    <link rel="icon" href="favicon.jpg" type="image/jpg">
-  </head>
+  <title>Sports's Page</title>
 
-  <body>
-    <div class="container-fluid">
-      <h1 class="text-center inset-shadow">Scores From Around The Leagues</h1>
-      <div
-        id="sportsImages"
-        class="title-images d-inline-flex justify-content-around fixed-top"
-      >
-        <img src="./src/img/mlb-sm.jpg" alt="Pitcher Throwing Ball" />
-        <img src="./src/img/nfl-sm.jpg" alt="David Tyree Superbowl Catch" />
-        <img src="./src/img/nba-sm.jpg" alt="Michael Jordan Dunking" />
-      </div>
-      <hr class="my-2" />
-      <!-- ===================================================================== -->
-      <!-- ================= Vue Main Instance ================================= -->
-      <!-- ===================================================================== -->
-      <div id="app" class="mt-xs-1" v-cloak>
-        <img v-bind:src="sport_logo_image" />
-        <h2 class="text-center">{{ currentTab }} Scores</h2>
-        <h3 class="text-center">For {{ gameDate }}</h3>
+  <!-- ====================================================================== -->
+  <!-- ============== CSS Files Here ======================================== -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Bevan|Chonburi|Lora" rel="stylesheet" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" />
+  <link rel="stylesheet" href="./src/css/main.css" />
+  <link rel="stylesheet" href="./src/css/teamColors.css">
+  <link rel="icon" href="favicon.jpg" type="image/jpg">
+</head>
 
-        <!-- Error Handling Markup for API Calls -->
-        <section v-if="errored">
-          <p>
-            We're sorry, we're not able to retrieve this information at the
-            moment, please try back later
-          </p>
-        </section>
-        <section v-else>
-          <div class="loading" v-if="loading">
-            Loading
-            <!-- below is our font awesome icon with the class “spin-it” where 
+<body>
+  <div class="container-fluid">
+    <!-- ===================================================================== -->
+    <!-- ================= Vue Main Instance ================================= -->
+    <!-- ===================================================================== -->
+    <div id="app" class="mt-xs-1" v-cloak>
+      <home></home>
+      <img v-bind:src="sport_logo_image" />
+      <h2 class="text-center">{{ currentTab }} Scores</h2>
+      <h3 class="text-center">For {{ gameDate }}</h3>
+
+      <!-- Error Handling Markup for API Calls -->
+      <section v-if="errored">
+        <p>
+          We're sorry, we're not able to retrieve this information at the
+          moment, please try back later
+        </p>
+      </section>
+      <section v-else>
+        <div class="loading" v-if="loading">
+          Loading
+          <!-- below is our font awesome icon with the class “spin-it” where 
                  we have set the infinite animation:                        -->
-            <i class="fas fa-spinner spin-it" aria-hidden="true"></i>
-          </div>
-        </section>
-        <!-- End API Error Markup -->
-
-        <div class="row">
-          <button
-            class="col-xs-3"
-            v-for="tab in tabs"
-            v-bind:key="tab"
-            v-bind:class="['tab-button', {active: currentTab === tab }]"
-            v-on:click="getSportsData( tab )"
-          >
-            {{ tab }}
-            <img v-bind:src="'./src/img/' + tab + '.png'" class="tab-image" />
-          </button>
+          <i class="fas fa-spinner spin-it" aria-hidden="true"></i>
         </div>
+      </section>
+      <!-- End API Error Markup -->
 
-        <!--  ==== v-bind:is tells us what component to use i.e. mlb-tab  
+      <div class="row">
+        <button class="col-xs-3" v-for="tab in tabs" v-bind:key="tab"
+          v-bind:class="['tab-button', {active: currentTab === tab }]" v-on:click="getSportsData( tab )">
+          {{ tab }}
+          <img v-bind:src="'./src/img/' + tab + '.png'" class="tab-image" />
+        </button>
+      </div>
+
+      <!--  ==== v-bind:is tells us what component to use i.e. mlb-tab  
                         Important. Must use kebab case for v-bind baseballData attribute
                         because html is case insensitive and we used camelCase for
                         variable names in component. <keep-alive> caches components once
                         rendered. Here it works out good.
         -->
-        <keep-alive>
-          <!-- === The Main Vue Web Component's ========= -->
-          <component
-            v-if="currentTabComponent === 'tab-mlb'"
-            v-bind:is="currentTabComponent"
-            v-bind:props_league_data="sports_feeds_data"
-            v-bind:props_league_standings="standings"
-            v-bind:props_baseball_playoffs="baseball_playoffs"
-            v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
-            v-bind:props_box_game_scores_mlb="sports_feeds_boxscores_mlb"
-            class="tab"
-          >
-          </component>
+      <keep-alive>
+        <!-- === The Main Vue Web Component's ========= -->
+        <component v-if="currentTabComponent === 'tab-mlb'" v-bind:is="currentTabComponent"
+          v-bind:props_league_data="sports_feeds_data" v-bind:props_league_standings="standings"
+          v-bind:props_baseball_playoffs="baseball_playoffs"
+          v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
+          v-bind:props_box_game_scores_mlb="sports_feeds_boxscores_mlb" class="tab">
+        </component>
 
-          <component
-            v-if="currentTabComponent === 'tab-nfl'"
-            v-bind:is="currentTabComponent"
-            v-bind:props_league_data_nfl="nfl_feeds"
-            v-bind:props_league_standings="standings"
-            v-bind:props_nfl_playoffs="nfl_playoffs"
-            v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
-            v-bind:props_box_game_scores_nfl="sports_feeds_boxscores_nfl"
-            class="tab"
-          >
-          </component>
+        <component v-if="currentTabComponent === 'tab-nfl'" v-bind:is="currentTabComponent"
+          v-bind:props_league_data_nfl="nfl_feeds" v-bind:props_league_standings="standings"
+          v-bind:props_nfl_playoffs="nfl_playoffs"
+          v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
+          v-bind:props_box_game_scores_nfl="sports_feeds_boxscores_nfl" class="tab">
+        </component>
 
-          <component
-            v-if="currentTabComponent === 'tab-nba'"
-            v-bind:is="currentTabComponent"
-            v-bind:props_league_data="sports_feeds_data"
-            v-bind:props_league_standings="standings"
-            v-bind:props_basketball_playoffs="basketball_playoffs"
-            v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
-            v-bind:props_box_game_scores_nba="sports_feeds_boxscores_nba"
-            class="tab"
-          >
-          </component>
-          <!-- === End The Main Web Component's ========= -->
-        </keep-alive>
+        <component v-if="currentTabComponent === 'tab-nba'" v-bind:is="currentTabComponent"
+          v-bind:props_league_data="sports_feeds_data" v-bind:props_league_standings="standings"
+          v-bind:props_basketball_playoffs="basketball_playoffs"
+          v-bind:props_end_of_season="end_of_season[this.currentTab.toLowerCase()]"
+          v-bind:props_box_game_scores_nba="sports_feeds_boxscores_nba" class="tab">
+        </component>
+        <!-- === End The Main Web Component's ========= -->
+      </keep-alive>
 
-        <!-- ------------------------------------------------------------------------------------------- -->
+      <!-- ------------------------------------------------------------------------------------------- -->
 
-        <!-- ======================================================== -->
-        <!-- ================ Vue backToTop Component =============== -->
-        <!-- ======================================================== -->
-        <backtotop></backtotop>
-        <!-- the backToTop component -->
+      <!-- ======================================================== -->
+      <!-- ================ Vue backToTop Component =============== -->
+      <!-- ======================================================== -->
+      <backtotop></backtotop>
+      <!-- the backToTop component -->
 
-        <!-- Instead of putting template markup in topHelperComponent template we just 
+      <!-- Instead of putting template markup in topHelperComponent template we just 
             put it here w/id reference in backToTop template in the Component file -->
-        <script type="text/x-template" id="backtotop">
+      <script type="text/x-template" id="backtotop">
           <button class="goTop" v-if="isVisible" @click="backToTop">
               <i class="fa fa-angle-up" aria-hidden="true"></i>
           </button>
         </script>
 
-        <!-- =================================================== -->
-        <!-- =========== End Vue backToTop Component =========== -->
-        <!-- =================================================== -->
-      </div>
-      <!-- --- End Main Vue #app div ---- -->
-
-      <!-- ======================================================================= -->
-      <!-- ================= End Vue Main Instance =============================== -->
-      <!-- ======================================================================= -->
-
-      <div class="footer">
-        <a href="https://www.mlb.com" target="_blank"
-          >MLB.com<img src="./src/img/mlb_logo.svg"
-        /></a>
-        <a href="https://www.nfl.com" target="_blank"
-          >NFL.com<img src="./src/img/nfl_logo.svg"
-        /></a>
-        <a href="https://www.nba.com" target="_blank"
-          >NBA.com<img src="./src/img/nba_logo.svg"
-        /></a>
-      </div>
+      <!-- =================================================== -->
+      <!-- =========== End Vue backToTop Component =========== -->
+      <!-- =================================================== -->
     </div>
-    <!-- ==============  End container ============================================= -->
+    <!-- --- End Main Vue #app div ---- -->
 
-    <!-- ====================================================================== -->
-    <!-- ===================== JavaScript Files Below This Line =============== -->
-    <!-- ====================================================================== -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
-    <script src="index.js"></script>
-  </body>
+    <!-- ======================================================================= -->
+    <!-- ================= End Vue Main Instance =============================== -->
+    <!-- ======================================================================= -->
+
+    <div class="footer">
+      <a href="https://www.mlb.com" target="_blank">MLB.com<img src="./src/img/mlb_logo.svg" /></a>
+      <a href="https://www.nfl.com" target="_blank">NFL.com<img src="./src/img/nfl_logo.svg" /></a>
+      <a href="https://www.nba.com" target="_blank">NBA.com<img src="./src/img/nba_logo.svg" /></a>
+    </div>
+  </div>
+  <!-- ==============  End container ============================================= -->
+
+  <!-- ====================================================================== -->
+  <!-- ===================== JavaScript Files Below This Line =============== -->
+  <!-- ====================================================================== -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="index.js"></script>
+</body>
+
 </html>
