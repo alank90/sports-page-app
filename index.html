@@ -25,7 +25,36 @@
     <!-- ================= Vue Main Instance ================================= -->
     <!-- ===================================================================== -->
     <div id="app" class="mt-xs-1" v-cloak>
-      <home></home>
+      <!--======================== Navbar Markup ================================ -->
+      <nav class="navbar navbar-expand-sm sticky-top navbar-dark bg-dark justify-content-between">
+        <a class="navbar-brand" href="#">Sport's Scores</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <router-link to="/" class="nav-link">Home <span class="sr-only">(current)</span></router-link>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                League Leaders
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <router-link to="/" class="dropdown-item" >MLB League Leaders</router-link>
+                <router-link to="/" class="dropdown-item">NFL League Leaders</router-link>
+                <router-link to="/" class="dropdown-item" >NBA League Leaders</router-link>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- ====================== End of Navbar Markup ============================== -->
+      <router-view></router-view>
+     
       <img v-bind:src="sport_logo_image" />
       <h2 class="text-center">{{ currentTab }} Scores</h2>
       <h3 class="text-center">For {{ gameDate }}</h3>

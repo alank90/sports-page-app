@@ -12,7 +12,6 @@ const getBoxScores = require("../js/modules/getBoxScores");
 const mlbComponent = require("./components/mlb/mlbComponent");
 const nflComponent = require("./components/nfl/nflComponent");
 const nbaComponent = require("./components/nba/nbaComponent");
-const homeComponent = require("./components/homeComponent");
 const router = require("../router/index.js");
 
 
@@ -41,8 +40,6 @@ Vue.component("tab-", {
   template: `<span></span>`,
 });
 
-// Define Vue component home. 
-
 // ============================================================================ //
 // ========================== Vue Instance Here =============================== //
 // ============================================================================ //
@@ -50,7 +47,6 @@ new Vue({
   el: "#app",
   router,
   components: {
-    homeComponent: homeComponent,
     mlbComponent: mlbComponent,
     nflComponent: nflComponent,
     nbaComponent: nbaComponent,
