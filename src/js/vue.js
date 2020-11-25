@@ -258,7 +258,8 @@ new Vue({
         }
         // End Check for Off-season. Continue on if it is Football Season!
         // Also check if any results returned from feeds API call
-        if (this.nfl_feeds.sunday_data.length > 0) this.loading = true;
+        //if (this.nfl_feeds.sunday_data.length > 0) this.loading = true;
+        this.loading = true;
 
         this.sport_logo_image = "./src/img/" + this.currentTab + ".png";
         // reset axios config parameters
