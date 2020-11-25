@@ -44,18 +44,20 @@
                 League Leaders
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <router-link to="/" class="dropdown-item" >MLB League Leaders</router-link>
-                <router-link to="/" class="dropdown-item">NFL League Leaders</router-link>
-                <router-link to="/" class="dropdown-item" >NBA League Leaders</router-link>
+                <router-link to="/mlbleagueleaders" class="dropdown-item">MLB League Leaders</router-link>
+                <router-link to="/nflleagueleaders" class="dropdown-item">NFL League Leaders</router-link>
+                <router-link to="/" class="dropdown-item">NBA League Leaders</router-link>
               </div>
             </li>
           </ul>
         </div>
       </nav>
       <!-- ====================== End of Navbar Markup ============================== -->
+
+      <!-- =============== route outlet ============================================= -->
+      <!-- component matched by the route will render here ========================== -->
       <router-view></router-view>
-           
-      
+      <!-- =============== End route outlet ========================================= -->
 
       <!-- ------------------------------------------------------------------------------------------- -->
 

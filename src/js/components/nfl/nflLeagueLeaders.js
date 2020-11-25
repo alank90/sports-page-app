@@ -2,9 +2,8 @@
 const Vue = require("vue");
 const getLeagueLeaders = require("../../modules/getLeagueLeaders");
 
-const leagueLeaders = {
-  leaders: Vue.component("league-leaders", {
-    template: `
+const nflLeagueLeaders = Vue.component("nflleagueleaders", {
+  template: `
     <div class="container">
     <h2>League Leaders Go Here</h2>
     <div>
@@ -52,27 +51,29 @@ const leagueLeaders = {
 
 </div>
 `, // End of Template
-    data: function () {
-      return {
-        qbLeaders: {},
-        fetchQbUrl:
-          "https://api.mysportsfeeds.com/v1.2/pull/nfl/2020-2021-regular/cumulative_player_stats.json?",
-        params: {
-          teamstats: "none",
-          playerstats: "Att,Comp,Yds,Rec,TD",
-          position: "qb",
-          sort: "stats.Yds.D",
-          limit: 10,
-          force: true,
-        },
-      };
-    },
-    mounted: async function () {
-      const qbResponse = await getLeagueLeaders(this.fetchQbUrl, this.params);
-      this.qbLeaders =  qbResponse.cumulativeplayerstats.playerstatsentry;
-      console.log("qBLeaders is %s", qbResponse.cumulativeplayerstats.playerstatsentry[4].player.LastName);
-    },
-  }),
-};
+  data: function () {
+    return {
+      qbLeaders: {},
+      fetchQbUrl:
+        "https://api.mysportsfeeds.com/v1.2/pull/nfl/2020-2021-regular/cumulative_player_stats.json?",
+      params: {
+        teamstats: "none",
+        playerstats: "Att,Comp,Yds,Rec,TD",
+        position: "qb",
+        sort: "stats.Yds.D",
+        limit: 10,
+        force: true,
+      },
+    };
+  },
+  mounted: async function () {
+    const qbResponse = await getLeagueLeaders(this.fetchQbUrl, this.params);
+    this.qbLeaders = qbResponse.cumulativeplayerstats.playerstatsentry;
+    console.log(
+      "qBLeaders is %s",
+      qbResponse.cumulativeplayerstats.playerstatsentry[4].player.LastName
+    );
+  },
+});
 
-module.exports = { leagueLeaders };
+module.exports = nflLeagueLeaders;
