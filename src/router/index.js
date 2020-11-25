@@ -25,11 +25,7 @@ const routes = [
     path: "/nflleagueleaders",
     name: "nflLeagueLeaders",
     component: nflLeagueLeaders,
-  },
-  {
-    path: "/*",
-    redirect: "/",
-  },
+  }
 ];
 
 const router = new VueRouter({
