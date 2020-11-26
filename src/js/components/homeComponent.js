@@ -78,8 +78,7 @@ const Home = Vue.component("home", {
 
 <!-- === End The Main Web Component's ========= -->
 
-    
-   `,
+`, // End of Template
    
 });
 

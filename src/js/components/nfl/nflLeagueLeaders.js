@@ -22,7 +22,10 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
   </section>
   <!-- End API Error Markup -->
   <section v-else>
-    <h2>League Leaders Go Here</h2>
+    <h1>NFL League Leaders</h1>
+    <hr>
+    <h2> Offensive </h2>
+    <h3> Top Quarterback's by Yardage </h3>
     <div>
       <table class="table table-striped table-sm">
         <thead>
@@ -30,7 +33,7 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
             <th scope="col" class="col-3">Player</th>
             <th scope="col" class="col-2">Pass Yds</th>
             <th scope="col" class="col-1">Td's</th>
-            <th scope="col" class="col-1">Pass Attempts</th>
+            <th scope="col" class="col-1">Pass Atts</th>
             <th scope="col" class="col-1">Pass Comp</th>
             <th scope="col" class="col-1">Int</th>
             <th scope="col" class="col-1">Rush Yds</th>
@@ -65,28 +68,51 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
   data: function () {
     return {
       qbLeaders: {},
-      fetchQbUrl:
+      fetchBaseUrl:
         "https://api.mysportsfeeds.com/v1.2/pull/nfl/2020-2021-regular/cumulative_player_stats.json?",
-      params: {
-        teamstats: "none",
-        playerstats: "Att,Comp,Yds,Rec,TD",
-        position: "qb",
-        sort: "stats.Yds.D",
-        limit: 10,
-        force: true,
-      },
+      params: [
+        {
+          teamstats: "none",
+          playerstats: "Att,Comp,Yds,Rec,TD",
+          position: "qb",
+          sort: "stats.Yds.D",
+          limit: 10,
+          force: true,
+        },
+        {
+          teamstats: "none",
+          playerstats: "Yds,Avg,TD,Rec,Yds,TD",
+          position: "rb",
+          sort: "stats.Yds.D",
+          limit: 10,
+          force: true,
+        },
+        {
+          teamstats: "none",
+          playerstats: "Rec,Yds,Avg,TD,Tgt,Lng",
+          position: "wr",
+          sort: "stats.Rec.D",
+          limit: 10,
+          force: true,
+        },
+      ],
       errored: false,
       loading: true,
     };
   },
   mounted: async function () {
-    const qbResponse = await getLeagueLeaders(this.fetchQbUrl, this.params);
-    this.qbLeaders = qbResponse.cumulativeplayerstats.playerstatsentry;
+    const leagueLeadersResponseArray = await getLeagueLeaders(
+      this.fetchBaseUrl,
+      this.params
+    );
+    this.qbLeaders =
+      leagueLeadersResponseArray.cumulativeplayerstats.playerstatsentry;
 
     this.loading = false;
     console.log(
-      "qBLeaders is %s",
-      qbResponse.cumulativeplayerstats.playerstatsentry[4].player.LastName
+      "LeagueLeadersArray is %s",
+      leagueLeadersResponseArray.cumulativeplayerstats.playerstatsentry[4]
+        .player.LastName
     );
   },
 });
