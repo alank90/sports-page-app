@@ -63,8 +63,8 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
       </table>
     </div>
   </section>
-  </keep-alive>
-</div>
+ 
+</div> <!-- ======= End .container ======= -->
 
 `, // End of Template
   data: function () {
