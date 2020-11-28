@@ -14,7 +14,6 @@ const nflComponent = require("./components/nfl/nflComponent");
 const nbaComponent = require("./components/nba/nbaComponent");
 const router = require("../router/index.js");
 
-
 Vue.config.productionTip = false;
 
 // By defining the EventBus globally you avoid having to import the

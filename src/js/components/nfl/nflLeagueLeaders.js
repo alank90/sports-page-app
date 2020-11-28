@@ -21,6 +21,7 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
     </div>
   </section>
   <!-- End API Error Markup -->
+  
   <section v-else>
     <h1>NFL League Leaders</h1>
     <hr>
@@ -43,7 +44,7 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
         </thead>
 
         <tbody>
-          <div v-for="(qb, index) in qbLeaders">
+          <div v-for="(qb, index) in qbLeaders.cumulativeplayerstats.playerstatsentry">
             <tr class="d-flex justify-content-around">
               <td class="col-3">
                 {{qb.player.FirstName + " " + qb.player.LastName}}
@@ -62,12 +63,15 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
       </table>
     </div>
   </section>
+  </keep-alive>
 </div>
 
 `, // End of Template
   data: function () {
     return {
       qbLeaders: {},
+      rbLeaders: {},
+      wrLeaders: {},
       fetchBaseUrl:
         "https://api.mysportsfeeds.com/v1.2/pull/nfl/2020-2021-regular/cumulative_player_stats.json?",
       params: [
@@ -105,15 +109,12 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
       this.fetchBaseUrl,
       this.params
     );
-    this.qbLeaders =
-      leagueLeadersResponseArray.cumulativeplayerstats.playerstatsentry;
+    // Assign Vue data objects to returned responses
+    this.qbLeaders = leagueLeadersResponseArray[0]; // fetch array request element zero was the qb's
+    this.rbLeaders = leagueLeadersResponseArray[1];
+    this.wrLeaders = leagueLeadersResponseArray[2];
 
     this.loading = false;
-    console.log(
-      "LeagueLeadersArray is %s",
-      leagueLeadersResponseArray.cumulativeplayerstats.playerstatsentry[4]
-        .player.LastName
-    );
   },
 });
 

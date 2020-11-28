@@ -8,23 +8,21 @@ const getLeagueLeaders = (url, params) => {
   let queryURLs = [];
 
   params.forEach((param) => {
-    queryURLs.push(`fetch(${url}${new URLSearchParams(param)}, {
-      method: "get",
-      headers: {
-        Authorization:
-          "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA==",
-      }
-    })`);
+    queryURLs.push(
+      fetch(`${url}${new URLSearchParams(param)}`, {
+        method: "get",
+        headers: {
+          Authorization:
+            "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA==",
+        },
+      }).then((res) => res.json())
+    );
   });
-  console.log("Query params array is %s", queryURLs[1]);
 
-  return fetch(url + new URLSearchParams(params[0]), {
-    method: "get",
-    headers: {
-      Authorization:
-        "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA==",
-    },
-  }).then((response) => response.json());
+  // Return array of fetch() Promises to be fulfilled
+  return Promise.all(queryURLs).catch((err) => {
+    console.error("There was problem retrieving data.", err);
+  });
 };
 
 module.exports = getLeagueLeaders;
