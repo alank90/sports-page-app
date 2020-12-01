@@ -25,6 +25,9 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
   <section v-else>
     <h1>NFL League Leaders</h1>
     <hr>
+
+    <!-- ================= Offensive Template ============================================== -------->
+    <!-- =========== Quarterbacks Markup ======================== -->
     <h2> Offensive </h2>
     <h3> Top Quarterback's by Yardage </h3>
     <div>
@@ -62,6 +65,93 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
         </tbody>
       </table>
     </div>
+    <!-- =========== End Quarterbackup Markup======================== -->
+
+    <!-- =========== Running Backs Markup =========================== -->
+    <h3> Top Runningback's by Yardage </h3>
+    <div>
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr class="d-flex">
+            <th scope="col" class="col-3">Player</th>
+            <th scope="col" class="col-2">Rushing Yds</th>
+            <th scope="col" class="col-1">Rush Td's</th>
+            <th scope="col" class="col-1">Rush Avg</th>
+            <th scope="col" class="col-1">Rush Atts</th>
+            <th scope="col" class="col-1">Recptns</th>
+            <th scope="col" class="col-1">Rec Yds</th>
+            <th scope="col" class="col-1">Rush 20+</th>
+            <th scope="col" class="col-1">Rushing Yds Long</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <div v-for="(rb, index) in rbLeaders.cumulativeplayerstats.playerstatsentry">
+            <tr class="d-flex justify-content-around">
+              <td class="col-3">
+                {{rb.player.FirstName + " " + rb.player.LastName}}
+              </td>
+              <td class="col-2">{{rb.stats.RushYards["#text"]}}</td>
+              <td class="col-1">{{rb.stats.RushTD["#text"]}}</td>
+              <td class="col-1">{{rb.stats.RushAverage["#text"]}}</td>
+              <td class="col-1">{{rb.stats.RushAttempts["#text"]}}</td>
+              <td class="col-1">{{rb.stats.Receptions["#text"]}}</td>
+              <td class="col-1">{{rb.stats.RecYards["#text"]}}</td>
+              <td class="col-1">{{rb.stats.Rush20Plus["#text"]}}</td>
+              <td class="col-1">{{rb.stats.RushLng["#text"]}}</td>
+            </tr>
+          </div>
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <!-- =========== End Running Backs Markup ======================= -->
+
+    <!-- =========== Receivers Markup =============================== -->
+    <h3>Top Wide Receivers by Receptions</h3>
+    <div>
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr class="d-flex">
+            <th scope="col" class="col-3">Player</th>
+            <th scope="col" class="col-2">Pass Catches</th>
+            <th scope="col" class="col-1">Rec Yardage</th>
+            <th scope="col" class="col-1">Rec Avg</th>
+            <th scope="col" class="col-1">Rec TD's</th>
+            <th scope="col" class="col-1">Rec Long</th>
+            <th scope="col" class="col-1">Rec 20+</th>
+            <th scope="col" class="col-1">Rec 40+</th>
+            <th scope="col" class="col-1">Targets</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <div v-for="(wr, index) in wrLeaders.cumulativeplayerstats.playerstatsentry">
+            <tr class="d-flex justify-content-around">
+              <td class="col-3">
+                {{wr.player.FirstName + " " + wr.player.LastName}}
+              </td>
+              <td class="col-2">{{wr.stats.Receptions["#text"]}}</td>
+              <td class="col-1">{{wr.stats.RecYards["#text"]}}</td>
+              <td class="col-1">{{wr.stats.RecAverage["#text"]}}</td>
+              <td class="col-1">{{wr.stats.RecTD["#text"]}}</td>
+              <td class="col-1">{{wr.stats.RecLng["#text"]}}</td>
+              <td class="col-1">{{wr.stats.Rec20Plus["#text"]}}</td>
+              <td class="col-1">{{wr.stats.Rec40Plus["#text"]}}</td>
+              <td class="col-1">{{wr.stats.Targets["#text"]}}</td>
+            </tr>
+          </div>
+        </tbody>
+      </table>
+    </div>
+    <!-- =========== End Receivers Markup =========================== -->
+
+
+
+    <!-- ============ End Offensive Template ========================================== -------->
+
   </section>
  
 </div> <!-- ======= End .container ======= -->
@@ -85,7 +175,7 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
         },
         {
           teamstats: "none",
-          playerstats: "Yds,Avg,TD,Rec,Yds,TD",
+          playerstats: "Att,Comp,Yds,Avg,Rec,20+,Lng,TD",
           position: "rb",
           sort: "stats.Yds.D",
           limit: 10,
@@ -93,7 +183,7 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
         },
         {
           teamstats: "none",
-          playerstats: "Rec,Yds,Avg,TD,Tgt,Lng",
+          playerstats: "Rec,Yds,Avg,TD,Tgt,40+,20+,Lng",
           position: "wr",
           sort: "stats.Rec.D",
           limit: 10,
