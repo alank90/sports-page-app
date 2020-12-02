@@ -148,11 +148,55 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
     </div>
     <!-- =========== End Receivers Markup =========================== -->
 
-
-
     <!-- ============ End Offensive Template ========================================== -------->
 
   </section>
+
+  <!-- ================= Defensive Template ============================================== -------->
+  <!-- =========== Defensive Markup =============================== -->
+  
+     <h3>Top Defensive Players by Tackles,Sack, and Interceptions</h3>
+      <h4>Tackles</h4>
+    <div>
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr class="d-flex">
+            <th scope="col" class="col-3">Player</th>
+            <th scope="col" class="col-2">Pass Catches</th>
+            <th scope="col" class="col-1">Rec Yardage</th>
+            <th scope="col" class="col-1">Rec Avg</th>
+            <th scope="col" class="col-1">Rec TD's</th>
+            <th scope="col" class="col-1">Rec Long</th>
+            <th scope="col" class="col-1">Rec 20+</th>
+            <th scope="col" class="col-1">Rec 40+</th>
+            <th scope="col" class="col-1">Targets</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <div v-for="(tackles, index) tacklesLeaders.cumulativeplayerstats.playerstatsentry">
+            <tr class="d-flex justify-content-around">
+              <td class="col-3">
+                {{tackles.player.FirstName + " " + tackles.player.LastName}}
+              </td>
+              <td class="col-2">{{tackles.stats.TackleTotal["#text"]}}</td>
+              <td class="col-1">{{tackles.stats.TackleSolo["#text"]}}</td>
+              <td class="col-1">{{tackles.stats.TackleAst["#text"]}}</td>
+              <td class="col-1">{{tackles.stats.Sacks["#text"]}}</td>
+              <td class="col-1">{{tackles.stats.Stuffs["#text"]}}</td>
+              <td class="col-1">{{tackles.stats.Forced["#text"]}}</td>
+              <td class="col-1">{{tackles.stats.Int["#text"]}}</td>
+              <td class="col-1">{{tackles.stats.IntTD["#text"]}}</td>
+            </tr>
+          </div>
+        </tbody>
+      </table>
+    </div> 
+    <!-- =========== End Defensive Markup =========================== -->
+  
+  
+  <!-- ================= End Defensive Template ========================================== -------->
+
  
 </div> <!-- ======= End .container ======= -->
 
@@ -162,6 +206,7 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
       qbLeaders: {},
       rbLeaders: {},
       wrLeaders: {},
+      tacklesLeaders: {},
       fetchBaseUrl:
         "https://api.mysportsfeeds.com/v1.2/pull/nfl/2020-2021-regular/cumulative_player_stats.json?",
       params: [
@@ -175,7 +220,7 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
         },
         {
           teamstats: "none",
-          playerstats: "Att,Comp,Yds,Avg,Rec,20+,Lng,TD",
+          playerstats: "Yds,Att,TD,Avg,20+,Lng,Rec,TD",
           position: "rb",
           sort: "stats.Yds.D",
           limit: 10,
@@ -186,6 +231,14 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
           playerstats: "Rec,Yds,Avg,TD,Tgt,40+,20+,Lng",
           position: "wr",
           sort: "stats.Rec.D",
+          limit: 10,
+          force: true,
+        },
+        {
+          teamstats: "none",
+          playerstats: "Total,Solo,Ast,Sacks,Stuffs,Forced,Int,IntTD,",
+          position: "de,dt,lb",
+          sort: "stats.Total.D",
           limit: 10,
           force: true,
         },
@@ -203,6 +256,8 @@ const nflLeagueLeaders = Vue.component("nflleagueleaders", {
     this.qbLeaders = leagueLeadersResponseArray[0]; // fetch array request element zero was the qb's
     this.rbLeaders = leagueLeadersResponseArray[1];
     this.wrLeaders = leagueLeadersResponseArray[2];
+    this.tacklesLeaders = leagueLeadersResponseArray[3];
+
 
     this.loading = false;
   },

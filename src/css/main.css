@@ -32,6 +32,14 @@ h3 {
   text-shadow: 4px 4px 4px rgba(255, 255, 255, 0.9);
   text-align: center;
 }
+h4 {
+  color: rgba(0, 0, 0, 0.8);
+  font-family: "Abril Fatface", cursive;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-shadow: 4px 4px 4px rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
 
 /* Navbar Stylings */
 .navbar-dark .navbar-nav .active > .nav-link,
