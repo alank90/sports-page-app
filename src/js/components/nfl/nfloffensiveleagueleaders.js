@@ -204,8 +204,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
     this.qbLeaders = leagueLeadersResponseArray[0]; // fetch array request element zero was the qb's
     this.rbLeaders = leagueLeadersResponseArray[1];
     this.wrLeaders = leagueLeadersResponseArray[2];
-    this.tacklesLeaders = leagueLeadersResponseArray[3];
-
+    
     this.loading = false;
   },
 });

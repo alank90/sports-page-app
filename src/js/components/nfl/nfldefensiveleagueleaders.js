@@ -4,33 +4,33 @@ const getLeagueLeaders = require("../../modules/getLeagueLeaders");
 
 const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
   template: `
-    <div class="container">
-    <!-- Error Handling Markup for API Calls -->
-    <section v-if="errored">
-      <p>
-        We're sorry, we're not able to retrieve this information at the moment,
-        please try back later
-      </p>
-    </section>
-    <section v-else-if="loading">
-      <div class="loading">
-        Loading Data. Please Wait ....
-        <!-- below is our font awesome icon with the class “spin-it” where 
-               we have set the infinite animation:                        -->
-        <i class="fas fa-spinner spin-it" aria-hidden="true"></i>
-      </div>
-    </section>
-    <!-- End API Error Markup -->
-    
-    <section v-else>
+  <div class="container">
+  <!-- Error Handling Markup for API Calls -->
+  <section v-if="errored">
+    <p>
+      We're sorry, we're not able to retrieve this information at the moment,
+      please try back later
+    </p>
+  </section>
+  <section v-else-if="loading">
+    <div class="loading">
+      Loading Data. Please Wait ....
+      <!-- below is our font awesome icon with the class “spin-it” where 
+             we have set the infinite animation:                        -->
+      <i class="fas fa-spinner spin-it" aria-hidden="true"></i>
+    </div>
+  </section>
+  <!-- End API Error Markup -->
+
+  <section v-else>
     <h1>NFL League Leaders</h1>
-    <hr>
+    <hr />
 
     <!-- ================= Defensive Template ============================================== -------->
-  <!-- =========== Defensive Markup =============================== -->
-  
-     <h3>Top Defensive Players by Tackles,Sack, and Interceptions</h3>
-      <h4>Tackles</h4>
+    <!-- =========== Defensive Markup =============================== -->
+
+    <h3>Top Defensive Players by Tackles,Sack, and Interceptions</h3>
+    <h4>Tackles</h4>
     <div>
       <table class="table table-striped table-sm">
         <thead>
@@ -48,7 +48,9 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
         </thead>
 
         <tbody>
-          <div v-for="(tackles, index) tacklesLeaders.cumulativeplayerstats.playerstatsentry">
+          <div
+            v-for="(tackles, index) tacklesLeaders.cumulativeplayerstats.playerstatsentry"
+          >
             <tr class="d-flex justify-content-around">
               <td class="col-3">
                 {{tackles.player.FirstName + " " + tackles.player.LastName}}
@@ -65,13 +67,14 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
           </div>
         </tbody>
       </table>
-    </div> 
+    </div>
     <!-- =========== End Defensive Markup =========================== -->
   </section>
-  
-  <!-- ================= End Defensive Template ========================================== -------->
 
-    </div> <!-- ======= End .container ======= -->
+  <!-- ================= End Defensive Template ========================================== -------->
+</div>
+<!-- ======= End .container ======= -->
+
     `, // End of Template
   data: function () {
     return {
