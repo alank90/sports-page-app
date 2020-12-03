@@ -2,7 +2,7 @@
 /* jshint esversion:9 */
 const Vue = require("vue");
 const boxscores = require("./nflBoxScores");
-const leagueleaders = require("./nflLeagueLeaders");
+const leagueleaders = require("./nfloffensiveleagueleaders");
 
 const nfl = {
   nflComponent: Vue.component("tab-nfl", {
