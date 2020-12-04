@@ -31,26 +31,24 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
 
     <h3>Top Defensive Players by Tackles,Sack, and Interceptions</h3>
     <h4>Tackles</h4>
+    
     <div>
       <table class="table table-striped table-sm">
         <thead>
           <tr class="d-flex">
             <th scope="col" class="col-3">Player</th>
-            <th scope="col" class="col-2">Pass Catches</th>
-            <th scope="col" class="col-1">Rec Yardage</th>
-            <th scope="col" class="col-1">Rec Avg</th>
-            <th scope="col" class="col-1">Rec TD's</th>
-            <th scope="col" class="col-1">Rec Long</th>
-            <th scope="col" class="col-1">Rec 20+</th>
-            <th scope="col" class="col-1">Rec 40+</th>
-            <th scope="col" class="col-1">Targets</th>
+            <th scope="col" class="col-2">Tackles</th>
+            <th scope="col" class="col-1">Tackles Solo</th>
+            <th scope="col" class="col-1">Tackles Asst</th>
+            <th scope="col" class="col-1">Sacks</th>
+            <th scope="col" class="col-1">Stuffs</th>
+            <th scope="col" class="col-1">Forced Fumbles</th>
+            <th scope="col" class="col-2">Int</th>
           </tr>
         </thead>
 
         <tbody>
-          <div
-            v-for="(tackles, index) tacklesLeaders.cumulativeplayerstats.playerstatsentry"
-          >
+          <div v-for="(tackles, index) in tacklesLeaders.cumulativeplayerstats.playerstatsentry">
             <tr class="d-flex justify-content-around">
               <td class="col-3">
                 {{tackles.player.FirstName + " " + tackles.player.LastName}}
@@ -60,9 +58,8 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
               <td class="col-1">{{tackles.stats.TackleAst["#text"]}}</td>
               <td class="col-1">{{tackles.stats.Sacks["#text"]}}</td>
               <td class="col-1">{{tackles.stats.Stuffs["#text"]}}</td>
-              <td class="col-1">{{tackles.stats.Forced["#text"]}}</td>
-              <td class="col-1">{{tackles.stats.Int["#text"]}}</td>
-              <td class="col-1">{{tackles.stats.IntTD["#text"]}}</td>
+              <td class="col-1">{{tackles.stats.FumForced["#text"]}}</td>
+              <td class="col-2">{{tackles.stats.Interceptions["#text"]}}</td>
             </tr>
           </div>
         </tbody>
@@ -75,7 +72,7 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
 </div>
 <!-- ======= End .container ======= -->
 
-    `, // End of Template
+`, // End of Template
   data: function () {
     return {
       tacklesLeaders: {},
@@ -84,16 +81,7 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
       params: [
         {
           teamstats: "none",
-          playerstats: "Att,Comp,Yds,Rec,TD",
-          position: "qb",
-          sort: "stats.Yds.D",
-          limit: 10,
-          force: true,
-        },
-        ,
-        {
-          teamstats: "none",
-          playerstats: "Total,Solo,Ast,Sacks,Stuffs,Forced,Int,IntTD,",
+          playerstats: "Total,Solo,Ast,Sacks,Stuffs,Forced,Int",
           position: "de,dt,lb",
           sort: "stats.Total.D",
           limit: 10,
@@ -103,6 +91,16 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
       errored: false,
       loading: true,
     };
+  },
+  mounted: async function () {
+    const leagueLeadersResponseArray = await getLeagueLeaders(
+      this.fetchBaseUrl,
+      this.params
+    );
+    // Assign Vue data objects to returned responses
+    this.tacklesLeaders = leagueLeadersResponseArray[0]; // fetch array request element zero was the qb's
+    
+    this.loading = false;
   },
 });
 

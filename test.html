@@ -30,21 +30,18 @@
         <thead>
           <tr class="d-flex">
             <th scope="col" class="col-3">Player</th>
-            <th scope="col" class="col-2">Pass Catches</th>
-            <th scope="col" class="col-1">Rec Yardage</th>
-            <th scope="col" class="col-1">Rec Avg</th>
-            <th scope="col" class="col-1">Rec TD's</th>
-            <th scope="col" class="col-1">Rec Long</th>
-            <th scope="col" class="col-1">Rec 20+</th>
-            <th scope="col" class="col-1">Rec 40+</th>
-            <th scope="col" class="col-1">Targets</th>
+            <th scope="col" class="col-2">Tackles</th>
+            <th scope="col" class="col-1">Tackles Solo</th>
+            <th scope="col" class="col-1">Tackles Asst</th>
+            <th scope="col" class="col-1">Sacks</th>
+            <th scope="col" class="col-1">Stuffs</th>
+            <th scope="col" class="col-1">Forced Fumbles</th>
+            <th scope="col" class="col-2">Int</th>
           </tr>
         </thead>
 
         <tbody>
-          <div
-            v-for="(tackles, index) tacklesLeaders.cumulativeplayerstats.playerstatsentry"
-          >
+          <div v-for="(tackles, index) tacklesLeaders.cumulativeplayerstats.playerstatsentry">
             <tr class="d-flex justify-content-around">
               <td class="col-3">
                 {{tackles.player.FirstName + " " + tackles.player.LastName}}
@@ -55,8 +52,7 @@
               <td class="col-1">{{tackles.stats.Sacks["#text"]}}</td>
               <td class="col-1">{{tackles.stats.Stuffs["#text"]}}</td>
               <td class="col-1">{{tackles.stats.Forced["#text"]}}</td>
-              <td class="col-1">{{tackles.stats.Int["#text"]}}</td>
-              <td class="col-1">{{tackles.stats.IntTD["#text"]}}</td>
+              <td class="col-2">{{tackles.stats.Int["#text"]}}</td>
             </tr>
           </div>
         </tbody>

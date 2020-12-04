@@ -4,7 +4,7 @@ const getLeagueLeaders = require("../../modules/getLeagueLeaders");
 
 const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
   template: `
-  <div class="container">
+  <div class="container" id="leagueleaders">
   <!-- Error Handling Markup for API Calls -->
   <section v-if="errored">
     <p>
@@ -50,7 +50,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
           <div v-for="(qb, index) in qbLeaders.cumulativeplayerstats.playerstatsentry">
             <tr class="d-flex justify-content-around">
               <td class="col-3">
-                {{qb.player.FirstName + " " + qb.player.LastName}}
+                {{qb.player.FirstName + " " + qb.player.LastName + " (" + qb.team.Abbreviation + ")"}}
               </td>
               <td class="col-2">{{qb.stats.PassYards["#text"]}}</td>
               <td class="col-1">{{qb.stats.PassTD["#text"]}}</td>
@@ -88,7 +88,10 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
         <tbody>
           <div v-for="(rb, index) in rbLeaders.cumulativeplayerstats.playerstatsentry">
             <tr class="d-flex justify-content-around">
-              <td class="col-3">
+              <td v-if="rb.team" class="col-3">
+                {{rb.player.FirstName + " " + rb.player.LastName + " (" + rb.team.Abbreviation + ")"}}
+              </td>
+              <td v-else class="col-3">
                 {{rb.player.FirstName + " " + rb.player.LastName}}
               </td>
               <td class="col-2">{{rb.stats.RushYards["#text"]}}</td>
@@ -131,7 +134,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
           <div v-for="(wr, index) in wrLeaders.cumulativeplayerstats.playerstatsentry">
             <tr class="d-flex justify-content-around">
               <td class="col-3">
-                {{wr.player.FirstName + " " + wr.player.LastName}}
+                {{wr.player.FirstName + " " + wr.player.LastName + " (" + wr.team.Abbreviation + ")"}}
               </td>
               <td class="col-2">{{wr.stats.Receptions["#text"]}}</td>
               <td class="col-1">{{wr.stats.RecYards["#text"]}}</td>
@@ -162,7 +165,6 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
       qbLeaders: {},
       rbLeaders: {},
       wrLeaders: {},
-      tacklesLeaders: {},
       fetchBaseUrl:
         "https://api.mysportsfeeds.com/v1.2/pull/nfl/2020-2021-regular/cumulative_player_stats.json?",
       params: [
@@ -204,7 +206,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
     this.qbLeaders = leagueLeadersResponseArray[0]; // fetch array request element zero was the qb's
     this.rbLeaders = leagueLeadersResponseArray[1];
     this.wrLeaders = leagueLeadersResponseArray[2];
-    
+
     this.loading = false;
   },
 });

@@ -12,6 +12,10 @@ body {
   display: none;
 }
 
+div#leagueleaders {
+  margin-top: -20%;
+}
+
 h1 {
   color: #fff;
   font: 2.7rem "MisoRegular";
@@ -21,6 +25,7 @@ h1 {
     0 0 20px rgba(4, 4, 4, 0.8), 0 0 30px rgba(4, 4, 4, 0.8),
     0 0 40px rgba(4, 4, 4, 0.8), 0 0 50px rgba(4, 4, 4, 0.8),
     0 0 75px rgba(4, 4, 4, 0.8);
+    text-align: center;
 }
 
 h2,

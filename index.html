@@ -41,14 +41,18 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                League Leaders
+                NFL League Leaders
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <router-link to="/mlbleagueleaders" class="dropdown-item">MLB Leaders</router-link>
-                <router-link to="/nfl/offensiveleaders" class="dropdown-item">NFL Leaders</router-link>
-                <router-link to="/" class="dropdown-item">NBA Leaders</router-link>
+                <router-link to="/nfl/offensiveleaders" class="dropdown-item">Offensive Leaders</router-link>
+                <router-link to="/nfl/defensiveleaders" class="dropdown-item">Defensive Leaders</router-link>
               </div>
             </li>
+            
+            <li class="nav-item">
+              <router-link to="/mlbleagueleaders" class="nav-link">MLB Leaders <span class="sr-only">(current)</span></router-link>
+            </li>
+            
           </ul>
         </div>
       </nav>
