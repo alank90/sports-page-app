@@ -178,9 +178,9 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
         },
         {
           teamstats: "none",
-          playerstats: "Yds,Att,TD,Avg,20+,Lng,Rec,TD",
+          playerstats: "rushing.Yds,rushing.Att,rushing.Avg,rushing.20+,rushing.Lng,rushing.TD,Receiving.Rec,Receiving.Yds",
           position: "rb",
-          sort: "stats.Yds.D",
+          sort: "stats.Rushing-Yds.D",
           limit: 10,
           force: true,
         },
