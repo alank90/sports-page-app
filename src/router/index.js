@@ -7,7 +7,8 @@ const VueRouter = require("vue-router");
 const home = require("../js/components/homeComponent");
 const nfloffensiveleagueleaders = require("../js/components/nfl/nfloffensiveleagueleaders");
 const nfldefensiveleagueleaders = require("../js/components/nfl/nfldefensiveleagueleaders");
-const mlbLeagueLeaders = require("../js/components/nfl/mlbleagueleaders");
+const mlbleagueleaders = require("../js/components/mlb/mlbleagueleaders");
+const nbaleagueleaders = require("../js/components/nba/nbaleagueleaders");
 
 Vue.use(VueRouter);
 
@@ -20,7 +21,7 @@ const routes = [
   {
     path: "/mlbleagueleaders",
     name: "mlbleagueleaders",
-    component: mlbLeagueLeaders,
+    component: mlbleagueleaders,
   },
   {
     path: "/nfl/offensiveleaders",
@@ -31,6 +32,11 @@ const routes = [
     path: "/nfl/defensiveleaders",
     name: "nfldefensiveleagueleaders",
     component: nfldefensiveleagueleaders,
+  },
+  {
+    path: "/nbaleagueleaders",
+    name: "nbaleagueleaders",
+    component: nbaleagueleaders,
   },
 ];
 

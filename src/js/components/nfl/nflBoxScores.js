@@ -13,21 +13,21 @@ const boxScoresStats = {
       cumulativeQBSeasonStats: cumulativeQBSeasonStats,
       cumulativeReceivingSeasonStats: cumulativeReceivingSeasonStats,
       cumulativeRushingSeasonStats: cumulativeRushingSeasonStats,
-      cumulativeDefensiveSeasonStats: cumulativeDefensiveSeasonStats
+      cumulativeDefensiveSeasonStats: cumulativeDefensiveSeasonStats,
     },
-    data: function() {
+    data: function () {
       return {
         playerStatsAway: this.props_box_score.data.gameboxscore.awayTeam
           .awayPlayers.playerEntry,
         offensivePlayersAway: this.props_box_score.data.gameboxscore.awayTeam.awayPlayers.playerEntry.filter(
-          offensivePlayer =>
+          (offensivePlayer) =>
             offensivePlayer.player.Position === "QB" ||
             offensivePlayer.player.Position === "WR" ||
             offensivePlayer.player.Position === "RB" ||
             offensivePlayer.player.Position === "TE"
         ),
         defensivePlayersAway: this.props_box_score.data.gameboxscore.awayTeam.awayPlayers.playerEntry.filter(
-          defensivePlayer =>
+          (defensivePlayer) =>
             defensivePlayer.player.Position === "DT" ||
             defensivePlayer.player.Position === "DE" ||
             defensivePlayer.player.Position === "LB" ||
@@ -38,14 +38,14 @@ const boxScoresStats = {
         playerStatsHome: this.props_box_score.data.gameboxscore.homeTeam
           .homePlayers.playerEntry,
         offensivePlayersHome: this.props_box_score.data.gameboxscore.homeTeam.homePlayers.playerEntry.filter(
-          offensivePlayer =>
+          (offensivePlayer) =>
             offensivePlayer.player.Position === "QB" ||
             offensivePlayer.player.Position === "WR" ||
             offensivePlayer.player.Position === "RB" ||
             offensivePlayer.player.Position === "TE"
         ),
         defensivePlayersHome: this.props_box_score.data.gameboxscore.homeTeam.homePlayers.playerEntry.filter(
-          defensivePlayer =>
+          (defensivePlayer) =>
             defensivePlayer.player.Position === "DT" ||
             defensivePlayer.player.Position === "DE" ||
             defensivePlayer.player.Position === "LB" ||
@@ -53,12 +53,12 @@ const boxScoresStats = {
             defensivePlayer.player.Position === "LS" ||
             defensivePlayer.player.Position === "CB"
         ),
-        showPlayerSeasonStats: false
+        showPlayerSeasonStats: false,
       };
     },
     computed: {
-      playerPassingStatsAway: function() {
-        return this.offensivePlayersAway.filter(playerEntry => {
+      playerPassingStatsAway: function () {
+        return this.offensivePlayersAway.filter((playerEntry) => {
           if (
             typeof playerEntry.stats.PassYards != "undefined" &&
             playerEntry.stats.PassAttempts["#text"] > "0"
@@ -67,31 +67,31 @@ const boxScoresStats = {
           }
         });
       },
-      playerReceivingStatsAway: function() {
+      playerReceivingStatsAway: function () {
         return this.offensivePlayersAway
-          .filter(playerEntry => {
+          .filter((playerEntry) => {
             if (typeof playerEntry.stats.RecYards != "undefined") {
               return playerEntry.stats.RecYards["#text"] > "0";
             }
           })
-          .sort(function(a, b) {
+          .sort(function (a, b) {
             return b.stats.Receptions["#text"] - a.stats.Receptions["#text"];
           });
       },
-      playerRushingStatsAway: function() {
+      playerRushingStatsAway: function () {
         return this.offensivePlayersAway
-          .filter(playerEntry => {
+          .filter((playerEntry) => {
             if (typeof playerEntry.stats.RushYards != "undefined") {
               return playerEntry.stats.RushYards["#text"] > "0";
             }
           })
-          .sort(function(a, b) {
+          .sort(function (a, b) {
             return b.stats.RushYards["#text"] - a.stats.RushYards["#text"];
           });
       },
-      playerDefensiveStatsAway: function() {
+      playerDefensiveStatsAway: function () {
         return this.defensivePlayersAway
-          .filter(playerEntry => {
+          .filter((playerEntry) => {
             if (typeof playerEntry.stats.TackleTotal != "undefined") {
               return (
                 playerEntry.stats.TackleTotal["#text"] > "3" ||
@@ -99,42 +99,42 @@ const boxScoresStats = {
               );
             }
           })
-          .sort(function(a, b) {
+          .sort(function (a, b) {
             return b.stats.TackleTotal["#text"] - a.stats.TackleTotal["#text"];
           });
       },
-      playerPassingStatsHome: function() {
-        return this.offensivePlayersHome.filter(playerEntry => {
+      playerPassingStatsHome: function () {
+        return this.offensivePlayersHome.filter((playerEntry) => {
           if (typeof playerEntry.stats.PassYards != "undefined") {
             return playerEntry.stats.PassYards["#text"] > "0";
           }
         });
       },
-      playerReceivingStatsHome: function() {
+      playerReceivingStatsHome: function () {
         return this.offensivePlayersHome
-          .filter(playerEntry => {
+          .filter((playerEntry) => {
             if (typeof playerEntry.stats.RecYards != "undefined") {
               return playerEntry.stats.RecYards["#text"] > "0";
             }
           })
-          .sort(function(a, b) {
+          .sort(function (a, b) {
             return b.stats.Receptions["#text"] - a.stats.Receptions["#text"];
           });
       },
-      playerRushingStatsHome: function() {
+      playerRushingStatsHome: function () {
         return this.offensivePlayersHome
-          .filter(playerEntry => {
+          .filter((playerEntry) => {
             if (typeof playerEntry.stats.RushYards != "undefined") {
               return playerEntry.stats.RushYards["#text"] > "0";
             }
           })
-          .sort(function(a, b) {
+          .sort(function (a, b) {
             return b.stats.RushYards["#text"] - a.stats.RushYards["#text"];
           });
       },
-      playerDefensiveStatsHome: function() {
+      playerDefensiveStatsHome: function () {
         return this.defensivePlayersHome
-          .filter(playerEntry => {
+          .filter((playerEntry) => {
             if (typeof playerEntry.stats.TackleTotal != "undefined") {
               return (
                 playerEntry.stats.TackleTotal["#text"] > "3" ||
@@ -142,34 +142,34 @@ const boxScoresStats = {
               );
             }
           })
-          .sort(function(a, b) {
+          .sort(function (a, b) {
             return b.stats.TackleTotal["#text"] - a.stats.TackleTotal["#text"];
           });
       },
-      teamColorAway: function() {
+      teamColorAway: function () {
         return this.props_box_score.data.gameboxscore.game.awayTeam.Abbreviation.toLowerCase();
       },
-      teamColorHome: function() {
+      teamColorHome: function () {
         return this.props_box_score.data.gameboxscore.game.homeTeam.Abbreviation.toLowerCase();
-      }
+      },
     },
     methods: {
-      emitQBSeasonStatsClicked: function($event) {
+      emitQBSeasonStatsClicked: function ($event) {
         let playerId = $event.target.dataset.playerId;
         EventBus.$emit("showQBTemplateClicked", playerId);
       },
-      emitReceivingSeasonStatsClicked: function($event) {
+      emitReceivingSeasonStatsClicked: function ($event) {
         let playerId = $event.target.dataset.playerId;
         EventBus.$emit("showReceivingTemplateClicked", playerId);
       },
-      emitRushingSeasonStatsClicked: function($event) {
+      emitRushingSeasonStatsClicked: function ($event) {
         let playerId = $event.target.dataset.playerId;
         EventBus.$emit("showRushingTemplateClicked", playerId);
       },
-      emitDefensiveSeasonStatsClicked: function($event) {
+      emitDefensiveSeasonStatsClicked: function ($event) {
         let playerId = $event.target.dataset.playerId;
         EventBus.$emit("showDefensiveTemplateClicked", playerId);
-      }
+      },
     },
     template: `
         <div v-if="props_box_score">
@@ -485,8 +485,8 @@ const boxScoresStats = {
         </div> <!-- End Template div -->
        
                           
-        ` // End template
-  })
+        `, // End template
+  }),
 };
 
 module.export = { boxScoresStats };
