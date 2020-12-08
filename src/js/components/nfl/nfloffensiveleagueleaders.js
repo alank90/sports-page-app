@@ -34,7 +34,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
               <th scope="col" class="col-1">Int</th>
               <th scope="col" class="col-1">Rush Yds</th>
               <th scope="col" class="col-1">Rush TD's</th>
-              <th scope="col" class="col-1">Rating</th>
+              <th scope="col" class="col-1">QB Rating</th>
             </tr>
           </thead>
 
@@ -48,10 +48,10 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
                 <td class="col-1">{{qb.stats.PassTD["#text"]}}</td>
                 <td class="col-1">{{qb.stats.PassAttempts["#text"]}}</td>
                 <td class="col-1">{{qb.stats.PassCompletions["#text"]}}</td>
-                <td class="col-1">{{qb.stats.IntTD["#text"]}}</td>
+                <td class="col-1">{{qb.stats.PassInt["#text"]}}</td>
                 <td class="col-1">{{qb.stats.RushYards["#text"]}}</td>
                 <td class="col-1">{{qb.stats.RushTD["#text"]}}</td>
-                <td class="col-1">Rating here</td>
+                <td class="col-1">{{qbRating[index]}}</td>
               </tr>
             </div>
           </tbody>
@@ -180,9 +180,9 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
       params: [
         {
           teamstats: "none",
-          playerstats: "Att,Comp,Yds,Rec,TD",
+          playerstats: "Att,Comp,Yds,Rec,TD,Passing.Int",
           position: "qb",
-          sort: "stats.Yds.D",
+          sort: "stats.Passing-Yds.D",
           limit: 10,
           force: true,
         },
@@ -226,11 +226,42 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
     }
   },
   computed: {
-    quarterbackRating: function () {
-      const Att = this.qb.stats.PassAttempts["#text"];
-      return Att;
+    qbRating: function () {
+      return this.qbLeaders.cumulativeplayerstats.playerstatsentry.map(
+        function (qb) {
+          const Att = qb.stats.PassAttempts["#text"];
+          const Comp = qb.stats.PassCompletions["#text"];
+          const Yds = qb.stats.PassYards["#text"];
+          const TD = qb.stats.PassTD["#text"];
+          const Int = qb.stats.PassInt["#text"];
+
+          const a = (Comp / Att - 0.3) * 5;
+          const b = (Yds / Att - 3) * 0.25;
+          const c = (TD / Att) * 20;
+          const d = 2.375 - (Int / Att) * 25;
+
+          if (a > 2.375) a = 2.375;
+          if (b > 2.375) b = 2.375;
+          if (c > 2.375) c = 2.375;
+          if (d > 2.375) d = 2.375;
+
+          if (a < 0) a = 0;
+          if (b < 0) b = 0;
+          if (c < 0) c = 0;
+          if (d < 0) d = 0;
+
+          const qbRating = ((a + b + c + d) / 6) * 100;
+
+          return parseFloat(qbRating.toFixed(1)); // parseFloat eliminates any trailing zero's
+        }
+      );
+    },
+    qbCumStatsSortedByRating: function() {
+      // add qbRating to each array element
+
+     
     }
-  }
+  },
 });
 
 module.exports = nfloffensiveleagueleaders;
