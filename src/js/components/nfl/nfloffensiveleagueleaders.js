@@ -21,37 +21,37 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
       <!-- ================= Offensive Template ============================================== -------->
       <!-- =========== Quarterbacks Markup ======================== -->
       <h2> Offensive </h2>
-      <h3> Top Quarterback's by Yardage </h3>
+      <h3> Top Quarterback's by Pass Rating </h3>
       <div>
         <table class="table table-striped table-sm">
           <thead>
             <tr class="d-flex">
-              <th scope="col" class="col-3">Player</th>
-              <th scope="col" class="col-2">Pass Yds</th>
+              <th scope="col" class="col-2">Player</th>
+              <th scope="col" class="col-1">Pass Yds</th>
               <th scope="col" class="col-1">Td's</th>
               <th scope="col" class="col-1">Pass Atts</th>
               <th scope="col" class="col-1">Pass Comp</th>
               <th scope="col" class="col-1">Int</th>
               <th scope="col" class="col-1">Rush Yds</th>
               <th scope="col" class="col-1">Rush TD's</th>
-              <th scope="col" class="col-1">QB Rating</th>
+              <th scope="col" class="col-3">QB Rating</th>
             </tr>
           </thead>
 
           <tbody>
             <div v-for="(qb, index) in qbLeaders.cumulativeplayerstats.playerstatsentry">
               <tr class="d-flex justify-content-around">
-                <td class="col-3">
+                <td class="col-2">
                   {{qb.player.FirstName + " " + qb.player.LastName + " (" + qb.team.Abbreviation + ")"}}
                 </td>
-                <td class="col-2">{{qb.stats.PassYards["#text"]}}</td>
+                <td class="col-1">{{qb.stats.PassYards["#text"]}}</td>
                 <td class="col-1">{{qb.stats.PassTD["#text"]}}</td>
                 <td class="col-1">{{qb.stats.PassAttempts["#text"]}}</td>
                 <td class="col-1">{{qb.stats.PassCompletions["#text"]}}</td>
                 <td class="col-1">{{qb.stats.PassInt["#text"]}}</td>
                 <td class="col-1">{{qb.stats.RushYards["#text"]}}</td>
                 <td class="col-1">{{qb.stats.RushTD["#text"]}}</td>
-                <td class="col-1">{{qbRating[index]}}</td>
+                <td class="col-3">{{qbsSortedByRating[index].stats.PassRating}}</td>
               </tr>
             </div>
           </tbody>
@@ -65,7 +65,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
         <table class="table table-striped table-sm">
           <thead>
             <tr class="d-flex">
-              <th scope="col" class="col-3">Player</th>
+              <th scope="col" class="col-2">Player</th>
               <th scope="col" class="col-2">Rushing Yds</th>
               <th scope="col" class="col-1">Rush Td's</th>
               <th scope="col" class="col-1">Rush Avg</th>
@@ -73,14 +73,14 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
               <th scope="col" class="col-1">Recptns</th>
               <th scope="col" class="col-1">Rec Yds</th>
               <th scope="col" class="col-1">Rush 20+</th>
-              <th scope="col" class="col-1">Rushing Yds Long</th>
+              <th scope="col" class="col-2">Rushing Yds Long</th>
             </tr>
           </thead>
 
           <tbody>
             <div v-for="(rb, index) in rbLeaders.cumulativeplayerstats.playerstatsentry">
               <tr class="d-flex justify-content-around">
-                <td v-if="rb.team" class="col-3">
+                <td v-if="rb.team" class="col-2">
                   {{rb.player.FirstName + " " + rb.player.LastName + " (" + rb.team.Abbreviation + ")"}}
                 </td>
                 <td v-else class="col-3">
@@ -93,7 +93,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
                 <td class="col-1">{{rb.stats.Receptions["#text"]}}</td>
                 <td class="col-1">{{rb.stats.RecYards["#text"]}}</td>
                 <td class="col-1">{{rb.stats.Rush20Plus["#text"]}}</td>
-                <td class="col-1">{{rb.stats.RushLng["#text"]}}</td>
+                <td class="col-2">{{rb.stats.RushLng["#text"]}}</td>
               </tr>
             </div>
           </tbody>
@@ -110,9 +110,9 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
         <table class="table table-striped table-sm">
           <thead>
             <tr class="d-flex">
-              <th scope="col" class="col-3">Player</th>
+              <th scope="col" class="col-2">Player</th>
               <th scope="col" class="col-2">Pass Catches</th>
-              <th scope="col" class="col-1">Rec Yardage</th>
+              <th scope="col" class="col-2">Rec Yardage</th>
               <th scope="col" class="col-1">Rec Avg</th>
               <th scope="col" class="col-1">Rec TD's</th>
               <th scope="col" class="col-1">Rec Long</th>
@@ -125,11 +125,11 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
           <tbody>
             <div v-for="(wr, index) in wrLeaders.cumulativeplayerstats.playerstatsentry">
               <tr class="d-flex justify-content-around">
-                <td class="col-3">
+                <td class="col-2">
                   {{wr.player.FirstName + " " + wr.player.LastName + " (" + wr.team.Abbreviation + ")"}}
                 </td>
                 <td class="col-2">{{wr.stats.Receptions["#text"]}}</td>
-                <td class="col-1">{{wr.stats.RecYards["#text"]}}</td>
+                <td class="col-2">{{wr.stats.RecYards["#text"]}}</td>
                 <td class="col-1">{{wr.stats.RecAverage["#text"]}}</td>
                 <td class="col-1">{{wr.stats.RecTD["#text"]}}</td>
                 <td class="col-1">{{wr.stats.RecLng["#text"]}}</td>
@@ -256,11 +256,23 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
         }
       );
     },
-    qbCumStatsSortedByRating: function() {
+    qbsSortedByRating: function () {
       // add qbRating to each array element
+      let qbPasserRating = this.qbLeaders.cumulativeplayerstats
+        .playerstatsentry;
+      let temp = this.qbRating; // qbRating computed property has all the ratings info for QB's
 
-     
-    }
+      // Add the QB Rating as a property to this.qbLeaders.cumulativeplayerstats.
+      // playerstatsentry.stats object
+      qbPasserRating.forEach(function (qb, index) {
+        qb.stats.PassRating = temp[index];
+      });
+
+      // Now Let's sort qbPasserRating on the new PassRating property
+      return qbPasserRating.sort(function (a, b) {
+        return b.stats.PassRating - a.stats.PassRating;
+      });
+    },
   },
 });
 
