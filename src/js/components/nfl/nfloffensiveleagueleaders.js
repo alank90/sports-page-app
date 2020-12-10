@@ -14,7 +14,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
     </div>
     
     <!-- ============ Begin Markup for Stats Leaders ========== -->  
-    <section v-else-if="qbLeaders.cumulativeplayerstats">
+    <section id="bootstrap-overrides" v-else-if="qbLeaders.cumulativeplayerstats">
       <h1>NFL League Leaders</h1>
       <hr>
 
@@ -24,7 +24,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
       <h3> Top Quarterback's by Pass Rating </h3>
       <div>
         <table class="table table-striped table-sm">
-          <thead>
+          <thead class="thead-dark">
             <tr class="d-flex">
               <th scope="col" class="col-2">Player</th>
               <th scope="col" class="col-1">Pass Yds</th>
@@ -63,7 +63,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
       <h3> Top Runningback's by Yardage </h3>
       <div>
         <table class="table table-striped table-sm">
-          <thead>
+          <thead class="thead-dark">
             <tr class="d-flex">
               <th scope="col" class="col-2">Player</th>
               <th scope="col" class="col-2">Rushing Yds</th>
@@ -108,7 +108,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
       <h3>Top Wide Receivers by Receptions</h3>
       <div>
         <table class="table table-striped table-sm">
-          <thead>
+          <thead class="thead-dark">
             <tr class="d-flex">
               <th scope="col" class="col-2">Player</th>
               <th scope="col" class="col-2">Pass Catches</th>
@@ -257,21 +257,23 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
       );
     },
     qbsSortedByRating: function () {
-      // add qbRating to each array element
-      let qbPasserRating = this.qbLeaders.cumulativeplayerstats
-        .playerstatsentry;
-      let temp = this.qbRating; // qbRating computed property has all the ratings info for QB's
+      // Note this.qbRating is not scoped in .forEach() loop.
+      let temp = this.qbRating;
 
-      // Add the QB Rating as a property to this.qbLeaders.cumulativeplayerstats.
-      // playerstatsentry.stats object
-      qbPasserRating.forEach(function (qb, index) {
-        qb.stats.PassRating = temp[index];
+      // add qbRating computed property array element to each qbLeaders array element object.
+      this.qbLeaders.cumulativeplayerstats.playerstatsentry.forEach(function (
+        qb,
+        index
+      ) {
+        qb.stats.PassRating = temp[index]; // Create new property Passrating on qbLeaders object
       });
 
-      // Now Let's sort qbPasserRating on the new PassRating property
-      return qbPasserRating.sort(function (a, b) {
-        return b.stats.PassRating - a.stats.PassRating;
-      });
+      // Now Let's sort qbLeaders on the new PassRating property
+      return this.qbLeaders.cumulativeplayerstats.playerstatsentry.sort(
+        function (a, b) {
+          return b.stats.PassRating - a.stats.PassRating;
+        }
+      );
     },
   },
 });

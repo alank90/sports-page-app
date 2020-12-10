@@ -91,7 +91,7 @@ const nfl = {
             class="col-xs-12 col-sm-4 col-lg-3"
           >
             <table class="table table-striped table-sm">
-              <thead>
+              <thead class="thead-dark">
                 <th
                   scope="col"
                   class="box-score-status is-completed"

@@ -50,7 +50,7 @@ const mlb = {
                             <div class="row">
                                 <div class="col-xs-12 col-md-6 col-lg-4 display-boxscores" v-for="(value, index) in props_league_data" >
                                     <table class="table table-striped table-sm">
-                                        <thead>
+                                        <thead class="thead-dark">
                                             <th scope="col" class="box-score-status is-completed" v-if="value.isCompleted">Final</th>
                                         </thead>
                 
@@ -115,7 +115,7 @@ const mlb = {
                                                 <!-- ========= Player Stats ================ -->
                                                 <table @click="emitPlayerSeasonStatsClicked($event)" class="table table-striped table-bordered table-hover table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody class="table table-striped">
-                                                        <thead class="d-flex flex-wrap">
+                                                        <thead class="d-flex flex-wrap thead-dark">
                                                             <th class="col-12">
                                                                 {{ props_box_game_scores_mlb[index].data.gameboxscore.game.awayTeam.City }} {{ props_box_game_scores_mlb[index].data.gameboxscore.game.awayTeam.Name }}:
                                                             </th>
@@ -148,7 +148,7 @@ const mlb = {
                                                 <!-- ========= Pitcher Stats ============== -->
                                                 <table @click="emitPitcherSeasonStatsClicked($event)" class="table table-striped table-bordered table-hover table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
-                                                        <thead class="d-flex flex-wrap">
+                                                        <thead class="d-flex flex-wrap thead-dark">
                                                             <th class="col-4 justify-content-center" scope="col">Pitcher</th>
                                                             <th class="col-2 justify-content-center" scope="col">Innings Pitched</th>
                                                             <th class="col-2 justify-content-center" scope="col">Runs Allowed</th>
@@ -184,7 +184,7 @@ const mlb = {
                                                 <!-- ======== Home Team Boxscore =================== -->
                                                 <table @click="emitPlayerSeasonStatsClicked($event)" class="table table-striped table-bordered table-hover table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
-                                                        <thead class="d-flex flex-wrap">
+                                                        <thead class="d-flex flex-wrap thead-dark">
                                                         <th class="col-12">
                                                             {{ props_box_game_scores_mlb[index].data.gameboxscore.game.homeTeam.City }} {{ props_box_game_scores_mlb[index].data.gameboxscore.game.homeTeam.Name }}:
                                                         </th>
@@ -216,7 +216,7 @@ const mlb = {
                                                 <!-- ========= Pitcher Stats ============== -->
                                                 <table @click="emitPitcherSeasonStatsClicked($event)" class="table table-striped table-bordered table-hover table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
-                                                        <thead class="d-flex flex-wrap">
+                                                        <thead class="d-flex flex-wrap thead-dark">
                                                             <th class="col-4 justify-content-center" scope="col">Pitcher</th>
                                                             <th class="col-2 justify-content-center" scope="col">Innings Pitched</th>
                                                             <th class="col-2 justify-content-center" scope="col">Runs Allowed</th>
@@ -269,7 +269,7 @@ const mlb = {
                                                 <!-- ======== Away Team Boxscore =================== -->
                                                 <table @click="emitPlayerSeasonStatsClicked($event)" class="table table-striped table-bordered table-hover table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
-                                                        <thead class="d-flex flex-wrap">
+                                                        <thead class="d-flex flex-wrap thead-dark">
                                                         <th class="col-12">
                                                             {{ props_box_game_scores_mlb[index].data.gameboxscore.game.awayTeam.City }} {{ props_box_game_scores_mlb[index].data.gameboxscore.game.awayTeam.Name }}:
                                                         </th>
@@ -302,7 +302,7 @@ const mlb = {
                                                 <!-- ========= Pitcher Stats ============== -->
                                                 <table  @click="emitPitcherSeasonStatsClicked($event)" class="table table-striped table-bordered table-hover table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
-                                                        <thead class="d-flex flex-wrap">
+                                                        <thead class="d-flex flex-wrap thead-dark">
                                                             <th class="col-4 justify-content-center" scope="col">Pitcher</th>
                                                             <th class="col-2 justify-content-center" scope="col">Innings Pitched</th>
                                                             <th class="col-2 justify-content-center" scope="col">Runs Allowed</th>
@@ -337,7 +337,7 @@ const mlb = {
                                                 <!-- ======== Home Team Boxscore =================== -->
                                                 <table @click="emitPlayerSeasonStatsClicked($event)" class="table table-striped table-bordered  table-hover table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
-                                                        <thead class="d-flex flex-wrap">
+                                                        <thead class="d-flex flex-wrap thead-dark">
                                                             <th class="col-12">
                                                                 {{ props_box_game_scores_mlb[index].data.gameboxscore.game.homeTeam.City }} {{ props_box_game_scores_mlb[index].data.gameboxscore.game.homeTeam.Name }}:
                                                             </th>
@@ -370,7 +370,7 @@ const mlb = {
                                                 <!-- ========= Pitcher Stats ============== -->
                                                 <table @click="emitPitcherSeasonStatsClicked($event)" class="table table-striped table-bordered  table-hover table-sm collapse" v-bind:class="'multi-collapse-' + index">
                                                     <tbody>
-                                                        <thead class="d-flex flex-wrap">
+                                                        <thead class="d-flex flex-wrap thead-dark">
                                                             <th class="col-4 justify-content-center" scope="col">Pitcher</th>
                                                             <th class="col-2 justify-content-center" scope="col">Innings Pitched</th>
                                                             <th class="col-2 justify-content-center" scope="col">Runs Allowed</th>
@@ -426,7 +426,7 @@ const mlb = {
                                         {{ value['@name'] }}
                                         <div class="team" v-for="item in value.teamentry">
                                             <table class="table table-striped table-sm">
-                                                <thead>
+                                                <thead class="thead-dark">
                                                     <th scope="col"></th>
                                                     <th scope="col">{{ item.stats.Wins['@abbreviation'] }}</th>
                                                     <th scope="col">{{ item.stats.Losses['@abbreviation'] }}</th>

@@ -45,7 +45,7 @@ const nbaBoxScoresStats = {
         <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + props_index">
             <tbody>
             <!-- ---------- Away Team Boxscore ------------------------- -->
-              <thead class="d-flex flex-wrap">
+              <thead class="d-flex flex-wrap thead-dark">
                   <th class="col-12 team" :class="teamColorAway">
                     {{ props_nba_box_scores_single_game.data.gameboxscore.game.awayTeam.City }} {{ props_nba_box_scores_single_game.data.gameboxscore.game.awayTeam.Name }}
                   </th>
@@ -82,7 +82,7 @@ const nbaBoxScoresStats = {
                                     
       <table class="table table-striped table-sm collapse" v-bind:class="'multi-collapse-' + props_index">
           <tbody>
-            <thead class="d-flex flex-wrap">
+            <thead class="d-flex flex-wrap thead-dark">
               <th class="col-12 team" :class="teamColorHome">
                 {{ props_nba_box_scores_single_game.data.gameboxscore.game.homeTeam.City }} {{ props_nba_box_scores_single_game.data.gameboxscore.game.homeTeam.Name }}
               </th>

@@ -29,7 +29,7 @@ const nba = {
                         <div class="row">
                             <div class="col-xs-12 col-md-4 col-lg-3" v-for="(arrayItem, index) in props_league_data">
                                 <table class="table table-striped table-sm">
-                                    <thead>
+                                    <thead class="thead-dark">
                                         <th class="box-score-status is-completed" v-if="arrayItem.isCompleted">Final</th>
                                     </thead>
             
@@ -116,7 +116,7 @@ const nba = {
                                     <div class="team" v-for="item in value.teamentry">
                                         <!-- <p> {{ item }} </p> -->
                                         <table class="table table-striped table-sm">
-                                            <thead>
+                                            <thead class="thead-dark">
                                                 <th></th>
                                                 <th>{{ item.stats.Wins['@abbreviation'] }}</th>
                                                 <th>{{ item.stats.Losses['@abbreviation'] }}</th>

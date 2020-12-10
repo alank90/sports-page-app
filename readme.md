@@ -78,7 +78,7 @@ This runs _budo_ on the build
 
 ### Install postcss-cli globally:
 
-`npm install -g postcss-cli`
+`npm i -D postcss postcss-cli`
 
 And npx:
 

@@ -6,7 +6,7 @@ const date = require("../../modules/todayDate");
 
 const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
   template: `
-  <div class="container">
+  <div class="container" id="leagueleaders">
   
     <!-- ============== Markup for End of Season =============== -->
     <div v-if="end_of_season === true" class="container">
@@ -23,9 +23,9 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
       <h3>Top Defensive Players by Tackles,Sack, and Interceptions</h3>
       <h4>Tackles</h4>
       
-      <div>
+      <div id="bootstrap-overrides">
         <table class="table table-striped table-sm">
-          <thead>
+          <thead class="thead-dark">
             <tr class="d-flex">
               <th scope="col" class="col-3">Player</th>
               <th scope="col" class="col-2">Tackles</th>
@@ -60,7 +60,7 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
       <h4>Sacks</h4>
       <div>
         <table class="table table-striped table-sm">
-          <thead>
+          <thead class="thead-dark" >
             <tr class="d-flex">
               <th scope="col" class="col-3">Player</th>
               <th scope="col" class="col-1">Sacks</th>
@@ -99,7 +99,7 @@ const nfldefensiveleagueleaders = Vue.component("nfldefensiveleagueleaders", {
       <h4>Interceptions</h4>
       <div>
         <table class="table table-striped table-sm">
-          <thead>
+          <thead class="thead-dark">
             <tr class="d-flex">
               <th scope="col" class="col-3">Player</th>
               <th scope="col" class="col-2">Interceptions</th>

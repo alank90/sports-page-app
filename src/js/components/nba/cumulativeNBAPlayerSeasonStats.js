@@ -78,7 +78,7 @@ const nbaPlayerCumulativeStats = {
     template: `
         <div v-if="showComponent">
             <transition name="fade">
-              <thead class="d-flex flex-wrap">
+              <thead class="d-flex flex-wrap thead-dark">
                 <th class="col-12 stats-header"> Season Stats </th>
                   <th class="col-2 justify-content-center season-stats-headers" scope="col">PPG</th>
                   <th class="col-2 justify-content-center season-stats-headers" scope="col">RPG</th>
