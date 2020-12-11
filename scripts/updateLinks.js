@@ -28,7 +28,7 @@ const updateLinks = async function (file) {
     const regEx4 = /href\s*=\s*'\.\/src\//gi;
     const regEx5 = /".\/src\/img\/"/gi;
     const regEx6 = /:src="'.\/src\/img/gi;
-    const regEx7 = /^:src=(?:"(?:\\\'\.\/src\/img\/\\|\'\.\/src\/img\/)\')?$/gi;
+    const regEx7 = /:src="\\\'\.\/src\/img\/\\\'/gi;
 
     if (regEx6.test(fileContents) || regEx7.test(fileContents)) {
       console.log(
@@ -52,7 +52,7 @@ const updateLinks = async function (file) {
         .replace(regEx4, "href='./")
         .replace(regEx5, '"./img/"')
         .replace(regEx6, `:src="'./img`)
-        .replace(regEx7, `src="\\'./img/\\'`);
+        .replace(regEx7, `:src="\\'./img/\\'`);
       
       // Write updated links to ./dist/${file}
       await writeFile(`dist/${file}`, distFile, "utf8");
