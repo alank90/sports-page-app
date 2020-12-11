@@ -40,7 +40,7 @@ const Home = Vue.component("home", {
           v-bind:class="['tab-button', {active: $parent.currentTab === tab }]"
           v-on:click="$parent.getSportsData( tab )">
           {{ tab }}
-          <img v-bind:src="'./src/img/' + tab + '.png'" class="tab-image" />
+          <img :src="'./src/img/' + tab + '.png'" class="tab-image" />
       </button>
   </div>
 

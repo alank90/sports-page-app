@@ -11,13 +11,13 @@ const checkMark = "\u2714";
 const warning = "\u2757";
 
 /* jshint ignore:start */
-const updateLinks = async function(file) {
+const updateLinks = async function (file) {
   // Lets update file src and href links to reflect new /dist location
   console.log(`${file}:Checking for file links to change to /dist folder.`);
   try {
     if (file === "main.css") file = "css/main.css";
     const fileContents = await readFile(`dist/${file}`, {
-      encoding: "utf8"
+      encoding: "utf8",
     });
 
     // check and replace both src= and href= links to reflect chenge to dist/ folder
@@ -28,9 +28,12 @@ const updateLinks = async function(file) {
     const regEx4 = /href\s*=\s*'\.\/src\//gi;
     const regEx5 = /".\/src\/img\/"/gi;
     const regEx6 = /:src="'.\/src\/img/gi;
+    const regEx7 = /^:src=(?:"(?:\\\'\.\/src\/img\/\\|\'\.\/src\/img\/)\')?$/gi;
 
-    if(regEx6.test(fileContents)) {
-      console.log(`Vue Directive :src found. Will try updating link. ${warning}`);
+    if (regEx6.test(fileContents) || regEx7.test(fileContents)) {
+      console.log(
+        `Vue Directive :src found. Will try updating link. ${warning}`
+      );
     }
 
     if (
@@ -39,7 +42,8 @@ const updateLinks = async function(file) {
       regEx3.test(fileContents) ||
       regEx4.test(fileContents) ||
       regEx5.test(fileContents) ||
-      regEx6.test(fileContents)
+      regEx6.test(fileContents) ||
+      regEx7.test(fileContents)
     ) {
       let distFile = fileContents
         .replace(regEx1, 'src="./')
@@ -47,22 +51,21 @@ const updateLinks = async function(file) {
         .replace(regEx3, 'href="./')
         .replace(regEx4, "href='./")
         .replace(regEx5, '"./img/"')
-        .replace(regEx6, `:src="'./img`);
-
+        .replace(regEx6, `:src="'./img`)
+        .replace(regEx7, `src="\\'./img/\\'`);
+      
       // Write updated links to ./dist/${file}
       await writeFile(`dist/${file}`, distFile, "utf8");
 
       // Confirm Write to ${file}
-      fs.stat(`dist/${file}`, function(err, stats) {
+      fs.stat(`dist/${file}`, function (err, stats) {
         if (err) {
           console.log(`Error: ${err}`);
         } else if (stats.size === 0) {
           console.log(`Error copying ${file}!!!!!!`);
         } else {
           console.log(
-            `Successfully copied to dist\/${file}. File size is ${
-              stats.size
-            } ${checkMark}`
+            `Successfully copied to dist\/${file}. File size is ${stats.size} ${checkMark}`
           );
         }
       });
