@@ -53,7 +53,7 @@ const updateLinks = async function (file) {
         .replace(regEx5, '"./img/"')
         .replace(regEx6, `:src="'./img`)
         .replace(regEx7, `:src="\\'./img/\\'`);
-      
+
       // Write updated links to ./dist/${file}
       await writeFile(`dist/${file}`, distFile, "utf8");
 
