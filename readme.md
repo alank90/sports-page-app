@@ -32,6 +32,10 @@ Has references to `main.css` and (**importantly**) `index.js`.
 
 Pretty obvious
 
+### 200.html
+
+When a request for a URL comes in where you don’t have a static HTML page, it will reach your 200 page instead, allowing you to use your client-side router. Necessary when deploying to surge.sh.
+
 ### vue.js
 
 Inside `src/js/` is where all the JS is. That's where we include Vue.js and associated Components. We also have the /modules directory for all modules.
