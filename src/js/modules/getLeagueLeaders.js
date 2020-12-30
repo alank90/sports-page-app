@@ -14,6 +14,7 @@ const getLeagueLeaders = (url, params) => {
         headers: {
           Authorization:
             "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA==",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       }).then((res) => res.json())
     );
