@@ -22,8 +22,7 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
       <!-- =========== Quarterbacks Markup ======================== -->
       <h2> Offensive </h2>
       <h3> Top Quarterback's by Pass Rating </h3>
-      <div>
-        <table class="table table-striped table-sm">
+      <table class="table table-striped table-sm">
           <thead class="thead-dark">
             <tr class="d-flex">
               <th scope="col" class="col-2">Player</th>
@@ -55,14 +54,13 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
               </tr>
             </div>
           </tbody>
-        </table>
-      </div>
+      </table>
+      
       <!-- =========== End Quarterbackup Markup======================== -->
 
       <!-- =========== Running Backs Markup =========================== -->
       <h3> Top Runningback's by Yardage </h3>
-      <div>
-        <table class="table table-striped table-sm">
+      <table class="table table-striped table-sm">
           <thead class="thead-dark">
             <tr class="d-flex">
               <th scope="col" class="col-2">Player</th>
@@ -97,16 +95,13 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
               </tr>
             </div>
           </tbody>
-        </table>
-      </div>
-
-
+      </table>
+     
 
       <!-- =========== End Running Backs Markup ======================= -->
 
       <!-- =========== Receivers Markup =============================== -->
       <h3>Top Wide Receivers by Receptions</h3>
-      <div>
         <table class="table table-striped table-sm">
           <thead class="thead-dark">
             <tr class="d-flex">
@@ -140,7 +135,6 @@ const nfloffensiveleagueleaders = Vue.component("nfloffensiveleagueleaders", {
             </div>
           </tbody>
         </table>
-      </div>
       <!-- =========== End Receivers Markup =========================== -->
 
       <!-- ============ End Offensive Template ========================================== -------->

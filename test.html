@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <div v-if="end_of_season === true">
+        <h2>End of BasketBall Season. See Ya in November!!!</h2>
+      </div>
+      <!-- ============ Begin Markup for Stats Leaders ========== -->
+      <section v-else-if="!end_of_season">
+        <h1>NBA League Leaders</h1>
+        <hr />
+
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <h3>Top Scorers</h3>
+              <table class="table table-striped table-sm table-hover">
+                <thead class="thead-dark">
+                  <tr class="d-flex">
+                    <th scope="col" class="col-9">Player</th>
+                    <th scope="col" class="col-3">PTS</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <div
+                    v-for="(scorer, index) in scoringLeaders.cumulativeplayerstats.playerstatsentry"
+                  >
+                    <tr class="d-flex justify-content-around">
+                      <td class="col-9">
+                        {{scorer.player.FirstName + " " + scorer.player.LastName
+                        + " (" + scorer.team.Abbreviation + ")"}}
+                      </td>
+                      <td class="col-3">
+                        {{scorer.stats.PtsPerGame["#text"]}}
+                      </td>
+                    </tr>
+                  </div>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col-sm">
+              <h3>Assists Leaders</h3>
+              <table class="table table-striped table-sm table-hover">
+                <thead class="thead-dark">
+                  <tr class="d-flex">
+                    <th scope="col" class="col-9">Player</th>
+                    <th scope="col" class="col-3">Assists</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <div
+                    v-for="(scorer, index) in assistsLeaders.cumulativeplayerstats.playerstatsentry"
+                  >
+                    <tr class="d-flex justify-content-around">
+                      <td class="col-9">
+                        {{scorer.player.FirstName + " " + scorer.player.LastName
+                        + " (" + scorer.team.Abbreviation + ")"}}
+                      </td>
+                      <td class="col-3">
+                        {{scorer.stats.AstPerGame["#text"]}}
+                      </td>
+                    </tr>
+                  </div>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col-sm">
+              <h3>Top 3-Pt Shooters</h3>
+              <table class="table table-striped table-sm table-hover">
+                <thead class="thead-dark">
+                  <tr class="d-flex">
+                    <th scope="col" class="col-9">Player</th>
+                    <th scope="col" class="col-3">3-Ptrs</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <div
+                    v-for="(scorer, index) in threePtsMadeLeaders.cumulativeplayerstats.playerstatsentry"
+                  >
+                    <tr class="d-flex justify-content-around">
+                      <td class="col-9">
+                        {{scorer.player.FirstName + " " + scorer.player.LastName
+                        + " (" + scorer.team.Abbreviation + ")"}}
+                      </td>
+                      <td class="col-3">
+                        {{scorer.stats.Fg3PtMadePerGame["#text"]}}
+                      </td>
+                    </tr>
+                  </div>
+                </tbody>
+              </table>
+            </div>
+          </div>  <!-- End of row -->
+        </div>   <!-- End .container -->
+      </section>   <!-- === End v-else-if  
+
+    <!-- --------------------------------------------------------------------- -->
+      <!-- ===== Error Handling Markup for API Calls ===== -->
+      <div v-else>
+        <section v-if="errored">
+          <p>
+            We're sorry, we're not able to retrieve this information at the
+            moment, please try back later
+          </p>
+        </section>
+        <section v-else-if="loading">
+          <div class="loading">
+            Loading Data. Please Wait ....
+            <!-- below is our font awesome icon with the class “spin-it” where 
+                    we have set the infinite animation:                        -->
+            <i class="fas fa-spinner spin-it" aria-hidden="true"></i>
+          </div>
+        </section>
+        <!-- End API Error & Loading Markup -->
+      </div>
+      <!-- ============ End of Markup for Stats Leaders ========== -->
+    </div>  <!-- === End .container ===== -->
+  </body>
+</html>
