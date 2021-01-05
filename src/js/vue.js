@@ -272,12 +272,22 @@ new Vue({
           date.yesterday >= `${seasonDates.nfl.regularSeasonStartDate}` &&
           date.yesterday <= `${seasonDates.nfl.regularSeasonEndDate}`
         ) {
-          seasonName = `${date.year}-regular`;
+          if (date.month == 1 || 2) {
+            // If January or February then seasonName is lastYear's
+            seasonName = `${date.lastYear}-regular`;
+          } else {
+            seasonName = `${date.year}-regular`;
+          }
         } else if (
           date.yesterday > `${seasonDates.nfl.regularSeasonEndDate}` &&
           date.yesterday < `${seasonDates.nfl.superbowlDate}`
         ) {
-          seasonName = `${date.year}-playoff`;
+          if (date.month == 1 || 2) {
+            seasonName = `${date.lastYear}-playoff`;
+          } else {
+            seasonName = `${date.year}-playoff`;
+          }
+
           config.params = "";
           this.nfl_playoffs = true;
         }
@@ -360,7 +370,8 @@ new Vue({
 
         // ============================================================== //
         // =================== Get NFL Standings ======================== //
-        url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${date.year}-regular/division_team_standings.json`;
+
+        url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/division_team_standings.json`;
 
         leagueStandings = async () => {
           this.standings = await getStandings(url);

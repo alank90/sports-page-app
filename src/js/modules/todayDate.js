@@ -14,7 +14,7 @@ const utc = localTime + localOffset;
 // which is UTC - 4 hours
 const offset = 4;
 const hoursToMilliseconds = 3600 * 1000;
-const easternTime = utc - (hoursToMilliseconds * offset);
+const easternTime = utc - hoursToMilliseconds * offset;
 
 // convert msec value to date string
 today = new Date(easternTime);
@@ -32,10 +32,14 @@ yesterday = yesterday.substring(0, 10).replace(/-/g, "");
 today = today.toISOString();
 today = today.substring(0, 10).replace(/-/g, "");
 
-// Year 
+// Year
 let year = today;
 year = year.substring(0, 4);
+let month = today.substring(4, 6);
+let lastYear = year - 1;
 
 module.exports.yesterday = yesterday;
 module.exports.today = today;
+module.exports.month = month;
 module.exports.year = year;
+module.exports.lastYear = lastYear;
