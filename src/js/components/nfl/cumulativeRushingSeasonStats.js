@@ -7,7 +7,7 @@ const { EventBus } = require("../../modules/event-bus");
 const rushingCumulativeStats = {
   cumulativeStats: Vue.component("rushing-season-stats", {
     props: ["props_player_id"],
-    data: function() {
+    data: function () {
       return {
         rushAttempts: "",
         rushYards: "",
@@ -16,40 +16,46 @@ const rushingCumulativeStats = {
         rushLong: "",
         receptions: "",
         showComponent: false,
-        loading: false
+        loading: false,
       };
     },
-    mounted: function() {
+    mounted: function () {
       EventBus.$on(
         "showRushingTemplateClicked",
         this.onShowRushingTemplateClicked
       );
     },
     methods: {
-      onShowRushingTemplateClicked: function(playerId) {
+      onShowRushingTemplateClicked: function (playerId) {
         if (playerId === this.props_player_id) {
           this.loading = true;
           this.showComponent = !this.showComponent;
           this.retrieveRushingStats(playerId);
         }
       },
-      retrieveRushingStats: function(playerId) {
-        let seasonName = `${date.year}-regular`;
+      retrieveRushingStats: function (playerId) {
+        let seasonName = "";
+        if (date.month == 1 || 2) {
+          // If January or February then seasonName is lastYear's
+          seasonName = `${date.lastYear}-regular`;
+        } else {
+          seasonName = `${date.year}-regular`;
+        }
         const url = `https://api.mysportsfeeds.com/v1.2/pull/nfl/${seasonName}/cumulative_player_stats.json?player=`;
         const params = {
           playerstats: "Att,Pct,Yds,Int,TD,Avg,Lng,Rec",
-          force: true
+          force: true,
         };
 
         axios({
           method: "get",
           headers: {
             Authorization:
-              "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA=="
+              "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA==",
           },
           url: url + playerId,
-          params: params
-        }).then(response => {
+          params: params,
+        }).then((response) => {
           this.rushAttempts =
             response.data.cumulativeplayerstats.playerstatsentry[0].stats.RushAttempts[
               "#text"
@@ -77,7 +83,7 @@ const rushingCumulativeStats = {
 
           this.loading = false;
         });
-      }
+      },
     },
     template: `
         <div v-if="showComponent">
@@ -111,8 +117,8 @@ const rushingCumulativeStats = {
             </tr>
           </transition>
         </div>
-    `
-  })
+    `,
+  }),
 };
 
 module.export = { rushingCumulativeStats };
