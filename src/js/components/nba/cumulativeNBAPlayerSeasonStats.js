@@ -83,7 +83,7 @@ const nbaPlayerCumulativeStats = {
                   <th class="col-2 justify-content-center season-stats-headers" scope="col">PPG</th>
                   <th class="col-2 justify-content-center season-stats-headers" scope="col">RPG</th>
                   <th class="col-2 justify-content-center season-stats-headers" scope="col">APG</th>
-                  <th class="col-3 justify-content-center season-stats-headers" scope="col">FGPCT</th>
+                  <th class="col-3 justify-content-center season-stats-headers" scope="col">FG%</th>
                   <th class="col-3 justify-content-center season-stats-headers" scope="col">3PTR</th>
               </thead>
             </transition>
