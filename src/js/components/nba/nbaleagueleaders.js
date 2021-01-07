@@ -22,29 +22,38 @@ const nbaLeagueLeaders = Vue.component("nbaLeagueLeaders", {
           <table v-if="scoringLeaders.cumulativeplayerstats" class="table table-striped table-sm table-hover">
             <thead class="thead-dark">
               <tr class="d-flex">
-                <th scope="col" class="col-4">Player</th>
-                <th scope="col" class="col-2">GP</th>
-                <th scope="col" class="col-3">FGA/G</th>
-                <th scope="col" class="col-3">PTS</th>
+                <th scope="col" class="col-3">Player</th>
+                <th scope="col" class="col-1">GP</th>
+                <th scope="col" class="col-2">FGA/G</th>
+                <th scope="col" class="col-2">FGM/G</th>
+                <th scope="col" class="col-2">FG %</th>
+                <th scope="col" class="col-2">PTS</th>
               </tr>
             </thead>
 
             <tbody>
               <div
-                v-for="(scorers, index) in scoringLeaders.cumulativeplayerstats.playerstatsentry"
+                v-for="(scorers, index) in filteredStatsLeaders(scoringLeaders.cumulativeplayerstats
+                  .playerstatsentry)"
               >
                 <tr class="d-flex justify-content-around">
-                  <td class="col-4">
+                  <td class="col-3">
                     {{scorers.player.FirstName + " " + scorers.player.LastName
                     + " (" + scorers.team.Abbreviation + ")"}}
                   </td>
-                  <td class="col-2">
+                  <td class="col-1">
                     {{scorers.stats.GamesPlayed["#text"]}}
                   </td>
-                  <td class="col-3">
+                  <td class="col-2">
                     {{scorers.stats.FgAttPerGame["#text"]}}
                   </td>
-                  <td class="col-3">
+                  <td class="col-2">
+                    {{scorers.stats.FgMadePerGame["#text"]}}
+                  </td>
+                  <td class="col-2">
+                    {{scorers.stats.FgPct["#text"]}}
+                  </td>
+                  <td class="col-2">
                     {{scorers.stats.PtsPerGame["#text"]}}
                   </td>
                 </tr>
@@ -66,7 +75,8 @@ const nbaLeagueLeaders = Vue.component("nbaLeagueLeaders", {
 
             <tbody>
               <div
-                v-for="(assists, index) in assistsLeaders.cumulativeplayerstats.playerstatsentry"
+                v-for="(assists, index) in filteredStatsLeaders(assistsLeaders.cumulativeplayerstats
+                  .playerstatsentry)"
               >
                 <tr class="d-flex justify-content-around">
                   <td class="col-7">
@@ -90,26 +100,35 @@ const nbaLeagueLeaders = Vue.component("nbaLeagueLeaders", {
           <table v-if="threePtsMadeLeaders.cumulativeplayerstats" class="table table-striped table-sm table-hover">
             <thead class="thead-dark">
               <tr class="d-flex">
-                <th scope="col" class="col-7">Player</th>
+                <th scope="col" class="col-4">Player</th>
                 <th scope="col" class="col-2">GP</th>
-                <th scope="col" class="col-3">3-Ptrs</th>
+                <th scope="col" class="col-2">3's Att</th>
+                <th scope="col" class="col-2">3's Made</th>
+                <th scope="col" class="col-2">3-Pt %</th>
               </tr>
             </thead>
 
             <tbody>
               <div
-                v-for="(threePtr, index) in threePtsMadeLeaders.cumulativeplayerstats.playerstatsentry"
+                v-for="(threePtr, index) in filteredStatsLeaders(threePtsMadeLeaders.cumulativeplayerstats
+                  .playerstatsentry)"
               >
                 <tr class="d-flex justify-content-around">
-                  <td class="col-7">
+                  <td class="col-4">
                     {{threePtr.player.FirstName + " " + threePtr.player.LastName
                     + " (" + threePtr.team.Abbreviation + ")"}}
                   </td>
                   <td class="col-2">
                     {{threePtr.stats.GamesPlayed["#text"]}}
                   </td>
-                  <td class="col-3">
+                  <td class="col-2">
+                    {{threePtr.stats.Fg3PtAttPerGame["#text"]}}
+                  </td>
+                  <td class="col-2">
                     {{threePtr.stats.Fg3PtMadePerGame["#text"]}}
+                  </td>
+                  <td class="col-2">
+                    {{threePtr.stats.Fg3PtPct["#text"]}}
                   </td>
                 </tr>
               </div>
@@ -134,7 +153,8 @@ const nbaLeagueLeaders = Vue.component("nbaLeagueLeaders", {
 
             <tbody>
               <div
-                v-for="(rebounder, index) in reboundLeaders.cumulativeplayerstats.playerstatsentry"
+                v-for="(rebounder, index) in filteredStatsLeaders(reboundLeaders.cumulativeplayerstats
+                  .playerstatsentry)"
               >
                 <tr class="d-flex justify-content-around">
                   <td class="col-6">
@@ -166,7 +186,8 @@ const nbaLeagueLeaders = Vue.component("nbaLeagueLeaders", {
 
             <tbody>
               <div
-                v-for="(block, index) in blockLeaders.cumulativeplayerstats.playerstatsentry"
+                v-for="(block, index) in filteredStatsLeaders(blockLeaders.cumulativeplayerstats
+                  .playerstatsentry)"
               >
                 <tr class="d-flex justify-content-around">
                   <td class="col-6">
@@ -198,7 +219,8 @@ const nbaLeagueLeaders = Vue.component("nbaLeagueLeaders", {
 
             <tbody>
               <div
-                v-for="(steal, index) in stealLeaders.cumulativeplayerstats.playerstatsentry"
+                v-for="(steal, index) in filteredStatsLeaders(stealLeaders.cumulativeplayerstats
+                  .playerstatsentry)"
               >
                 <tr class="d-flex justify-content-around">
                   <td class="col-6">
@@ -266,44 +288,44 @@ const nbaLeagueLeaders = Vue.component("nbaLeagueLeaders", {
       params: [
         {
           teamstats: "none",
-          playerstats: "PTS,PTS/G,FGA/G",
+          playerstats: "PTS,PTS/G,FGA/G,FGM/G,FG%",
           sort: "stats.PTS/G.D",
-          limit: 10,
+          limit: 15,
           force: true,
         },
         {
           teamstats: "none",
           playerstats: "AST/G",
           sort: "stats.AST/G.D",
-          limit: 10,
+          limit: 15,
           force: true,
         },
         {
           teamstats: "none",
-          playerstats: "3PM/G",
+          playerstats: "3PM/G,3PA/G,3P%",
           sort: "stats.3PM/G.D",
-          limit: 10,
+          limit: 15,
           force: true,
         },
         {
           teamstats: "none",
           playerstats: "REB/G",
           sort: "stats.REB/G.D",
-          limit: 10,
+          limit: 15,
           force: true,
         },
         {
           teamstats: "none",
           playerstats: "BS/G",
           sort: "stats.BS/G.D",
-          limit: 10,
+          limit: 15,
           force: true,
         },
         {
           teamstats: "none",
           playerstats: "STL/G",
           sort: "stats.STL/G.D",
-          limit: 10,
+          limit: 15,
           force: true,
         },
       ],
@@ -339,7 +361,7 @@ const nbaLeagueLeaders = Vue.component("nbaLeagueLeaders", {
           this.fetchGamesPlayedUrl,
           this.nbaGamesPlayedParams
         );
-        console.log(temp);
+
         this.nbaGamesPlayed =
           temp[0].overallteamstandings.teamstandingsentry[0].stats.GamesPlayed[
             "#text"
@@ -348,6 +370,17 @@ const nbaLeagueLeaders = Vue.component("nbaLeagueLeaders", {
 
       this.loading = false;
     }
+  },
+  methods: {
+    filteredStatsLeaders: function (leadersArray) {
+      const minGamesPlayed = Math.round(this.nbaGamesPlayed * 0.6);
+
+      const result = leadersArray
+        .filter((scorer) => scorer.stats.GamesPlayed["#text"] > minGamesPlayed)
+        .slice(0, 10);
+
+      return result;
+    },
   },
 });
 

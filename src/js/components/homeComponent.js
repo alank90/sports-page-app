@@ -25,7 +25,7 @@ const Home = Vue.component("home", {
           moment, please try back later
       </p>
   </section>
-  <section v-else>
+  <section id="front-page" v-else>
       <div class="loading" v-if="$parent.loading">
           Loading
           <!-- below is our font awesome icon with the class “spin-it” where 
