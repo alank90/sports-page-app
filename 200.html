@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Sports's Page</title>
+    <!-- Base element needed for nested paths to work with budo --pushstate option -->
+    <base href="/">
+    <!-- ====================================================================== -->
+    <!-- ============== CSS Files Here ======================================== -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Bevan|Chonburi|Lora" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/teamColors.css">
+    <link rel="icon" href="favicon.jpg" type="image/jpg">
+</head>
+<!-- ================== 200.html ===================================================-->
+<body>
+    <div class="container-fluid">
+        <!-- ===================================================================== -->
+        <!-- ================= Vue Main Instance ================================= -->
+        <!-- ===================================================================== -->
+        <div id="app" class="mt-xs-1" v-cloak>
+            <!--======================== Navbar Markup ================================ -->
+            <nav id="bootstrap-overrides"
+                class="navbar navbar-expand-sm fixed-top navbar-dark bg-dark justify-content-between">
+                <a class="navbar-brand" href="#">Sport's Source</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <router-link to="/" class="nav-link">Home <span class="sr-only">(current)</span>
+                            </router-link>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                NFL Stats Leaders
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <router-link to="/nfl/offensiveleaders" class="dropdown-item">Offensive Leaders
+                                </router-link>
+                                <router-link to="/nfl/defensiveleaders" class="dropdown-item">Defensive Leaders
+                                </router-link>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <router-link to="/mlbleagueleaders" class="nav-link">MLB Stats Leaders <span
+                                    class="sr-only">(current)</span></router-link>
+                        </li>
+
+                        <li class="nav-item">
+                            <router-link to="/nbaleagueleaders" class="nav-link">NBA Stats Leaders <span
+                                    class="sr-only">(current)</span></router-link>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+            <!-- ====================== End of Navbar Markup ============================== -->
+
+            <!-- =============== route outlet ============================================= -->
+            <!-- component matched by the route will render here ========================== -->
+            <router-view></router-view>
+            <!-- =============== End route outlet ========================================= -->
+
+            <!-- ------------------------------------------------------------------------------------------- -->
+
+            <!-- ======================================================== -->
+            <!-- ================ Vue backToTop Component =============== -->
+            <!-- ======================================================== -->
+            <backtotop></backtotop>
+            <!-- the backToTop component -->
+
+            <!-- Instead of putting template markup in topHelperComponent template we just 
+            put it here w/id reference in backToTop template in the Component file -->
+            <script type="text/x-template" id="backtotop">
+          <button class="goTop" v-if="isVisible" @click="backToTop">
+              <i class="fa fa-angle-up" aria-hidden="true"></i>
+          </button>
+        </script>
+
+            <!-- =================================================== -->
+            <!-- =========== End Vue backToTop Component =========== -->
+            <!-- =================================================== -->
+        </div>
+        <!-- --- End Main Vue #app div ---- -->
+
+        <!-- ======================================================================= -->
+        <!-- ================= End Vue Main Instance =============================== -->
+        <!-- ======================================================================= -->
+
+        <div class="footer">
+            <a href="https://www.mlb.com" target="_blank">MLB.com<img src="./img/mlb_logo.svg" /></a>
+            <a href="https://www.nfl.com" target="_blank">NFL.com<img src="./img/nfl_logo.svg" /></a>
+            <a href="https://www.nba.com" target="_blank">NBA.com<img src="./img/nba_logo.svg" /></a>
+        </div>
+    </div>
+    <!-- ==============  End container ============================================= -->
+
+    <!-- ====================================================================== -->
+    <!-- ===================== JavaScript Files Below This Line =============== -->
+    <!-- ====================================================================== -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
