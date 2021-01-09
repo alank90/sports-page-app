@@ -34,16 +34,17 @@
     "imagemin-gifsicle": "^5.2.0",
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-pngquant": "^5.0.1",
+    "install": "^0.13.0",
     "mkdirp": "^0.5.1",
-    "postcss": "^8.2.1",
-    "postcss-cli": "^8.3.0",
+    "npm": "^6.14.11",
+    "postcss": "^8.2.3",
+    "postcss-cli": "^8.3.1",
     "rimraf": "^2.7.1",
     "uglifycss": "0.0.27",
     "uglifyify": "^4.0.4"
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "npm": "^6.14.9",
     "surge": "^0.21.7",
     "vue": "^2.6.12",
     "vue-router": "^3.4.9"
