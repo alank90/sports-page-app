@@ -44,7 +44,7 @@
     "uglifyify": "^4.0.4"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "surge": "^0.21.7",
     "vue": "^2.6.12",
     "vue-router": "^3.4.9"
