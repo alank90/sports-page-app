@@ -2,25 +2,25 @@
 const date = require("./todayDate");
 
 const mlb = {
-  regularSeasonStartDate: "20190328",
-  regularSeasonEndDate: "20190929",
-  playoffsBeginDate: "20191001",
-  playoffsEndDate: "20191101",
+  regularSeasonStartDate: "20210401",
+  regularSeasonEndDate: "20210930",
+  playoffsBeginDate: "20211001",
+  playoffsEndDate: "20211101",
 };
 
 const nfl = {
-  regularSeasonStartDate: "20200910",
-  regularSeasonEndDate: "20210111",
-  superbowlDate: new Date(2021, 1, 7), // Feb 07 2021
+  regularSeasonStartDate: "20210909",
+  regularSeasonEndDate: "20220109",
+  superbowlDate: new Date(2022, 1, 6), // Feb 06 2022
   superbowlOffsetDate: new Date(),
   daysToMilliseconds: 3600 * 24 * 7 * 1000,
 };
 
 const nba = {
-  regularSeasonStartDate: "20201222",
-  regularSeasonEndDate: "20210516",
-  playoffsBeginDate: "20210522",
-  playoffsEndDate: "20210722",
+  regularSeasonStartDate: "20211019",
+  regularSeasonEndDate: "20220410",
+  playoffsBeginDate: "20220412",
+  playoffsEndDate: "20220619",
 };
 
 const nbaStartSeasonYear = () => {
