@@ -148,7 +148,7 @@ new Vue({
           );
           return;
         }
-
+        console.log(seasonName)
         /* jshint ignore:start */
         axios
           .get(
