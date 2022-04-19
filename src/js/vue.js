@@ -25,7 +25,7 @@ const config = {
   // `headers` are custom headers to be sent
   headers: {
     Authorization:
-      "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA==",
+      "Basic OWU3OTk3NGYtOGM1NS00YjVlLWIyODgtMTU0MWM0OnNwb3J0c2ZlZWRzMjAxOA==",
   },
   // `params` are the URL parameters to be sent with the request
   // Must be a plain object or a URLSearchParams object. Set for each API call
@@ -148,7 +148,7 @@ new Vue({
           );
           return;
         }
-        console.log(seasonName)
+        
         /* jshint ignore:start */
         axios
           .get(
@@ -187,6 +187,7 @@ new Vue({
           .catch((error) => {
             console.log(error);
             this.errored = true;
+            console.log("The Error here!!!")
           })
           .finally(() => (this.loading = false));
         // End ==== get.then ====== //

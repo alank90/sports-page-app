@@ -14,7 +14,7 @@ try {
           method: "get",
           headers: {
             Authorization:
-              "Basic NzAxMzNkMmEtNzVmMi00MjdiLWI5ZDYtOTgyZTFhOnNwb3J0c2ZlZWRzMjAxOA=="
+              "Basic OWU3OTk3NGYtOGM1NS00YjVlLWIyODgtMTU0MWM0OnNwb3J0c2ZlZWRzMjAxOA=="
           },
           url: myUrl + item,
           params: params
