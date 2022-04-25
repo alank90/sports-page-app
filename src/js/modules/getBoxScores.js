@@ -8,16 +8,16 @@ try {
     let boxScores = [];
     let promises = [];
 
-    gameIDs.forEach(function(item) {
+    gameIDs.forEach(function (item) {
       promises.push(
         axios({
           method: "get",
           headers: {
             Authorization:
-              "Basic OWU3OTk3NGYtOGM1NS00YjVlLWIyODgtMTU0MWM0OnNwb3J0c2ZlZWRzMjAxOA=="
+              "Basic OWU3OTk3NGYtOGM1NS00YjVlLWIyODgtMTU0MWM0OnNwb3J0c2ZlZWRzMjAxOA==",
           },
           url: myUrl + item,
-          params: params
+          params: params,
         })
       );
     });
@@ -25,7 +25,8 @@ try {
     // axios.all returns a single Promise that resolves when all of the promises passed
     // as an iterable have resolved. This single promise, when resolved, is passed to the
     // "then" and into the "values" parameter.
-    await axios.all(promises).then(function(values) {
+    console.log(promises);
+    await axios.all(promises).then(function (values) {
       boxScores = values;
     });
 
